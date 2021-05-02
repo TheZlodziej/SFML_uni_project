@@ -26,5 +26,10 @@ public:
 	void Update(const float& delta_time) override;
 	void AddToInventory(Item* item);
 	void RemoveFromInventory(const unsigned int& item_idx);
+	void SetAcceleration(const sf::Vector2f& new_acceleration);
+	void UpdateAcceleration(const float& delta_time);
+	void Move(const float& delta_time);
+	void UpdateVelocity(const float& delta_time);
+	sf::Vector2f GetAcceleration() const;
 };
 
