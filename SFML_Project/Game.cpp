@@ -20,12 +20,12 @@ Game::Game() :
 	// window_.draw(sprite);
 	
 	Entity* entity = new Entity(sprite);
-	entity->AddAcceleration(sf::Vector2f(125.0f, 0.0f));
+	//entity->SetAcceleration(sf::Vector2f(200.0f, 0.0f));
 	this->game_objects_.emplace_back(entity);
 
-	Entity* entity1 = new Entity(sprite);
-	entity1->AddAcceleration(sf::Vector2f(0.0f, 125.0f));
-	this->game_objects_.emplace_back(entity1);
+	//Entity* entity1 = new Entity(sprite);
+	//entity1->SetAcceleration(sf::Vector2f(0.0f, 200.0f));
+	//this->game_objects_.emplace_back(entity1);
 	// texture is destroyed after leaving the constructor
 	// so you need to save the texture on the object or
 	// in private variable
@@ -67,6 +67,11 @@ void Game::UpdateGameObjects()
 	{
 		game_obj->Update(this->delta_time_);
 	}
+
+	// tracking test // remove this later
+	Entity* e1 = static_cast<Entity*>(game_objects_[0]);
+	Entity* e = static_cast<Entity*>(game_objects_[1]);
+	e->SetAcceleration(e->GetDirection(e1) * (3*GAME_CONST::ENTITY_MOVE_FORCE/5));
 }
 
 void Game::DrawGameObjects()
@@ -91,29 +96,29 @@ void Game::KeyboardInput()
 {
 	Player* player = static_cast<Player*>(this->game_objects_[0]);
 	sf::Vector2f new_acceleration(0.0f,0.0f);
-	float dir_force = GAME_CONST::ENTITY_MOVE_FORCE * delta_time_;
+	float dir_force = GAME_CONST::ENTITY_MOVE_FORCE;// * delta_time_;
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 	{
-		new_acceleration.x = -dir_force;
+		new_acceleration.x += -dir_force;
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 	{
-		new_acceleration.x = dir_force;
+		new_acceleration.x += dir_force;
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 	{
-		new_acceleration.y = -dir_force;
+		new_acceleration.y += -dir_force;
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
 	{
-		new_acceleration.y = dir_force;
+		new_acceleration.y += dir_force;
 	}
 
-	player->AddAcceleration(new_acceleration);
+	player->SetAcceleration(new_acceleration);
 }
 
 void Game::HandleInputEvents()

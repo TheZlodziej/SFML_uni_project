@@ -31,10 +31,12 @@ public:
 	void Update(const float& delta_time) override;
 	void AddToInventory(Item* item);
 	void RemoveFromInventory(const unsigned int& item_idx);
-	void AddAcceleration(const sf::Vector2f& acceleration);
-	void UpdateAcceleration(const float& delta_time);			// apply friction && other forces
+	void SetAcceleration(const sf::Vector2f& acceleration);
+	void ApplyDrag(const float& delta_time);
+	void UpdateAcceleration(const float& delta_time);
 	void Move(const float& delta_time);
 	void UpdateVelocity(const float& delta_time);
-	sf::Vector2f GetAcceleration() const;
+	sf::Vector2f GetDirection(const Entity* entity) const;		// returns direction to entity given in argument
+	sf::Vector2f GetAcceleration() const;						// remove later maybe?? (not used)
 };
 

@@ -23,15 +23,19 @@ void Entity::Update(const float& delta_time)
 
 void Entity::UpdateVelocity(const float& delta_time)
 {
+	this->ApplyDrag(delta_time);
 	this->velocity_ += this->acceleration_ * delta_time;
 	ClampVector2f(this->velocity_, -GAME_CONST::MAX_ENTITY_VELOCITY, GAME_CONST::MAX_ENTITY_VELOCITY);
 }
 
+void Entity::ApplyDrag(const float& delta_time)
+{
+	this->velocity_ *= GAME_CONST::ENTITY_DRAG;
+}
+
 void Entity::UpdateAcceleration(const float& delta_time)
 {
-	sf::Vector2f friction = delta_time * GetDirection(this->velocity_) * GAME_CONST::ENTITY_FRICTION;
-	this->acceleration_ -= friction;
-	ClampVector2f(this->acceleration_, -GAME_CONST::MAX_ENTITY_ACCELERATION, GAME_CONST::MAX_ENTITY_ACCELERATION);
+	//std::cout << this->acceleration_.x << " " << this->acceleration_.y << "\n";
 }
 
 void Entity::Move(const float& delta_time)
@@ -49,12 +53,17 @@ void Entity::RemoveFromInventory(const unsigned int& item_idx)
 	this->inventory_.Remove(item_idx);
 }
 
-void Entity::AddAcceleration(const sf::Vector2f& acceleration)
+void Entity::SetAcceleration(const sf::Vector2f& acceleration)
 {
-	this->acceleration_ += acceleration;
+	this->acceleration_ = acceleration;
 }
 
 sf::Vector2f Entity::GetAcceleration() const 
 {
 	return this->acceleration_;
+}
+
+sf::Vector2f Entity::GetDirection(const Entity* entity) const
+{
+	return GetVector2fDir(entity->sprite_.getPosition() - this->sprite_.getPosition());
 }
