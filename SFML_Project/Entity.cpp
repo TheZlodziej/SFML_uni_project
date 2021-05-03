@@ -16,31 +16,22 @@ void Entity::Draw(sf::RenderWindow& window)
 
 void Entity::Update(const float& delta_time)
 {
-	this->UpdateVelocity(delta_time);
 	this->UpdateAcceleration(delta_time);
+	this->UpdateVelocity(delta_time);
 	this->Move(delta_time);
 }
 
 void Entity::UpdateVelocity(const float& delta_time)
 {
 	this->velocity_ += this->acceleration_ * delta_time;
+	ClampVector2f(this->velocity_, -GAME_CONST::MAX_ENTITY_VELOCITY, GAME_CONST::MAX_ENTITY_VELOCITY);
 }
 
 void Entity::UpdateAcceleration(const float& delta_time)
 {
-	sf::Vector2f new_acceleration = this->acceleration_ - sf::Vector2f(10.0f, 10.0f) * delta_time;
-	
-	if (this->velocity_.x < 0.000001)
-	{
-		new_acceleration.x = 0.0f;
-	}
-
-	if (this->velocity_.y < 0.000001)
-	{
-		new_acceleration.y = 0.0f;
-	}
-
-	this->acceleration_ = new_acceleration;
+	sf::Vector2f friction = delta_time * GetDirection(this->velocity_) * GAME_CONST::ENTITY_FRICTION;
+	this->acceleration_ -= friction;
+	ClampVector2f(this->acceleration_, -GAME_CONST::MAX_ENTITY_ACCELERATION, GAME_CONST::MAX_ENTITY_ACCELERATION);
 }
 
 void Entity::Move(const float& delta_time)
@@ -58,9 +49,9 @@ void Entity::RemoveFromInventory(const unsigned int& item_idx)
 	this->inventory_.Remove(item_idx);
 }
 
-void Entity::SetAcceleration(const sf::Vector2f& new_acceleration)
+void Entity::AddAcceleration(const sf::Vector2f& acceleration)
 {
-	this->acceleration_ = new_acceleration;
+	this->acceleration_ += acceleration;
 }
 
 sf::Vector2f Entity::GetAcceleration() const 

@@ -1,7 +1,7 @@
 #include "Game.h"
 
 Game::Game() :
-	window_(sf::VideoMode(800, 600), "MyGameTitle"),
+	window_(sf::VideoMode(GAME_CONST::WINDOW_WIDTH, GAME_CONST::WINDOW_HEIGHT), "MyGameTitle"),
 	delta_time_(0.0f)
 {
 	// test player
@@ -12,15 +12,20 @@ Game::Game() :
 	this->game_objects_.emplace_back(player);
 	// test drawing
 	sf::Texture texture;
-	texture.loadFromFile("test.png");
+	this->enemy_texture_.loadFromFile("test.png");
 
-	sf::Sprite sprite(texture);
+	sf::Sprite sprite(this->enemy_texture_);
 	sprite.setPosition(0,0);
-	sprite.setScale(.5, .5);
+	sprite.setScale(.25, .25);
 	// window_.draw(sprite);
 	
-	GameObject* entity = new Entity(sprite, sf::Vector2f(100.0f,100.0f), sf::Vector2f(-1.0f, -1.0f));
+	Entity* entity = new Entity(sprite);
+	entity->AddAcceleration(sf::Vector2f(125.0f, 0.0f));
 	this->game_objects_.emplace_back(entity);
+
+	Entity* entity1 = new Entity(sprite);
+	entity1->AddAcceleration(sf::Vector2f(0.0f, 125.0f));
+	this->game_objects_.emplace_back(entity1);
 	// texture is destroyed after leaving the constructor
 	// so you need to save the texture on the object or
 	// in private variable
@@ -79,39 +84,36 @@ void Game::DisplayWindow()
 
 void Game::SetDeltaTime()
 {
-	//std::cout << this->clock_.restart().asSeconds() << "\n";
 	this->delta_time_ = this->clock_.restart().asSeconds();
 }
 
 void Game::KeyboardInput()
 {
 	Player* player = static_cast<Player*>(this->game_objects_[0]);
-	sf::Vector2f new_acceleration = player->GetAcceleration();
-	float dir_val = 1000.0f * this->delta_time_;
+	sf::Vector2f new_acceleration(0.0f,0.0f);
+	float dir_force = GAME_CONST::ENTITY_MOVE_FORCE * delta_time_;
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 	{
-		new_acceleration.x += -dir_val;
+		new_acceleration.x = -dir_force;
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 	{
-		new_acceleration.x += dir_val;
+		new_acceleration.x = dir_force;
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 	{
-		new_acceleration.y += -dir_val;
+		new_acceleration.y = -dir_force;
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
 	{
-		new_acceleration.y += dir_val;
+		new_acceleration.y = dir_force;
 	}
 
-	ClampVector2f(new_acceleration, -30.0f, 30.0f); //clamp to max speed
-	//std::cout << new_acceleration.x << " " << new_acceleration.y <<"\n";
-	player->SetAcceleration(new_acceleration);
+	player->AddAcceleration(new_acceleration);
 }
 
 void Game::HandleInputEvents()

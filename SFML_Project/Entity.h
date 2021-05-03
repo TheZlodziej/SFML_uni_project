@@ -6,6 +6,11 @@
 
 #include "GameObject.h"
 #include "Inventory.h"
+#include "GameConstants.h"
+#include "HelperFunctions.h"
+
+//debug
+#include <iostream>
 
 class Entity : public GameObject
 {
@@ -26,8 +31,8 @@ public:
 	void Update(const float& delta_time) override;
 	void AddToInventory(Item* item);
 	void RemoveFromInventory(const unsigned int& item_idx);
-	void SetAcceleration(const sf::Vector2f& new_acceleration);
-	void UpdateAcceleration(const float& delta_time);
+	void AddAcceleration(const sf::Vector2f& acceleration);
+	void UpdateAcceleration(const float& delta_time);			// apply friction && other forces
 	void Move(const float& delta_time);
 	void UpdateVelocity(const float& delta_time);
 	sf::Vector2f GetAcceleration() const;

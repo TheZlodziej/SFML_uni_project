@@ -165,6 +165,7 @@
   <ItemGroup>
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GameConstants.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="HelperFunctions.h" />
     <ClInclude Include="Inventory.h" />

@@ -4,6 +4,7 @@
 
 #include "GameObject.h"
 #include "HelperFunctions.h"
+#include "GameConstants.h"
 
 //test
 #include "Entity.h"
@@ -20,6 +21,7 @@ private:
 
 	//test vars
 	sf::Texture player_texture_;
+	sf::Texture enemy_texture_;
 
 public:
 	Game();
