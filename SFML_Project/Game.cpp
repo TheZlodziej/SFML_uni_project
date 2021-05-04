@@ -6,6 +6,7 @@ Game::Game() :
 {	
 	// cam setup
 	this->camera_.SetZoom(1.25f);
+	this->camera_.Resize(this->window_); // keep this so it scales good on init
 
 	this->player_texture_.loadFromFile("test_player_texture.png");
 	sf::Sprite player_sprite(this->player_texture_);
