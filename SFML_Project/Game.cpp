@@ -71,7 +71,7 @@ void Game::UpdateGameObjects()
 	// tracking test // remove this later
 	Entity* e1 = static_cast<Entity*>(game_objects_[0]);
 	Entity* e = static_cast<Entity*>(game_objects_[1]);
-	e->SetAcceleration(e->GetDirection(e1) * (3*GAME_CONST::ENTITY_MOVE_FORCE/5));
+	e->SetAcceleration(e->GetDirection(e1) * (3.0f/5.0f * this->delta_time_ * GAME_CONST::ENTITY_MOVE_ACCELERATION));
 }
 
 void Game::DrawGameObjects()
@@ -90,13 +90,14 @@ void Game::DisplayWindow()
 void Game::SetDeltaTime()
 {
 	this->delta_time_ = this->clock_.restart().asSeconds();
+	std::cout << this->delta_time_ << "\n";
 }
 
 void Game::KeyboardInput()
 {
 	Player* player = static_cast<Player*>(this->game_objects_[0]);
 	sf::Vector2f new_acceleration(0.0f,0.0f);
-	float dir_force = GAME_CONST::ENTITY_MOVE_FORCE;// * delta_time_;
+	float dir_force = GAME_CONST::ENTITY_MOVE_ACCELERATION * this->delta_time_;
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 	{

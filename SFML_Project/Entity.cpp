@@ -5,7 +5,14 @@ Entity::Entity(const sf::Sprite& sprite, const sf::Vector2f& velocity, const sf:
 	velocity_(velocity),
 	acceleration_(acceleration),
 	strength_(strength)
-{}
+{
+
+	//set origin of the entity to center
+	float mid_point_x = this->sprite_.getLocalBounds().width / 2.0f;
+	float mid_point_y = this->sprite_.getLocalBounds().height / 2.0f;
+
+	this->sprite_.setOrigin(mid_point_x, mid_point_y);
+}
 
 Entity::~Entity() {}
 
@@ -16,31 +23,32 @@ void Entity::Draw(sf::RenderWindow& window)
 
 void Entity::Update(const float& delta_time)
 {
-	this->UpdateAcceleration(delta_time);
+	this->UpdateAcceleration();
 	this->UpdateVelocity(delta_time);
-	this->Move(delta_time);
+	this->ApplyDrag();
+	this->Move();
 }
 
 void Entity::UpdateVelocity(const float& delta_time)
 {
-	this->ApplyDrag(delta_time);
 	this->velocity_ += this->acceleration_ * delta_time;
 	ClampVector2f(this->velocity_, -GAME_CONST::MAX_ENTITY_VELOCITY, GAME_CONST::MAX_ENTITY_VELOCITY);
 }
 
-void Entity::ApplyDrag(const float& delta_time)
+void Entity::ApplyDrag()
 {
 	this->velocity_ *= GAME_CONST::ENTITY_DRAG;
+	ClampVector2f(this->velocity_, -GAME_CONST::MAX_ENTITY_VELOCITY, GAME_CONST::MAX_ENTITY_VELOCITY);
 }
 
-void Entity::UpdateAcceleration(const float& delta_time)
+void Entity::UpdateAcceleration()
 {
-	//std::cout << this->acceleration_.x << " " << this->acceleration_.y << "\n";
+	ClampVector2f(this->acceleration_, -GAME_CONST::MAX_ENTITY_ACCELERATION, GAME_CONST::MAX_ENTITY_ACCELERATION);
 }
 
-void Entity::Move(const float& delta_time)
+void Entity::Move()
 {
-	this->sprite_.move(this->velocity_ * delta_time);
+	this->sprite_.move(this->velocity_);
 }
 
 void Entity::AddToInventory(Item* item)
@@ -65,5 +73,5 @@ sf::Vector2f Entity::GetAcceleration() const
 
 sf::Vector2f Entity::GetDirection(const Entity* entity) const
 {
-	return GetVector2fDir(entity->sprite_.getPosition() - this->sprite_.getPosition());
+	return NormalizeVec2f(entity->sprite_.getPosition() - this->sprite_.getPosition());
 }

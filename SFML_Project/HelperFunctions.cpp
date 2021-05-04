@@ -6,7 +6,7 @@ void ClampVector2f(sf::Vector2f& vec, const float& min, const float& max)
 	vec.y = std::clamp(vec.y, min, max);
 }
 
-sf::Vector2f GetVector2fDir(const sf::Vector2f& vec)
+sf::Vector2f NormalizeVec2f(const sf::Vector2f& vec)
 {
 	sf::Vector2f ret(0.0f, 0.0f);
 
