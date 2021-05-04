@@ -5,6 +5,7 @@
 #include "GameObject.h"
 #include "HelperFunctions.h"
 #include "GameConstants.h"
+#include "Camera.h"
 
 //test
 #include "Entity.h"
@@ -18,6 +19,7 @@ private:
 	std::vector<GameObject*> game_objects_;
 	sf::Clock clock_;
 	float delta_time_;
+	Camera camera_;
 
 	//test vars
 	sf::Texture player_texture_;
@@ -37,4 +39,5 @@ public:
 	void HandleInputEvents();	// keybaords input for now
 	void KeyboardInput();		// handles keyboard input && gets called in HandleInputEvents()
 	void SetDeltaTime();		// returns time elapsed from last call of this function
+	void UpdateCamera();		// sets camera position at certain game object
 };

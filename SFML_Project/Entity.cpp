@@ -5,14 +5,7 @@ Entity::Entity(const sf::Sprite& sprite, const sf::Vector2f& velocity, const sf:
 	velocity_(velocity),
 	acceleration_(acceleration),
 	strength_(strength)
-{
-
-	//set origin of the entity to center
-	float mid_point_x = this->sprite_.getLocalBounds().width / 2.0f;
-	float mid_point_y = this->sprite_.getLocalBounds().height / 2.0f;
-
-	this->sprite_.setOrigin(mid_point_x, mid_point_y);
-}
+{}
 
 Entity::~Entity() {}
 

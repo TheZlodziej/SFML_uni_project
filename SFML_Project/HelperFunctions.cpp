@@ -6,29 +6,32 @@ void ClampVector2f(sf::Vector2f& vec, const float& min, const float& max)
 	vec.y = std::clamp(vec.y, min, max);
 }
 
-sf::Vector2f NormalizeVec2f(const sf::Vector2f& vec)
+sf::Vector2f NormalizeVec2f(sf::Vector2f vec)
 {
-	sf::Vector2f ret(0.0f, 0.0f);
-
-	// x dir
- 	if (vec.x > GAME_CONST::FLOAT_PRECISION)
+	if (std::abs(vec.x) <= GAME_CONST::FLOAT_PRECISION)
 	{
-		ret.x = 1.0f;
-	}
-	else if (vec.x < -GAME_CONST::FLOAT_PRECISION)
-	{
-		ret.x = -1.0f;
+		vec.x = 0.0f;
 	}
 
-	// y dir
-	if (vec.y > GAME_CONST::FLOAT_PRECISION)
+	if (std::abs(vec.y) <= GAME_CONST::FLOAT_PRECISION)
 	{
-		ret.y = 1.0f;
-	}
-	else if (vec.y < -GAME_CONST::FLOAT_PRECISION)
-	{
-		ret.y = -1.0f;
+		vec.y = 0.0f;
 	}
 
-	return ret;
+	if (vec == sf::Vector2f(0.0f, 0.0f))
+	{
+		return vec;
+	}
+	
+	float vec_len = std::sqrt(vec.x * vec.x + vec.y * vec.y);
+	return 1.0f / vec_len * vec;
+
+	//// normalize length
+	//float vec_len = std::sqrt(vec.x * vec.x + vec.y * vec.y);
+	//if (vec_len <= GAME_CONST::FLOAT_PRECISION)
+	//{
+	//	return sf::Vector2f(0.0f,0.0f);
+	//}
+	//return 1.0f/vec_len * ret;
+	//return ret;
 }

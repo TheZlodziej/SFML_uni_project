@@ -3,8 +3,10 @@
 Game::Game() :
 	window_(sf::VideoMode(GAME_CONST::WINDOW_WIDTH, GAME_CONST::WINDOW_HEIGHT), "MyGameTitle"),
 	delta_time_(0.0f)
-{
-	// test player
+{	
+	// cam setup
+	this->camera_.SetZoom(1.25f);
+
 	this->player_texture_.loadFromFile("test_player_texture.png");
 	sf::Sprite player_sprite(this->player_texture_);
 	player_sprite.setPosition(0, 0);
@@ -53,6 +55,11 @@ void Game::HandleWindowEvents()
 		{
 			this->window_.close();
 		}
+
+		if (event.type == sf::Event::Resized)
+		{
+			this->camera_.Resize(this->window_);
+		}
 	}
 }
 
@@ -71,7 +78,7 @@ void Game::UpdateGameObjects()
 	// tracking test // remove this later
 	Entity* e1 = static_cast<Entity*>(game_objects_[0]);
 	Entity* e = static_cast<Entity*>(game_objects_[1]);
-	e->SetAcceleration(e->GetDirection(e1) * (3.0f/5.0f * this->delta_time_ * GAME_CONST::ENTITY_MOVE_ACCELERATION));
+	e->SetAcceleration(e->GetDirection(e1) * (3.0f/5.0f * GAME_CONST::ENTITY_MOVE_ACCELERATION));
 }
 
 void Game::DrawGameObjects()
@@ -90,14 +97,14 @@ void Game::DisplayWindow()
 void Game::SetDeltaTime()
 {
 	this->delta_time_ = this->clock_.restart().asSeconds();
-	std::cout << this->delta_time_ << "\n";
+	//std::cout << this->delta_time_ << "\n";
 }
 
 void Game::KeyboardInput()
 {
 	Player* player = static_cast<Player*>(this->game_objects_[0]);
 	sf::Vector2f new_acceleration(0.0f,0.0f);
-	float dir_force = GAME_CONST::ENTITY_MOVE_ACCELERATION * this->delta_time_;
+	float dir_force = GAME_CONST::ENTITY_MOVE_ACCELERATION;
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 	{
@@ -127,6 +134,12 @@ void Game::HandleInputEvents()
 	this->KeyboardInput();
 }
 
+void Game::UpdateCamera()
+{
+	this->camera_.Update(this->game_objects_[0]->GetPosition()); //game_obj[0] reserved for player
+	this->camera_.Attach(this->window_);
+}
+
 void Game::Draw()
 {
 	this->ClearWindow();
@@ -140,4 +153,5 @@ void Game::Update()
 	this->HandleWindowEvents();
 	this->HandleInputEvents();
 	this->UpdateGameObjects();
+	this->UpdateCamera();
 }
