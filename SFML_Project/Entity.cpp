@@ -25,18 +25,18 @@ void Entity::Update(const float& delta_time)
 void Entity::UpdateVelocity(const float& delta_time)
 {
 	this->velocity_ += this->acceleration_ * delta_time;
-	ClampVector2f(this->velocity_, -GAME_CONST::MAX_ENTITY_VELOCITY, GAME_CONST::MAX_ENTITY_VELOCITY);
+	ClampVec2f(this->velocity_, -GAME_CONST::MAX_ENTITY_VELOCITY, GAME_CONST::MAX_ENTITY_VELOCITY);
 }
 
 void Entity::ApplyDrag()
 {
 	this->velocity_ *= GAME_CONST::ENTITY_DRAG;
-	ClampVector2f(this->velocity_, -GAME_CONST::MAX_ENTITY_VELOCITY, GAME_CONST::MAX_ENTITY_VELOCITY);
+	ClampVec2f(this->velocity_, -GAME_CONST::MAX_ENTITY_VELOCITY, GAME_CONST::MAX_ENTITY_VELOCITY);
 }
 
 void Entity::UpdateAcceleration()
 {
-	ClampVector2f(this->acceleration_, -GAME_CONST::MAX_ENTITY_ACCELERATION, GAME_CONST::MAX_ENTITY_ACCELERATION);
+	ClampVec2f(this->acceleration_, -GAME_CONST::MAX_ENTITY_ACCELERATION, GAME_CONST::MAX_ENTITY_ACCELERATION);
 }
 
 void Entity::Move()

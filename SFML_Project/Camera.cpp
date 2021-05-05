@@ -1,7 +1,7 @@
 #include "Camera.h"
 
 Camera::Camera():
-	view_(sf::Vector2f(0.0f,0.0f), sf::Vector2f(GAME_CONST::CAMERA_WIDTH, GAME_CONST::CAMERA_HEIGHT))
+	sf::View(sf::Vector2f(0.0f,0.0f), sf::Vector2f(GAME_CONST::CAMERA_WIDTH, GAME_CONST::CAMERA_HEIGHT))
 {}
 
 Camera::~Camera()
@@ -22,11 +22,6 @@ sf::View& Camera::GetCamera()
 void Camera::Attach(sf::RenderWindow& window)
 {
 	window.setView(this->view_);
-}
-
-void Camera::SetZoom(const float& zoom)
-{
-	this->view_.zoom(zoom);
 }
 
 void Camera::Resize(const sf::RenderWindow& window)

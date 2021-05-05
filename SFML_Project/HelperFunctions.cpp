@@ -1,9 +1,17 @@
 #include "HelperFunctions.h"
 
-void ClampVector2f(sf::Vector2f& vec, const float& min, const float& max)
+void ClampVec2f(sf::Vector2f& vec, const float& min, const float& max)
 {
 	vec.x = std::clamp(vec.x, min, max);
 	vec.y = std::clamp(vec.y, min, max);
+}
+
+float DistanceVec2f(const sf::Vector2f& vec_a, const sf::Vector2f& vec_b)
+{
+	float x_diff = vec_a.x - vec_b.x;
+	float y_diff = vec_a.y - vec_b.y;
+
+	return std::sqrt(x_diff * x_diff + y_diff * y_diff);
 }
 
 sf::Vector2f NormalizeVec2f(sf::Vector2f vec)
@@ -25,13 +33,4 @@ sf::Vector2f NormalizeVec2f(sf::Vector2f vec)
 	
 	float vec_len = std::sqrt(vec.x * vec.x + vec.y * vec.y);
 	return 1.0f / vec_len * vec;
-
-	//// normalize length
-	//float vec_len = std::sqrt(vec.x * vec.x + vec.y * vec.y);
-	//if (vec_len <= GAME_CONST::FLOAT_PRECISION)
-	//{
-	//	return sf::Vector2f(0.0f,0.0f);
-	//}
-	//return 1.0f/vec_len * ret;
-	//return ret;
 }

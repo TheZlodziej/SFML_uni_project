@@ -5,7 +5,7 @@ Game::Game() :
 	delta_time_(0.0f)
 {	
 	// cam setup
-	this->camera_.SetZoom(1.25f);
+	this->camera_.zoom(1.25f);
 	this->camera_.Resize(this->window_); // keep this so it scales good on init
 
 	this->player_texture_.loadFromFile("test_player_texture.png");
@@ -79,7 +79,15 @@ void Game::UpdateGameObjects()
 	// tracking test // remove this later
 	Entity* e1 = static_cast<Entity*>(game_objects_[0]);
 	Entity* e = static_cast<Entity*>(game_objects_[1]);
-	e->SetAcceleration(e->GetDirection(e1) * (3.0f/5.0f * GAME_CONST::ENTITY_MOVE_ACCELERATION));
+	float distance = DistanceVec2f(e1->GetPosition(), e->GetPosition());
+	if (distance <= 500.0f)
+	{
+		e->SetAcceleration(e->GetDirection(e1) * (3.0f / 5.0f * GAME_CONST::ENTITY_MOVE_ACCELERATION));
+	}
+	else
+	{
+		e->SetAcceleration(sf::Vector2f(0.0f, 0.0f));
+	}
 }
 
 void Game::DrawGameObjects()
