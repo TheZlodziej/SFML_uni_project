@@ -6,6 +6,7 @@
 #include "HelperFunctions.h"
 #include "GameConstants.h"
 #include "Camera.h"
+#include "TextureManager.h"
 
 //test
 #include "Entity.h"
@@ -20,6 +21,7 @@ private:
 	sf::Clock clock_;
 	float delta_time_;
 	Camera camera_;
+	TextureManager textures_;
 
 	//test vars
 	sf::Texture player_texture_;
@@ -29,7 +31,10 @@ public:
 	Game();
 	virtual ~Game();
 	bool IsRunning();			// returns the state of the game window
+	void LoadTextures();		// loads textures; call in constructor
 	void HandleWindowEvents();  // function for handling window events
+	void SetupCamera();			// sets default camera values
+	void SetupPlayer();			// sets default player values
 	void Update();				// main update function
 	void Draw();				// main draw function
 	void ClearWindow();			// clears window & sets its bg to certain color

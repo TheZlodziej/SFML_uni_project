@@ -4,34 +4,27 @@ Game::Game() :
 	window_(sf::VideoMode(GAME_CONST::WINDOW_WIDTH, GAME_CONST::WINDOW_HEIGHT), "MyGameTitle"),
 	delta_time_(0.0f)
 {	
-	// cam setup
-	this->camera_.zoom(1.25f);
-	this->camera_.Resize(this->window_); // keep this so it scales good on init
+	this->LoadTextures();
+	this->SetupCamera();
+	this->SetupPlayer();
 
-	this->player_texture_.loadFromFile("test_player_texture.png");
-	sf::Sprite player_sprite(this->player_texture_);
-	player_sprite.setPosition(0, 0);
-	Player* player = new Player(player_sprite);
-	this->game_objects_.emplace_back(player);
-	// test drawing
-	sf::Texture texture;
-	this->enemy_texture_.loadFromFile("test.png");
+	//test game objects
+	sf::Sprite sprite(this->textures_.Get(TEXTURE::ENEMY_1));
+	sprite.setScale(0.2f, 0.2f);
 
-	sf::Sprite sprite(this->enemy_texture_);
-	sprite.setPosition(0,0);
-	sprite.setScale(.25, .25);
-	// window_.draw(sprite);
-	
+	sprite.setPosition(550,0);
 	Entity* entity = new Entity(sprite);
-	//entity->SetAcceleration(sf::Vector2f(200.0f, 0.0f));
 	this->game_objects_.emplace_back(entity);
 
-	//Entity* entity1 = new Entity(sprite);
-	//entity1->SetAcceleration(sf::Vector2f(0.0f, 200.0f));
-	//this->game_objects_.emplace_back(entity1);
-	// texture is destroyed after leaving the constructor
-	// so you need to save the texture on the object or
-	// in private variable
+	sprite.setPosition(200, 200);
+	Entity* entity1 = new Entity(sprite);
+	this->game_objects_.emplace_back(entity1);
+}
+
+void Game::LoadTextures()
+{
+	this->textures_.Add(TEXTURE::PLAYER, "test_player_texture.png");
+	this->textures_.Add(TEXTURE::ENEMY_1, "test.png");
 }
 
 Game::~Game() 
@@ -40,6 +33,21 @@ Game::~Game()
 	{
 		delete game_obj;
 	}
+}
+
+void Game::SetupCamera()
+{
+	this->camera_.zoom(1.25f);
+	this->camera_.Resize(this->window_);
+}
+
+void Game::SetupPlayer()
+{
+	sf::Sprite player_sprite(this->textures_.Get(TEXTURE::PLAYER));
+	player_sprite.setPosition(0, 0);
+	Player* player = new Player(player_sprite);
+
+	this->game_objects_.emplace_back(player);
 }
 
 bool Game::IsRunning()
