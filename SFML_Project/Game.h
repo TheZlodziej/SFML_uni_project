@@ -23,10 +23,6 @@ private:
 	Camera camera_;
 	TextureManager textures_;
 
-	//test vars
-	sf::Texture player_texture_;
-	sf::Texture enemy_texture_;
-
 public:
 	Game();
 	virtual ~Game();

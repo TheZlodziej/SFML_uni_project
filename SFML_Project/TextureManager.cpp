@@ -27,7 +27,7 @@ sf::Texture& TextureManager::Get(const TEXTURE& texture_key)
 {
 	if (this->textures.find(texture_key) == this->textures.end())
 	{
-		throw std::out_of_range("this texture doesn't exist");
+		throw std::out_of_range("This texture doesn't exist.");
 	}
 
 	return this->textures.at(texture_key);
