@@ -11,21 +11,16 @@ Camera::~Camera()
 
 void Camera::Update(const sf::Vector2f& pos)
 {
-	this->view_.setCenter(pos);
-}
-
-sf::View& Camera::GetCamera()
-{
-	return this->view_;
+	this->setCenter(pos);
 }
 
 void Camera::Attach(sf::RenderWindow& window)
 {
-	window.setView(this->view_);
+	window.setView(static_cast<sf::View>(*this));
 }
 
 void Camera::Resize(const sf::RenderWindow& window)
 {
 	float ratio = static_cast<float>(window.getSize().x) / static_cast<float>(window.getSize().y);
-	this->view_.setSize(ratio * GAME_CONST::CAMERA_WIDTH, GAME_CONST::CAMERA_HEIGHT);
+	this->setSize(ratio * GAME_CONST::CAMERA_WIDTH, GAME_CONST::CAMERA_HEIGHT);
 }

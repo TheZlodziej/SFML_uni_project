@@ -7,7 +7,6 @@
 class Camera : public sf::View
 {
 private:
-	sf::View view_;
 
 public:
 	Camera();
@@ -15,6 +14,5 @@ public:
 	void Update(const sf::Vector2f& pos);
 	void Attach(sf::RenderWindow& window);
 	void Resize(const sf::RenderWindow& window);
-	sf::View& GetCamera();
 };
 
