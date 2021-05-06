@@ -37,8 +37,8 @@ Game::~Game()
 
 void Game::SetupCamera()
 {
-	this->camera_.zoom(1.25f);
 	this->camera_.Resize(this->window_);
+	this->camera_.zoom(1.25f); //zoom has to come after resize
 }
 
 void Game::SetupPlayer()
