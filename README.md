@@ -3,3 +3,4 @@
 - [ ] Add surroundings (terrain)
 - [ ] Add equipment
 - [ ] Add item for testing equipment
+- [x] Zapytac Zofii czy zrobi dzwieki
