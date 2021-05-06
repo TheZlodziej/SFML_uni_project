@@ -26,9 +26,8 @@ public:
 		const sf::Vector2f& acceleration = sf::Vector2f(0.0f, 0.0f),
 		const float& strength = 10.0f);
 	virtual ~Entity();
-
-	void Draw(sf::RenderWindow& window) override;
-	void Update(const float& delta_time) override;
+	virtual void Draw(sf::RenderWindow& window) override;
+	virtual void Update(const float& delta_time) override;
 	void AddToInventory(Item* item);
 	void RemoveFromInventory(const unsigned int& item_idx);
 	void SetAcceleration(const sf::Vector2f& acceleration);

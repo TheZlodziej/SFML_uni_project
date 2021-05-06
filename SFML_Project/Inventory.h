@@ -6,7 +6,7 @@ class Inventory
 {
 private:
 	std::vector<Item*> items_;
-	unsigned int curr_item_idx_;	// 
+	unsigned int curr_item_idx_;
 	unsigned int size;				// size of inventory
 public:
 	Inventory();

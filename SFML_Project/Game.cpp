@@ -123,22 +123,22 @@ void Game::KeyboardInput()
 	sf::Vector2f new_acceleration(0.0f,0.0f);
 	float dir_force = GAME_CONST::ENTITY_MOVE_ACCELERATION;
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 	{
 		new_acceleration.x += -dir_force;
 	}
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 	{
 		new_acceleration.x += dir_force;
 	}
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 	{
 		new_acceleration.y += -dir_force;
 	}
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
 	{
 		new_acceleration.y += dir_force;
 	}
@@ -146,9 +146,17 @@ void Game::KeyboardInput()
 	player->SetAcceleration(new_acceleration);
 }
 
+void Game::MouseInput()
+{
+	// make player look at mouse
+	Player* player = static_cast<Player*>(this->game_objects_[0]);
+	player->LookAtMouse(this->window_);
+}
+
 void Game::HandleInputEvents()
 {
 	this->KeyboardInput();
+	this->MouseInput();
 }
 
 void Game::UpdateCamera()
