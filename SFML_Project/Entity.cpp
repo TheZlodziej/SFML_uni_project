@@ -59,6 +59,12 @@ void Entity::SetAcceleration(const sf::Vector2f& acceleration)
 	this->acceleration_ = acceleration;
 }
 
+void Entity::Stop()
+{
+	this->acceleration_ = sf::Vector2f(0.0f, 0.0f);
+	this->velocity_ = sf::Vector2f(0.0f, 0.0f);
+}
+
 sf::Vector2f Entity::GetAcceleration() const 
 {
 	return this->acceleration_;

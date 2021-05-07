@@ -34,6 +34,7 @@ public:
 	void ApplyDrag();
 	void UpdateAcceleration();
 	void Move();
+	void Stop(); //stops movement of the object
 	void UpdateVelocity(const float& delta_time);
 	sf::Vector2f GetDirection(const Entity* entity) const;		// returns direction to entity given in argument
 	sf::Vector2f GetAcceleration() const;						// remove later maybe?? (not used)

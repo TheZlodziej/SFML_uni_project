@@ -18,3 +18,10 @@ sf::Vector2f GameObject::GetPosition() const
 {
 	return this->sprite_.getPosition();
 }
+
+bool GameObject::CollidingWith(const GameObject* object) const
+{
+	sf::FloatRect rect_a = this->sprite_.getGlobalBounds();
+	sf::FloatRect rect_b = object->sprite_.getGlobalBounds();
+	return rect_a.intersects(rect_b);
+}

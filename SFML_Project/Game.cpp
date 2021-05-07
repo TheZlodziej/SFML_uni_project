@@ -83,12 +83,12 @@ void Game::UpdateGameObjects()
 	{
 		game_obj->Update(this->delta_time_);
 	}
-
-	// tracking test // remove this later
+	
+	// tracking test with collision test // remove this later
 	Entity* e1 = static_cast<Entity*>(game_objects_[0]);
 	Entity* e = static_cast<Entity*>(game_objects_[1]);
 	float distance = DistanceVec2f(e1->GetPosition(), e->GetPosition());
-	if (distance <= 500.0f)
+	if (distance <= 500.0f && !e1->CollidingWith(e))
 	{
 		e->SetAcceleration(e->GetDirection(e1) * (3.0f / 5.0f * GAME_CONST::ENTITY_MOVE_ACCELERATION));
 	}
