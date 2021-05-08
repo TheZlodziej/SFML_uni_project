@@ -27,15 +27,15 @@ public:
 		const float& strength = 10.0f);
 	virtual ~Entity();
 	virtual void Draw(sf::RenderWindow& window) override;
-	virtual void Update(const float& delta_time) override;
+	virtual void Update(const float& delta_time, const std::vector<GameObject*>& collidable_objects) override;
 	void AddToInventory(Item* item);
 	void RemoveFromInventory(const unsigned int& item_idx);
 	void SetAcceleration(const sf::Vector2f& acceleration);
 	void ApplyDrag();
 	void UpdateAcceleration();
 	void Move();
-	void Stop(); //stops movement of the object
-	void UpdateVelocity(const float& delta_time);
+	void Stop(); //stops movement of the object (sets vel & acc to 0)
+	void UpdateVelocity(const float& delta_time, const std::vector<GameObject*>& collidable_objects);
 	sf::Vector2f GetDirection(const Entity* entity) const;		// returns direction to entity given in argument
 	sf::Vector2f GetAcceleration() const;						// remove later maybe?? (not used)
 };

@@ -13,7 +13,7 @@ void Item::Draw(sf::RenderWindow& window)
 
 }
 
-void Item::Update(const float& delta_time)
+void Item::Update(const float& delta_time, const std::vector<GameObject*>& collidable_objects)
 {
 
 }

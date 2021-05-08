@@ -14,18 +14,33 @@ void Entity::Draw(sf::RenderWindow& window)
 	window.draw(this->sprite_);
 }
 
-void Entity::Update(const float& delta_time)
+void Entity::Update(const float& delta_time, const std::vector<GameObject*>& collidable_objects)
 {
 	this->UpdateAcceleration();
-	this->UpdateVelocity(delta_time);
+	this->UpdateVelocity(delta_time, collidable_objects);
 	this->ApplyDrag();
 	this->Move();
 }
 
-void Entity::UpdateVelocity(const float& delta_time)
+void Entity::UpdateVelocity(const float& delta_time, const std::vector<GameObject*>& collidable_objects)
 {
-	this->velocity_ += this->acceleration_ * delta_time;
-	ClampVec2f(this->velocity_, -GAME_CONST::MAX_ENTITY_VELOCITY, GAME_CONST::MAX_ENTITY_VELOCITY);
+	//idk, fix this
+	sf::Sprite new_pos_sprite = this->sprite_;
+	new_pos_sprite.move(this->velocity_ + this->acceleration_);
+
+	bool colliding = std::any_of(collidable_objects.begin(), collidable_objects.end(),
+		[new_pos_sprite, this](const GameObject* obj)
+		{
+			return this != obj && obj->CollidingWith(new_pos_sprite);
+		}
+	);
+	//
+
+	if (!colliding)
+	{
+		this->velocity_ += this->acceleration_ * delta_time;
+		ClampVec2f(this->velocity_, -GAME_CONST::MAX_ENTITY_VELOCITY, GAME_CONST::MAX_ENTITY_VELOCITY);
+	}
 }
 
 void Entity::ApplyDrag()

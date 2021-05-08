@@ -78,23 +78,35 @@ void Game::ClearWindow()
 }
 
 void Game::UpdateGameObjects()
-{
-	for (auto& game_obj : this->game_objects_)
-	{
-		game_obj->Update(this->delta_time_);
-	}
-	
+{	
 	// tracking test with collision test // remove this later
 	Entity* e1 = static_cast<Entity*>(game_objects_[0]);
 	Entity* e = static_cast<Entity*>(game_objects_[1]);
 	float distance = DistanceVec2f(e1->GetPosition(), e->GetPosition());
-	if (distance <= 500.0f && !e1->CollidingWith(e))
+	if (distance <= 500.0f)
 	{
 		e->SetAcceleration(e->GetDirection(e1) * (3.0f / 5.0f * GAME_CONST::ENTITY_MOVE_ACCELERATION));
 	}
 	else
 	{
 		e->SetAcceleration(sf::Vector2f(0.0f, 0.0f));
+	}
+
+	for (auto& game_obj : this->game_objects_)
+	{
+		game_obj->Update(this->delta_time_, this->game_objects_);
+		//bool colliding = 
+		//	std::any_of(this->game_objects_.begin(), this->game_objects_.end(),
+		//		[game_obj](GameObject* obj) 
+		//		{
+		//			return game_obj != obj && game_obj->CollidingWith(obj);
+		//		}
+		//	);
+		//
+		//if (!colliding)
+		//{
+		//	// TODO: check for game object type and then do something based on its type
+		//}
 	}
 }
 
