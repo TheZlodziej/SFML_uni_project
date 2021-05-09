@@ -1,3 +1,6 @@
+// this call was made based on this tutorial
+// https://www.youtube.com/watch?v=l2iCYCLi6MU&ab_channel=HilzeVonck
+
 #pragma once
 
 #include <SFML/Graphics.hpp>
@@ -12,6 +15,6 @@ public:
 	Collider(sf::Sprite& sprite);
 	virtual ~Collider();
 	void Move(sf::Vector2f direction);
-	bool CheckCollision(Collider& obj, float back_force);	// circual collision (dx^2 + dy^2 <= r^2)
+	bool CheckCollision(Collider& obj, float back_force);
 };
 
