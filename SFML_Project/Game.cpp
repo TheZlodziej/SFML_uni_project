@@ -91,22 +91,16 @@ void Game::UpdateGameObjects()
 	{
 		e->SetAcceleration(sf::Vector2f(0.0f, 0.0f));
 	}
-
+	
 	for (auto& game_obj : this->game_objects_)
 	{
-		game_obj->Update(this->delta_time_, this->game_objects_);
-		//bool colliding = 
-		//	std::any_of(this->game_objects_.begin(), this->game_objects_.end(),
-		//		[game_obj](GameObject* obj) 
-		//		{
-		//			return game_obj != obj && game_obj->CollidingWith(obj);
-		//		}
-		//	);
-		//
-		//if (!colliding)
-		//{
-		//	// TODO: check for game object type and then do something based on its type
-		//}
+		game_obj->Update(this->delta_time_);
+	}
+
+	for (int i = 1; i < this->game_objects_.size(); i++)
+	{
+		Collider playerCollider = this->game_objects_[0]->GetCollider();
+		this->game_objects_[i]->GetCollider().CheckCollision(playerCollider, .5f);
 	}
 }
 

@@ -12,6 +12,6 @@ public:
 	virtual ~Item();
 	virtual void Use()=0;
 	void Draw(sf::RenderWindow& window) override;
-	void Update(const float& delta_time, const std::vector<GameObject*>& collidable_objects) override;
+	void Update(const float& delta_time) override;
 };
 
