@@ -1,6 +1,7 @@
 # TODO
+- [ ] Add inventory displaying
 - [ ] Add custom cursor (or hide it)
 - [ ] Add surroundings (terrain)
-- [ ] Add equipment
-- [ ] Add item for testing equipment
+- [x] Add inventory
+- [ ] Add item for testing inventory
 - [x] Zapytac Zofii czy zrobi dzwieki
