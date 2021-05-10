@@ -1,4 +1,5 @@
 # TODO
+- [ ] implement HUD
 - [ ] Add inventory displaying
 - [ ] Add custom cursor (or hide it)
 - [ ] Add surroundings (terrain)
