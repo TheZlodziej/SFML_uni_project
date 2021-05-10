@@ -1,12 +1,13 @@
 #pragma once
 
 #include "Entity.h"
+#include "HUD.h"
 #include <cmath>
 
 class Player : public Entity
 {
 private:
-
+	HUD hud_;
 public:
 	Player(const sf::Sprite& sprite,
 		const sf::Vector2f& velocity = sf::Vector2f(0.0f, 0.0f),
