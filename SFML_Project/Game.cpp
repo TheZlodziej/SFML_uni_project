@@ -83,7 +83,7 @@ void Game::UpdateGameObjects()
 	Entity* e1 = static_cast<Entity*>(game_objects_[0]);
 	Entity* e = static_cast<Entity*>(game_objects_[1]);
 	float distance = DistanceVec2f(e1->GetPosition(), e->GetPosition());
-	if (distance <= 500.0f)
+	if (distance <= 500.0f && distance >= 150.0f)
 	{
 		e->SetAcceleration(e->GetDirection(e1) * (3.0f / 5.0f * GAME_CONST::ENTITY_MOVE_ACCELERATION));
 	}
@@ -97,7 +97,7 @@ void Game::UpdateGameObjects()
 		game_obj->Update(this->delta_time_);
 	}
 
-	for (int i = 1; i < this->game_objects_.size(); i++)
+	for (unsigned int i = 1; i < this->game_objects_.size(); i++)
 	{
 		Collider playerCollider = this->game_objects_[0]->GetCollider();
 		this->game_objects_[i]->GetCollider().CheckCollision(playerCollider, .5f);
@@ -125,8 +125,14 @@ void Game::SetDeltaTime()
 
 void Game::KeyboardInput()
 {
+	this->HandlePlayerMovement();
+	this->HandlePlayerInventory();
+}
+
+void Game::HandlePlayerMovement()
+{
 	Player* player = static_cast<Player*>(this->game_objects_[0]);
-	sf::Vector2f new_acceleration(0.0f,0.0f);
+	sf::Vector2f new_acceleration(0.0f, 0.0f);
 	float dir_force = GAME_CONST::ENTITY_MOVE_ACCELERATION;
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
@@ -150,6 +156,20 @@ void Game::KeyboardInput()
 	}
 
 	player->SetAcceleration(new_acceleration);
+}
+
+void Game::HandlePlayerInventory()
+{
+	Player* player = static_cast<Player*>(this->game_objects_[0]);
+	Inventory* inv = player->GetInventory();
+
+	for (int i = sf::Keyboard::Num0; i < sf::Keyboard::Num0 + 10; i++)
+	{
+		if (sf::Keyboard::isKeyPressed(static_cast<sf::Keyboard::Key>(i)))
+		{
+			inv->SetCurrentItemIdx(i - sf::Keyboard::Num0 - 1);
+		}
+	}	
 }
 
 void Game::MouseInput()

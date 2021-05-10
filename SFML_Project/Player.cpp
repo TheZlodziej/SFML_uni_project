@@ -1,7 +1,7 @@
 #include "Player.h"
 
-Player::Player(const sf::Sprite& sprite, const sf::Vector2f& velocity, const sf::Vector2f& acceleration, const float& strength):
-	Entity(sprite, velocity, acceleration, strength)
+Player::Player(const sf::Sprite& sprite, const sf::Vector2f& velocity, const sf::Vector2f& acceleration, const float& strength, const GAME_OBJECT_TYPE& type):
+	Entity(sprite, velocity, acceleration, strength, type)
 {}
 
 Player::~Player()
@@ -23,4 +23,10 @@ void Player::LookAtMouse(const sf::RenderWindow& window)
 	// the rotation of our sprite is correct
 
 	this->sprite_.setRotation(rot_angle + 90.0f); 
+}
+
+void Player::Draw(sf::RenderWindow& window)
+{
+	Entity::Draw(window);
+	this->inventory_.Draw(window);
 }

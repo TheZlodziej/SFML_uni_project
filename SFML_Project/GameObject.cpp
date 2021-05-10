@@ -1,7 +1,8 @@
 #include "GameObject.h"
 
-GameObject::GameObject(const sf::Sprite& sprite):
-	sprite_(sprite)
+GameObject::GameObject(const sf::Sprite& sprite, const GAME_OBJECT_TYPE& type):
+	sprite_(sprite),
+	type_(type)
 {
 	//set origin of the entity to center
 	float mid_point_x = this->sprite_.getLocalBounds().width / 2.0f;

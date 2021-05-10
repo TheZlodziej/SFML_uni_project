@@ -1,7 +1,7 @@
 #include "Entity.h"
 
-Entity::Entity(const sf::Sprite& sprite, const sf::Vector2f& velocity, const sf::Vector2f& acceleration, const float& strength) :
-	GameObject(sprite),
+Entity::Entity(const sf::Sprite& sprite, const sf::Vector2f& velocity, const sf::Vector2f& acceleration, const float& strength, const GAME_OBJECT_TYPE& type) :
+	GameObject(sprite, type),
 	velocity_(velocity),
 	acceleration_(acceleration),
 	strength_(strength)
@@ -43,14 +43,9 @@ void Entity::Move()
 	this->sprite_.move(this->velocity_);
 }
 
-void Entity::AddToInventory(Item* item)
+Inventory* Entity::GetInventory()
 {
-	this->inventory_.Add(item);
-}
-
-void Entity::RemoveFromInventory(const unsigned int& item_idx)
-{
-	this->inventory_.Remove(item_idx);
+	return &this->inventory_;
 }
 
 void Entity::SetAcceleration(const sf::Vector2f& acceleration)

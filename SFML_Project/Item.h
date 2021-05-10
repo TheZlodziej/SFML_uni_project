@@ -8,7 +8,10 @@ protected:
 	int durability_;		//uses before item is destroyed
 
 public:
-	Item(const sf::Sprite& sprite, int duarbility=10);
+	Item(const sf::Sprite& sprite, 
+		int duarbility=10,
+		const GAME_OBJECT_TYPE& type = GAME_OBJECT_TYPE::ITEM
+	);
 	virtual ~Item();
 	virtual void Use()=0;
 	void Draw(sf::RenderWindow& window) override;

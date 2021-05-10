@@ -1,7 +1,7 @@
 #include "Item.h"
 
-Item::Item(const sf::Sprite& sprite, int durability):
-	GameObject(sprite),
+Item::Item(const sf::Sprite& sprite, int durability, const GAME_OBJECT_TYPE& type):
+	GameObject(sprite, type),
 	durability_(durability)
 {}
 
