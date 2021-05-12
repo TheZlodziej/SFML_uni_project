@@ -1,8 +1,9 @@
 #include "Entity.h"
 
-Entity::Entity(const sf::Sprite& sprite, TextureManager& textures, const TEXTURE& texture, const sf::Vector2f& velocity, const sf::Vector2f& acceleration, const float& strength, const GAME_OBJECT_TYPE& type) :
+Entity::Entity(const sf::Sprite& sprite, TextureManager* textures, const TEXTURE& texture, const sf::Vector2f& velocity, const sf::Vector2f& acceleration, const float& strength, const float& hp, const GAME_OBJECT_TYPE& type) :
 	GameObject(sprite, type, textures, texture),
 	velocity_(velocity),
+	hp_(hp),
 	acceleration_(acceleration),
 	strength_(strength)
 {}
@@ -62,6 +63,16 @@ void Entity::Stop()
 sf::Vector2f Entity::GetAcceleration() const 
 {
 	return this->acceleration_;
+}
+
+float Entity::GetHp() const
+{
+	return this->hp_;
+}
+
+void Entity::LoseHp(const float& percentage)
+{
+	this->hp_ -= percentage;
 }
 
 sf::Vector2f Entity::GetDirection(const Entity* entity) const

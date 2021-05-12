@@ -4,14 +4,20 @@
 #include "Entity.h"
 #include "TextureManager.h"
 
+enum class HUD_ELEMENT {
+	HP = 0,
+	ITEMS_BG = 1,
+	SELECTED_ITEM = 2
+};
+
 class HUD
 {
 private:
-	TextureManager _textures;
-	std::vector<sf::Sprite> _hud_elements;
+	TextureManager* textures_;
+	std::unordered_map<HUD_ELEMENT, sf::Sprite> hud_elements_;
 
 public:
-	HUD();
+	HUD(TextureManager* textures);
 	virtual ~HUD();
 	void InitalizeHudElements();			// sets default hud elements; call in constructor
 	void InitializeHudTextures();			// loads textures for hud

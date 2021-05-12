@@ -16,17 +16,19 @@ class Entity : public GameObject
 {
 protected:
 	float strength_;
+	float hp_;
 	sf::Vector2f velocity_;
 	sf::Vector2f acceleration_;
 	Inventory inventory_;
 	
 public:
 	Entity(const sf::Sprite& sprite,
-		TextureManager& textures,
+		TextureManager* textures,
 		const TEXTURE& texture = TEXTURE::DEFAULT,
 		const sf::Vector2f& velocity = sf::Vector2f(0.0f, 0.0f),
 		const sf::Vector2f& acceleration = sf::Vector2f(0.0f, 0.0f),
 		const float& strength = 10.0f,
+		const float& hp = 1.0f,
 		const GAME_OBJECT_TYPE& type = GAME_OBJECT_TYPE::ENTITY
 		);
 	virtual ~Entity();
@@ -41,5 +43,7 @@ public:
 	void UpdateVelocity(const float& delta_time);				// updates entity's velocity
 	sf::Vector2f GetDirection(const Entity* entity) const;		// returns direction to entity given in argument
 	sf::Vector2f GetAcceleration() const;						// remove later maybe?? (not used)
+	float GetHp() const;										// returns percentage of hp
+	void LoseHp(const float& percentage);						// removes % of players hp -> new hp = (curr hp - arg)%
 };
 

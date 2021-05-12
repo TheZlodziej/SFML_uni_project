@@ -10,7 +10,7 @@ protected:
 public:
 	Item(const sf::Sprite& sprite, 
 		int duarbility,
-		TextureManager& textures, 
+		TextureManager* textures, 
 		const TEXTURE& texture = TEXTURE::ITEM_1,
 		const GAME_OBJECT_TYPE & type = GAME_OBJECT_TYPE::ITEM
 	);

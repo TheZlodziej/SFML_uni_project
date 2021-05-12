@@ -13,12 +13,20 @@ Game::Game() :
 	sprite.setScale(0.2f, 0.2f);
 
 	sprite.setPosition(550,0);
-	Entity* entity = new Entity(sprite, this->textures_, TEXTURE::ENEMY_1);
+	Entity* entity = new Entity(sprite, &this->textures_, TEXTURE::ENEMY_1);
 	this->game_objects_.emplace_back(entity);
 
 	sprite.setPosition(200, 200);
-	Entity* entity1 = new Entity(sprite, this->textures_, TEXTURE::ENEMY_1);
+	Entity* entity1 = new Entity(sprite, &this->textures_, TEXTURE::ENEMY_1);
 	this->game_objects_.emplace_back(entity1);
+}
+
+Game::~Game()
+{
+	for (auto game_obj : this->game_objects_)
+	{
+		delete game_obj;
+	}
 }
 
 void Game::LoadTextures()
@@ -28,14 +36,6 @@ void Game::LoadTextures()
 	this->textures_.Add(TEXTURE::ENEMY_1, "test.png");
 	this->textures_.Add(TEXTURE::HP_BAR, "hp_bar.png");
 	this->textures_.Add(TEXTURE::ITEM_1, "test.png");
-}
-
-Game::~Game() 
-{
-	for (auto game_obj : this->game_objects_)
-	{
-		delete game_obj;
-	}
 }
 
 void Game::SetupCamera()
@@ -48,7 +48,7 @@ void Game::SetupPlayer()
 {
 	sf::Sprite player_sprite(this->textures_.Get(TEXTURE::PLAYER));
 	player_sprite.setPosition(0, 0);
-	Player* player = new Player(player_sprite, this->textures_, TEXTURE::PLAYER);
+	Player* player = new Player(player_sprite, &this->textures_, TEXTURE::PLAYER);
 
 	this->game_objects_.emplace_back(player);
 }
@@ -137,6 +137,13 @@ void Game::HandlePlayerMovement()
 	Player* player = static_cast<Player*>(this->game_objects_[0]);
 	sf::Vector2f new_acceleration(0.0f, 0.0f);
 	float dir_force = GAME_CONST::ENTITY_MOVE_ACCELERATION;
+	
+	//test
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::T))
+	{
+		player->LoseHp(0.01f);
+	}
+	//endtest
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 	{

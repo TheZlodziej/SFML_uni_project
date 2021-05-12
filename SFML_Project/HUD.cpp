@@ -1,9 +1,10 @@
 #include "HUD.h"
 
-HUD::HUD()
+HUD::HUD(TextureManager* textures):
+	textures_(textures)
 {
-	this->InitializeHudTextures();
 	this->InitalizeHudElements();
+	this->InitializeHudTextures();
 }
 
 HUD::~HUD()
@@ -11,29 +12,38 @@ HUD::~HUD()
 
 void HUD::InitializeHudTextures()
 {
-	//this->_textures.Add();
+	this->hud_elements_.at(HUD_ELEMENT::HP).setTexture(this->textures_->Get(TEXTURE::HP_BAR));
 }
 
 void HUD::InitalizeHudElements()
 {
-	sf::Sprite hp_bar;
-	this->_hud_elements.emplace_back();
+	this->hud_elements_.insert(
+		std::make_pair(HUD_ELEMENT::HP, this->textures_->Get(TEXTURE::HP_BAR))
+	);
 }
 
 void HUD::Update(const Entity* entity)
 {
-	sf::Vector2f offset = entity->GetPosition();
+	// health
+	this->hud_elements_.at(HUD_ELEMENT::HP).setScale(entity->GetHp(), 1.0f);
+	
+	// items
+	//this->_hud_elements.at(HUD_ELEMENT::ITEMS_BG);
 
-	for (auto& el : this->_hud_elements)
+	// position
+
+	sf::Vector2f e_pos = entity->GetPosition();
+
+	for (auto& [key,spr] : this->hud_elements_)
 	{
-		el.move(offset);
+		spr.setPosition(e_pos);
 	}
 }
 
 void HUD::Draw(sf::RenderWindow& window)
 {
-	for (auto& el : this->_hud_elements)
+	for (auto& [key,spr] : this->hud_elements_)
 	{
-		window.draw(el);
+		window.draw(spr);
 	}
 }

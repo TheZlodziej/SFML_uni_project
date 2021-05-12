@@ -1,13 +1,15 @@
 #include "Player.h"
 
 Player::Player(const sf::Sprite& sprite,
-				TextureManager& textures,
+				TextureManager* textures,
 				const TEXTURE& texture, 
 				const sf::Vector2f& velocity, 
 				const sf::Vector2f& acceleration, 
 				const float& strength, 
+				const float& hp,
 				const GAME_OBJECT_TYPE& type):
-	Entity(sprite, textures, texture, velocity, acceleration, strength, type)
+	Entity(sprite, textures, texture, velocity, acceleration, strength, hp, type),
+	hud_(textures)
 {}
 
 Player::~Player()
