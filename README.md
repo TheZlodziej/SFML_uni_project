@@ -1,5 +1,6 @@
 # TODO
-- [ ] implement HUD
+- [x] implement HUD
+- [ ] make hood look good (add everthing)
 - [ ] Add inventory displaying
 - [ ] Add custom cursor (or hide it)
 - [ ] Add surroundings (terrain)
