@@ -31,11 +31,13 @@ Game::~Game()
 
 void Game::LoadTextures()
 {
-	this->textures_.Add(TEXTURE::DEFAULT, "test.png");
-	this->textures_.Add(TEXTURE::PLAYER, "test_player_texture.png");
-	this->textures_.Add(TEXTURE::ENEMY_1, "test.png");
-	this->textures_.Add(TEXTURE::HP_BAR, "hp_bar.png");
-	this->textures_.Add(TEXTURE::ITEM_1, "test.png");
+	this->textures_.Add(TEXTURE::DEFAULT, "assets/test.png");
+	this->textures_.Add(TEXTURE::PLAYER, "assets/test_player_texture.png");
+	this->textures_.Add(TEXTURE::ENEMY_1, "assets/test.png");
+	this->textures_.Add(TEXTURE::HP_BAR, "assets/hp_bar.png");
+	this->textures_.Add(TEXTURE::ITEM_1, "assets/item_1.png");
+	this->textures_.Add(TEXTURE::SELECTED_ITEM, "assets/selected_item.png");
+	this->textures_.Add(TEXTURE::ITEMS_BG, "assets/items_bg.png");
 }
 
 void Game::SetupCamera()

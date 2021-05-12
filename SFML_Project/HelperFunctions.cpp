@@ -19,6 +19,11 @@ float DistanceVec2f(const sf::Vector2f& vec_a, const sf::Vector2f& vec_b)
 	return std::sqrt(x_diff * x_diff + y_diff * y_diff);
 }
 
+sf::Vector2f ScaleVec2f(const sf::Vector2f& vec, const sf::Vector2f& scale)
+{
+	return sf::Vector2f(vec.x * scale.x, vec.y * scale.y);
+}
+
 sf::Vector2f NormalizeVec2f(sf::Vector2f vec)
 {
 	if (std::abs(vec.x) <= GAME_CONST::FLOAT_PRECISION)
