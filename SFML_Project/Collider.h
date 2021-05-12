@@ -1,4 +1,4 @@
-// this call was made based on this tutorial
+// this function was made based on this tutorial
 // https://www.youtube.com/watch?v=l2iCYCLi6MU&ab_channel=HilzeVonck
 
 #pragma once
