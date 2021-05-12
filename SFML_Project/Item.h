@@ -9,8 +9,10 @@ protected:
 
 public:
 	Item(const sf::Sprite& sprite, 
-		int duarbility=10,
-		const GAME_OBJECT_TYPE& type = GAME_OBJECT_TYPE::ITEM
+		int duarbility,
+		TextureManager& textures, 
+		const TEXTURE& texture = TEXTURE::ITEM_1,
+		const GAME_OBJECT_TYPE & type = GAME_OBJECT_TYPE::ITEM
 	);
 	virtual ~Item();
 	virtual void Use()=0;

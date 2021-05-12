@@ -9,22 +9,25 @@ Game::Game() :
 	this->SetupPlayer();
 
 	//test game objects
-	sf::Sprite sprite(this->textures_.Get(TEXTURE::ENEMY_1));
+	sf::Sprite sprite;
 	sprite.setScale(0.2f, 0.2f);
 
 	sprite.setPosition(550,0);
-	Entity* entity = new Entity(sprite);
+	Entity* entity = new Entity(sprite, this->textures_, TEXTURE::ENEMY_1);
 	this->game_objects_.emplace_back(entity);
 
 	sprite.setPosition(200, 200);
-	Entity* entity1 = new Entity(sprite);
+	Entity* entity1 = new Entity(sprite, this->textures_, TEXTURE::ENEMY_1);
 	this->game_objects_.emplace_back(entity1);
 }
 
 void Game::LoadTextures()
 {
+	this->textures_.Add(TEXTURE::DEFAULT, "test.png");
 	this->textures_.Add(TEXTURE::PLAYER, "test_player_texture.png");
 	this->textures_.Add(TEXTURE::ENEMY_1, "test.png");
+	this->textures_.Add(TEXTURE::HP_BAR, "hp_bar.png");
+	this->textures_.Add(TEXTURE::ITEM_1, "test.png");
 }
 
 Game::~Game() 
@@ -45,7 +48,7 @@ void Game::SetupPlayer()
 {
 	sf::Sprite player_sprite(this->textures_.Get(TEXTURE::PLAYER));
 	player_sprite.setPosition(0, 0);
-	Player* player = new Player(player_sprite);
+	Player* player = new Player(player_sprite, this->textures_, TEXTURE::PLAYER);
 
 	this->game_objects_.emplace_back(player);
 }

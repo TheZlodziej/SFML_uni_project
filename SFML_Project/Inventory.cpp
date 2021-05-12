@@ -51,7 +51,6 @@ void Inventory::Draw(sf::RenderWindow& window) const
 		// draw square
 		if (i == this->curr_item_idx_)
 		{
-			float rect_a = GAME_CONST::WINDOW_WIDTH / this->size_;
 			// make it stand out
 			std::cout << "<-";
 			

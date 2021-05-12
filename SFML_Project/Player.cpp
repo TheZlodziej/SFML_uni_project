@@ -1,7 +1,13 @@
 #include "Player.h"
 
-Player::Player(const sf::Sprite& sprite, const sf::Vector2f& velocity, const sf::Vector2f& acceleration, const float& strength, const GAME_OBJECT_TYPE& type):
-	Entity(sprite, velocity, acceleration, strength, type)
+Player::Player(const sf::Sprite& sprite,
+				TextureManager& textures,
+				const TEXTURE& texture, 
+				const sf::Vector2f& velocity, 
+				const sf::Vector2f& acceleration, 
+				const float& strength, 
+				const GAME_OBJECT_TYPE& type):
+	Entity(sprite, textures, texture, velocity, acceleration, strength, type)
 {}
 
 Player::~Player()
@@ -28,5 +34,11 @@ void Player::LookAtMouse(const sf::RenderWindow& window)
 void Player::Draw(sf::RenderWindow& window)
 {
 	Entity::Draw(window);
-	this->inventory_.Draw(window);
+	this->hud_.Draw(window);
+}
+
+void Player::Update(const float& delta_time)
+{
+	Entity::Update(delta_time);
+	this->hud_.Update(this);
 }

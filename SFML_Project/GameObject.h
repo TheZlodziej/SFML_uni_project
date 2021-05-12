@@ -2,6 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 #include "Collider.h"
+#include "TextureManager.h"
 
 enum class GAME_OBJECT_TYPE
 {
@@ -18,7 +19,7 @@ protected:
 	GAME_OBJECT_TYPE type_;
 
 public:
-	GameObject(const sf::Sprite& sprite, const GAME_OBJECT_TYPE& type);
+	GameObject(const sf::Sprite& sprite, const GAME_OBJECT_TYPE& type, TextureManager& textures, const TEXTURE& texture=TEXTURE::DEFAULT);
 	virtual ~GameObject();
 
 	virtual void Update(const float& delta_time)=0;

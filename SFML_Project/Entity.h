@@ -22,6 +22,8 @@ protected:
 	
 public:
 	Entity(const sf::Sprite& sprite,
+		TextureManager& textures,
+		const TEXTURE& texture = TEXTURE::DEFAULT,
 		const sf::Vector2f& velocity = sf::Vector2f(0.0f, 0.0f),
 		const sf::Vector2f& acceleration = sf::Vector2f(0.0f, 0.0f),
 		const float& strength = 10.0f,

@@ -1,7 +1,7 @@
 #include "Entity.h"
 
-Entity::Entity(const sf::Sprite& sprite, const sf::Vector2f& velocity, const sf::Vector2f& acceleration, const float& strength, const GAME_OBJECT_TYPE& type) :
-	GameObject(sprite, type),
+Entity::Entity(const sf::Sprite& sprite, TextureManager& textures, const TEXTURE& texture, const sf::Vector2f& velocity, const sf::Vector2f& acceleration, const float& strength, const GAME_OBJECT_TYPE& type) :
+	GameObject(sprite, type, textures, texture),
 	velocity_(velocity),
 	acceleration_(acceleration),
 	strength_(strength)

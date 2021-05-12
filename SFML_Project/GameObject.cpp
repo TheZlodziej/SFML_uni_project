@@ -1,9 +1,12 @@
 #include "GameObject.h"
 
-GameObject::GameObject(const sf::Sprite& sprite, const GAME_OBJECT_TYPE& type):
+GameObject::GameObject(const sf::Sprite& sprite, const GAME_OBJECT_TYPE& type, TextureManager& textures, const TEXTURE& texture):
 	sprite_(sprite),
 	type_(type)
 {
+	//set texture to default
+	this->sprite_.setTexture(textures.Get(texture));
+
 	//set origin of the entity to center
 	float mid_point_x = this->sprite_.getLocalBounds().width / 2.0f;
 	float mid_point_y = this->sprite_.getLocalBounds().height / 2.0f;

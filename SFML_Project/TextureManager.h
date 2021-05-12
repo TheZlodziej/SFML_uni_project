@@ -1,17 +1,20 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
-#include <map>
+#include <unordered_map>
 
 enum class TEXTURE {
+	DEFAULT,
 	PLAYER,
-	ENEMY_1
+	ENEMY_1,
+	HP_BAR,
+	ITEM_1
 };
 
 class TextureManager
 {
 private:
-	std::map<TEXTURE, sf::Texture> textures;
+	std::unordered_map<TEXTURE, sf::Texture> textures;
 	
 public:
 	TextureManager();
