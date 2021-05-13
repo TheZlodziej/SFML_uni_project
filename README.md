@@ -1,7 +1,8 @@
 # TODO
+- [ ] change standard pointer to std::unique_ptr
 - [x] implement HUD
 - [ ] make hood look good (add everthing)
-- [ ] Add inventory displaying
+- [x] Add inventory displaying
 - [ ] Add custom cursor (or hide it)
 - [ ] Add surroundings (terrain)
 - [x] Add inventory
