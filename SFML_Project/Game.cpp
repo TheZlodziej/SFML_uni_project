@@ -44,12 +44,6 @@ void Game::SetupCamera()
 void Game::SetupPlayer()
 {
 	Player* player = new Player({0.0f, 0.0f}, &this->textures_, TEXTURE::PLAYER);
-	//gun test
-	Gun* gun = new Gun(sf::Vector2f(0.0f, 0.0f), 10, &this->textures_);
-	player->GetInventory()->Add( gun );
-	player->GetInventory()->Add( gun );
-	player->GetInventory()->Add( gun );
-	//
 	this->game_objects_.emplace_back(player);
 }
 
@@ -138,6 +132,14 @@ void Game::HandlePlayerMovement()
 	sf::Vector2f new_acceleration(0.0f, 0.0f);
 	float dir_force = GAME_CONST::ENTITY_MOVE_ACCELERATION;
 	
+	//gun test
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Y))
+	{
+		Gun* gun = new Gun(sf::Vector2f(0.0f, 0.0f), 10, &this->textures_);
+		player->GetInventory()->Add(gun);
+	}
+	//
+
 	//test
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::T))
 	{

@@ -1,5 +1,5 @@
 # TODO
-- [ ] change standard pointer to std::unique_ptr
+- [ ] add sprite animations
 - [x] implement HUD
 - [ ] make hood look good (add everthing)
 - [x] Add inventory displaying
