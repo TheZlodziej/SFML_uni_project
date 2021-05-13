@@ -9,7 +9,7 @@ class Player : public Entity
 private:
 	HUD hud_;
 public:
-	Player(const sf::Sprite& sprite,
+	Player(const sf::Vector2f& position,
 		TextureManager* textures,
 		const TEXTURE& texture = TEXTURE::PLAYER,
 		const sf::Vector2f& velocity = sf::Vector2f(0.0f, 0.0f),

@@ -1,11 +1,13 @@
 #include "GameObject.h"
 
-GameObject::GameObject(const sf::Sprite& sprite, const GAME_OBJECT_TYPE& type, TextureManager* textures, const TEXTURE& texture):
-	sprite_(sprite),
+GameObject::GameObject(const sf::Vector2f& position, const GAME_OBJECT_TYPE& type, TextureManager* textures, const TEXTURE& texture):
+	sprite_(sf::Sprite()),
 	type_(type),
 	textures_(textures),
 	texture_(texture)
 {
+	this->sprite_.setPosition(position);
+
 	//set texture to default
 	this->sprite_.setTexture(textures->Get(texture));
 
@@ -30,7 +32,7 @@ Collider GameObject::GetCollider()
 	return Collider(this->sprite_);
 }
 
-TEXTURE GameObject::GetTexture() const
+sf::Texture& GameObject::GetTexture()
 {
-	return this->texture_;
+	return this->textures_->Get(this->texture_);
 }

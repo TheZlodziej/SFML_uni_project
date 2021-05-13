@@ -1,7 +1,7 @@
 #include "Item.h"
 
-Item::Item(const sf::Sprite& sprite, int durability, TextureManager* textures, const TEXTURE& texture, const GAME_OBJECT_TYPE& type):
-	GameObject(sprite, type, textures, texture),
+Item::Item(const sf::Vector2f& position, const int& durability, TextureManager* textures, const TEXTURE& texture, const GAME_OBJECT_TYPE& type):
+	GameObject(position, type, textures, texture),
 	durability_(durability)
 {}
 

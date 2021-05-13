@@ -16,5 +16,6 @@ public:
 	void Remove(const unsigned int& item_idx);
 	void Draw(sf::RenderWindow& window) const;
 	unsigned int GetCurrentItemIndex() const;
+	std::vector<Item*> GetItems();
 };
 

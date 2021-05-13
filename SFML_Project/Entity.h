@@ -22,7 +22,7 @@ protected:
 	Inventory inventory_;
 	
 public:
-	Entity(const sf::Sprite& sprite,
+	Entity(const sf::Vector2f& position,
 		TextureManager* textures,
 		const TEXTURE& texture = TEXTURE::DEFAULT,
 		const sf::Vector2f& velocity = sf::Vector2f(0.0f, 0.0f),

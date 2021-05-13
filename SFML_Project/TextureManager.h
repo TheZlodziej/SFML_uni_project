@@ -8,9 +8,10 @@ enum class TEXTURE {
 	PLAYER,
 	ENEMY_1,
 	HP_BAR,
-	ITEM_1,
+	ITEM,
 	ITEMS_BG,
-	SELECTED_ITEM
+	SELECTED_ITEM,
+	ITEM_GUN
 };
 
 class TextureManager

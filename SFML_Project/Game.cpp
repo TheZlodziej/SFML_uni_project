@@ -9,15 +9,10 @@ Game::Game() :
 	this->SetupPlayer();
 
 	//test game objects
-	sf::Sprite sprite;
-	sprite.setScale(0.2f, 0.2f);
-
-	sprite.setPosition(550,0);
-	Entity* entity = new Entity(sprite, &this->textures_, TEXTURE::ENEMY_1);
+	Entity* entity = new Entity({550.0f, 0.0f}, &this->textures_, TEXTURE::ENEMY_1);
 	this->game_objects_.emplace_back(entity);
 
-	sprite.setPosition(200, 200);
-	Entity* entity1 = new Entity(sprite, &this->textures_, TEXTURE::ENEMY_1);
+	Entity* entity1 = new Entity({200.0f, 200.0f}, &this->textures_, TEXTURE::ENEMY_1);
 	this->game_objects_.emplace_back(entity1);
 }
 
@@ -33,25 +28,28 @@ void Game::LoadTextures()
 {
 	this->textures_.Add(TEXTURE::DEFAULT, "assets/test.png");
 	this->textures_.Add(TEXTURE::PLAYER, "assets/test_player_texture.png");
-	this->textures_.Add(TEXTURE::ENEMY_1, "assets/test.png");
+	this->textures_.Add(TEXTURE::ENEMY_1, "assets/test_enemy_texture.png");
 	this->textures_.Add(TEXTURE::HP_BAR, "assets/hp_bar.png");
-	this->textures_.Add(TEXTURE::ITEM_1, "assets/item_1.png");
+	this->textures_.Add(TEXTURE::ITEM, "assets/item_1.png");
 	this->textures_.Add(TEXTURE::SELECTED_ITEM, "assets/selected_item.png");
 	this->textures_.Add(TEXTURE::ITEMS_BG, "assets/items_bg.png");
+	this->textures_.Add(TEXTURE::ITEM_GUN, "assets/item_gun.png");
 }
 
 void Game::SetupCamera()
 {
 	this->camera_.Resize(this->window_);
-	//this->camera_.zoom(1.25f); //zoom has to come after resize
 }
 
 void Game::SetupPlayer()
 {
-	sf::Sprite player_sprite(this->textures_.Get(TEXTURE::PLAYER));
-	player_sprite.setPosition(0, 0);
-	Player* player = new Player(player_sprite, &this->textures_, TEXTURE::PLAYER);
-
+	Player* player = new Player({0.0f, 0.0f}, &this->textures_, TEXTURE::PLAYER);
+	//gun test
+	Gun* gun = new Gun(sf::Vector2f(0.0f, 0.0f), 10, &this->textures_);
+	player->GetInventory()->Add( gun );
+	player->GetInventory()->Add( gun );
+	player->GetInventory()->Add( gun );
+	//
 	this->game_objects_.emplace_back(player);
 }
 

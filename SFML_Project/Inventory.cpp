@@ -68,3 +68,8 @@ unsigned int Inventory::GetCurrentItemIndex() const
 {
 	return this->curr_item_idx_;
 }
+
+std::vector<Item*> Inventory::GetItems()
+{
+	return this->items_;
+}

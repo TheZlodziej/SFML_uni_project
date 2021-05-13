@@ -21,13 +21,13 @@ protected:
 	TEXTURE texture_;
 
 public:
-	GameObject(const sf::Sprite& sprite, const GAME_OBJECT_TYPE& type, TextureManager* textures, const TEXTURE& texture=TEXTURE::DEFAULT);
+	GameObject(const sf::Vector2f& position, const GAME_OBJECT_TYPE& type, TextureManager* textures, const TEXTURE& texture=TEXTURE::DEFAULT);
 	virtual ~GameObject();
 
 	virtual void Update(const float& delta_time)=0;
 	virtual void Draw(sf::RenderWindow& window)=0;
 	sf::Vector2f GetPosition() const;
 	Collider GetCollider();
-	TEXTURE GetTexture() const;
+	sf::Texture& GetTexture();
 };
 

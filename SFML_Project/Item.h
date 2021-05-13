@@ -5,13 +5,13 @@
 class Item : public GameObject
 {
 protected:
-	int durability_;		//uses before item is destroyed
+	int durability_;		// uses before item is destroyed
 
 public:
-	Item(const sf::Sprite& sprite, 
-		int duarbility,
+	Item(const sf::Vector2f& position,
+		const int& duarbility,
 		TextureManager* textures, 
-		const TEXTURE& texture = TEXTURE::ITEM_1,
+		const TEXTURE& texture = TEXTURE::ITEM,
 		const GAME_OBJECT_TYPE & type = GAME_OBJECT_TYPE::ITEM
 	);
 	virtual ~Item();

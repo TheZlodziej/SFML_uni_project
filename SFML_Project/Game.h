@@ -11,6 +11,7 @@
 //test
 #include "Entity.h"
 #include "Player.h"
+#include "Gun.h"
 #include <iostream>
 
 class Game
