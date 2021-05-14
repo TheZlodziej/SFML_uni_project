@@ -9,7 +9,7 @@ enum class TEXTURE {
 	ENEMY_1,
 	HP_BAR,
 	ITEM,
-	ITEMS_BG,
+	ITEM_BG,
 	SELECTED_ITEM,
 	ITEM_GUN
 };

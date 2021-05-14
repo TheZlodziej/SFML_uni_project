@@ -72,7 +72,22 @@ float Entity::GetHp() const
 
 void Entity::LoseHp(const float& percentage)
 {
-	this->hp_ -= percentage;
+	float new_hp = this->hp_ - percentage;
+	if (new_hp > 0.0f)
+	{
+		this->hp_ = new_hp;
+	}
+	else
+	{
+		this->hp_ = 0.0f;
+	}
+
+	//this->hp_ -= percentage;
+
+	//if (this->hp_ <= 0.0f)
+	//{
+	//	Die();
+	//}
 }
 
 sf::Vector2f Entity::GetDirection(const Entity* entity) const

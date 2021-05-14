@@ -7,7 +7,7 @@ class Inventory
 private:
 	std::vector<Item*> items_;
 	unsigned int curr_item_idx_;
-	unsigned int size_;				// size of inventory
+	unsigned int size_;				// maximum size of inventory
 public:
 	Inventory();
 	virtual ~Inventory();
@@ -16,6 +16,7 @@ public:
 	void Remove(const unsigned int& item_idx);
 	void Draw(sf::RenderWindow& window) const;
 	unsigned int GetCurrentItemIndex() const;
+	unsigned int GetSize() const;
 	std::vector<Item*> GetItems();
 };
 

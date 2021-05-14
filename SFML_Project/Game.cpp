@@ -32,7 +32,7 @@ void Game::LoadTextures()
 	this->textures_.Add(TEXTURE::HP_BAR, "assets/hp_bar.png");
 	this->textures_.Add(TEXTURE::ITEM, "assets/item_1.png");
 	this->textures_.Add(TEXTURE::SELECTED_ITEM, "assets/selected_item.png");
-	this->textures_.Add(TEXTURE::ITEMS_BG, "assets/items_bg.png");
+	this->textures_.Add(TEXTURE::ITEM_BG, "assets/items_bg.png");
 	this->textures_.Add(TEXTURE::ITEM_GUN, "assets/item_gun.png");
 }
 
@@ -44,6 +44,7 @@ void Game::SetupCamera()
 void Game::SetupPlayer()
 {
 	Player* player = new Player({0.0f, 0.0f}, &this->textures_, TEXTURE::PLAYER);
+	player->GetInventory()->Add(new Gun(sf::Vector2f{ 0.0f, 0.0f }, 10, &this->textures_));
 	this->game_objects_.emplace_back(player);
 }
 

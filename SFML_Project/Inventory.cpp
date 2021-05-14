@@ -2,7 +2,7 @@
 
 Inventory::Inventory():
 	curr_item_idx_(0),
-	size_(9)
+	size_(5)
 {}
 
 Inventory::~Inventory()
@@ -67,6 +67,11 @@ void Inventory::Draw(sf::RenderWindow& window) const
 unsigned int Inventory::GetCurrentItemIndex() const
 {
 	return this->curr_item_idx_;
+}
+
+unsigned int Inventory::GetSize() const
+{
+	return this->size_;
 }
 
 std::vector<Item*> Inventory::GetItems()
