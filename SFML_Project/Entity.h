@@ -29,7 +29,9 @@ public:
 		const sf::Vector2f& acceleration = sf::Vector2f(0.0f, 0.0f),
 		const float& strength = 10.0f,
 		const float& hp = 1.0f,
-		const GAME_OBJECT_TYPE& type = GAME_OBJECT_TYPE::ENTITY
+		const GAME_OBJECT_TYPE& type = GAME_OBJECT_TYPE::ENTITY,
+		const sf::Vector2u& animation_frames = sf::Vector2u(1,1),
+		const float& animation_time = 1.0f
 		);
 	virtual ~Entity();
 	virtual void Draw(sf::RenderWindow& window) override;		// draws entity to the given render window

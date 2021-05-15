@@ -2,7 +2,7 @@
 
 Inventory::Inventory():
 	curr_item_idx_(0),
-	size_(5)
+	size_(6)
 {}
 
 Inventory::~Inventory()

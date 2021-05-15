@@ -1,7 +1,7 @@
 #include "Entity.h"
 
-Entity::Entity(const sf::Vector2f& position, TextureManager* textures, const TEXTURE& texture, const sf::Vector2f& velocity, const sf::Vector2f& acceleration, const float& strength, const float& hp, const GAME_OBJECT_TYPE& type) :
-	GameObject(position, type, textures, texture),
+Entity::Entity(const sf::Vector2f& position, TextureManager* textures, const TEXTURE& texture, const sf::Vector2f& velocity, const sf::Vector2f& acceleration, const float& strength, const float& hp, const GAME_OBJECT_TYPE& type, const sf::Vector2u& animation_frames, const float& animation_time) :
+	GameObject(position, type, textures, texture, animation_frames, animation_time),
 	velocity_(velocity),
 	hp_(hp),
 	acceleration_(acceleration),
@@ -17,6 +17,7 @@ void Entity::Draw(sf::RenderWindow& window)
 
 void Entity::Update(const float& delta_time)
 {
+	GameObject::Update(delta_time);
 	this->UpdateAcceleration();
 	this->UpdateVelocity(delta_time);
 	this->ApplyDrag();

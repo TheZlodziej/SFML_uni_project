@@ -1,15 +1,17 @@
 #include "GameObject.h"
 
-GameObject::GameObject(const sf::Vector2f& position, const GAME_OBJECT_TYPE& type, TextureManager* textures, const TEXTURE& texture):
+GameObject::GameObject(const sf::Vector2f& position, const GAME_OBJECT_TYPE& type, TextureManager* textures, const TEXTURE& texture, const sf::Vector2u& animation_frames, const float& animation_time):
 	sprite_(sf::Sprite()),
 	type_(type),
 	textures_(textures),
-	texture_(texture)
+	texture_(texture),
+	animation_(textures->Get(texture), animation_frames, animation_time)
 {
 	this->sprite_.setPosition(position);
 
 	//set texture to default
 	this->sprite_.setTexture(textures->Get(texture));
+	this->sprite_.setTextureRect(this->animation_.GetFrameRect());
 
 	//set origin of the entity to center
 	float mid_point_x = this->sprite_.getLocalBounds().width / 2.0f;
@@ -30,6 +32,12 @@ sf::Vector2f GameObject::GetPosition() const
 Collider GameObject::GetCollider()
 {
 	return Collider(this->sprite_);
+}
+
+void GameObject::Update(const float& delta_time)
+{
+	this->animation_.Update(delta_time);
+	this->sprite_.setTextureRect(this->animation_.GetFrameRect());
 }
 
 sf::Texture& GameObject::GetTexture()
