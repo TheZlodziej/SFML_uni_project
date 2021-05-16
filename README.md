@@ -1,7 +1,8 @@
 # TODO
 - [x] add sprite animations
+- [ ] add different states to animation (so it's easy to control (now you have to give it a row index)
 - [x] implement HUD
-- [ ] make hood look good (add everthing)
+- [ ] make hud look good (add everthing)
 - [x] Add inventory displaying
 - [ ] Add custom cursor (or hide it)
 - [ ] Add surroundings (terrain)
