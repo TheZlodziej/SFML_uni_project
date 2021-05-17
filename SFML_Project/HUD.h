@@ -12,7 +12,8 @@ enum class HUD_ELEMENT {
 	ITEM = 3
 };
 
-struct HudElement {
+struct HudElement 
+{
 	sf::Sprite sprite;
 	sf::Vector2f default_position;
 	sf::Vector2f current_offset = sf::Vector2f(0.0f, 0.0f);

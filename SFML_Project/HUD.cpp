@@ -24,11 +24,14 @@ void HUD::InsertItems(Entity* entity, const float& item_box_width, const sf::Vec
 	std::vector<Item*> items = entity->GetInventory()->GetItems();
 	for (unsigned int i=0; i<items.size(); i++)
 	{
-		this->items_placeholder_.emplace_back(HudElement{
-			sf::Sprite(),
-			this->hud_elements_.at(HUD_ELEMENT::ITEM_BG).default_position,
-			sf::Vector2f(static_cast<float>(i) * item_box_width / inventory_scale.x, 0.0f)
-		});
+		this->items_placeholder_.emplace_back(
+			HudElement
+			{
+				sf::Sprite(),
+				this->hud_elements_.at(HUD_ELEMENT::ITEM_BG).default_position,
+				sf::Vector2f(static_cast<float>(i) * item_box_width / inventory_scale.x, 0.0f)
+			}
+		);
 	}
 }
 
