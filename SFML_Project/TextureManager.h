@@ -6,7 +6,9 @@
 enum class TEXTURE {
 	DEFAULT,
 	PLAYER,
+	ENEMY_0,
 	ENEMY_1,
+	ENEMY_2,
 	HP_BAR,
 	ITEM,
 	ITEM_BG,

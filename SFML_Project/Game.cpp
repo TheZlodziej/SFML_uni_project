@@ -9,11 +9,8 @@ Game::Game() :
 	this->SetupPlayer();
 
 	//test game objects
-	Entity* entity = new Entity({550.0f, 0.0f}, &this->textures_, TEXTURE::ENEMY_1);
-	this->game_objects_.emplace_back(entity);
-
-	Entity* entity1 = new Entity({200.0f, 200.0f}, &this->textures_, TEXTURE::ENEMY_1);
-	this->game_objects_.emplace_back(entity1);
+	this->game_objects_.emplace_back(Enemy::MakeRandomEnemy({ 550.0f, 0.0f }, &this->textures_));
+	this->game_objects_.emplace_back(Enemy::MakeRandomEnemy({ 300.0f, 200.0f }, &this->textures_));
 }
 
 Game::~Game()
@@ -28,7 +25,9 @@ void Game::LoadTextures()
 {
 	this->textures_.Add(TEXTURE::DEFAULT, "assets/test.png");
 	this->textures_.Add(TEXTURE::PLAYER, "assets/test_player_texture.png");
+	this->textures_.Add(TEXTURE::ENEMY_0, "assets/test_enemy_texture.png");
 	this->textures_.Add(TEXTURE::ENEMY_1, "assets/test_enemy_texture.png");
+	this->textures_.Add(TEXTURE::ENEMY_2, "assets/test_enemy_texture.png");
 	this->textures_.Add(TEXTURE::HP_BAR, "assets/hp_bar.png");
 	this->textures_.Add(TEXTURE::ITEM, "assets/item_1.png");
 	this->textures_.Add(TEXTURE::SELECTED_ITEM, "assets/selected_item.png");

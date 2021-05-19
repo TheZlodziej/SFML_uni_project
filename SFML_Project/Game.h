@@ -12,6 +12,7 @@
 #include "Entity.h"
 #include "Player.h"
 #include "Gun.h"
+#include "Enemy.h"
 #include <iostream>
 
 class Game

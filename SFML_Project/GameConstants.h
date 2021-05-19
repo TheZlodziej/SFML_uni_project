@@ -16,4 +16,8 @@ namespace GAME_CONST
 	const float ENTITY_MOVE_ACCELERATION = 10.0f;		// acceleration on keyboard input
 	const float MAX_ENTITY_VELOCITY = 50.0f;
 	const float MAX_ENTITY_ACCELERATION = 10.0f;
+
+	const float ENEMY_RANGE[] = { 150.0f, 200.0f, 250.0f };
+	const float ENEMY_STRENGTH[] = { 10.0f, 20.0f, 30.0f };
+	const float ENEMY_HP[] = { 1.0f, 1.5f, 3.0f };
 };

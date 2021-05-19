@@ -9,7 +9,9 @@ enum class GAME_OBJECT_TYPE
 {
 	ENTITY,
 	PLAYER,
-	ENEMY,
+	ENEMY_0,
+	ENEMY_1,
+	ENEMY_2,
 	ITEM
 };
 
