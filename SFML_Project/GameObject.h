@@ -36,6 +36,7 @@ public:
 	virtual void Update(const float& delta_time);
 	virtual void Draw(sf::RenderWindow& window)=0;
 	sf::Vector2f GetPosition() const;
+	float GetRadius() const;
 	Collider GetCollider();
 	sf::Texture& GetTexture();
 };

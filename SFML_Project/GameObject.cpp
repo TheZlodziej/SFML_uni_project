@@ -44,3 +44,10 @@ sf::Texture& GameObject::GetTexture()
 {
 	return this->textures_->Get(this->texture_);
 }
+
+float GameObject::GetRadius() const
+{
+	sf::FloatRect pos_rect = this->sprite_.getGlobalBounds();
+	float r = std::sqrt(pos_rect.width * pos_rect.width + pos_rect.height * pos_rect.height) * 0.5f;
+	return r;
+}
