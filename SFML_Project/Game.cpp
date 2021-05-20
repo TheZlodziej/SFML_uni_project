@@ -9,7 +9,10 @@ Game::Game() :
 	this->SetupPlayer();
 
 	//test game objects
-	this->game_objects_.emplace_back(Enemy::MakeRandomEnemy({ 550.0f, 0.0f }, &this->textures_));
+	Enemy* new_e = Enemy::MakeRandomEnemy({ 550.0f, 0.0f }, &this->textures_);
+	new_e->SetObjectToFollow(static_cast<Entity*>(this->game_objects_[0]));
+	this->game_objects_.emplace_back(new_e);
+
 	this->game_objects_.emplace_back(Enemy::MakeRandomEnemy({ 300.0f, 200.0f }, &this->textures_));
 }
 
@@ -75,20 +78,7 @@ void Game::ClearWindow()
 }
 
 void Game::UpdateGameObjects()
-{	
-	// tracking test with collision test // remove this later
-	Entity* e1 = static_cast<Entity*>(game_objects_[0]);
-	Entity* e = static_cast<Entity*>(game_objects_[1]);
-	float distance = DistanceVec2f(e1->GetPosition(), e->GetPosition());
-	if (distance <= 500.0f && distance >= 150.0f)
-	{
-		e->SetAcceleration(e->GetDirection(e1) * (3.0f / 5.0f * GAME_CONST::ENTITY_MOVE_ACCELERATION));
-	}
-	else
-	{
-		e->SetAcceleration(sf::Vector2f(0.0f, 0.0f));
-	}
-	
+{		
 	for (auto& game_obj : this->game_objects_)
 	{
 		game_obj->Update(this->delta_time_);

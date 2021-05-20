@@ -1,19 +1,63 @@
 #include "Enemy.h"
 
-Enemy::Enemy(const sf::Vector2f& position, TextureManager* textures, const GAME_OBJECT_TYPE& type, const TEXTURE& texture, const sf::Vector2f& velocity, const sf::Vector2f& acceleration, const float& strength, const float& hp, const sf::Vector2u& animation_frames, const float& animation_time, const float& range) :
+Enemy::Enemy(
+	const sf::Vector2f& position, 
+	TextureManager* textures, 
+	const float& range,
+	const float& follow_speed, 
+	const GAME_OBJECT_TYPE& type, 
+	const TEXTURE& texture, 
+	const sf::Vector2f& velocity, 
+	const sf::Vector2f& acceleration, 
+	const float& strength, const float& hp, 
+	const sf::Vector2u& animation_frames, 
+	const float& animation_time,
+	Entity* to_follow
+	) :
 	Entity(position, textures, texture, velocity, acceleration, strength, hp, type, animation_frames, animation_time),
-	range_(range)
+	range_(range),
+	follow_speed_(follow_speed),
+	to_follow_(to_follow)
 {}
 
 Enemy::~Enemy()
+{}
+
+void Enemy::SetObjectToFollow(Entity* obj)
 {
+	to_follow_ = obj;
+}
+
+void Enemy::Follow()
+{
+	if (this->to_follow_ == nullptr) { return; }
+
+	float distance = DistanceVec2f(this->to_follow_->GetPosition(), this->GetPosition());
+	
+	if (distance <= this->range_)
+	{
+		sf::Vector2f acc = this->GetDirection(this->to_follow_) * this->follow_speed_;
+		this->SetAcceleration(acc);
+	}
+	else
+	{
+		this->SetAcceleration(sf::Vector2f(0.0f, 0.0f));
+	}
+}
+
+void Enemy::StopFollowing()
+{
+	this->to_follow_ = nullptr;
 }
 
 Enemy* Enemy::MakeEnemy(const sf::Vector2f& spawn_position, TextureManager* textures, const GAME_OBJECT_TYPE& type, const TEXTURE& texture)
 {
 	return new Enemy(
 		spawn_position,
-		textures, type, 
+		textures, 
+		Enemy::GetEnemyRange(type),
+		Enemy::GetEnemyFollowSpeed(type),
+		type, 
 		texture, 
 		sf::Vector2f(0.0f,0.0f), 
 		sf::Vector2f(0.0f, 0.0f), 
@@ -21,7 +65,7 @@ Enemy* Enemy::MakeEnemy(const sf::Vector2f& spawn_position, TextureManager* text
 		Enemy::GetEnemyHp(type),
 		sf::Vector2u(1,1),
 		1.0f,
-		Enemy::GetEnemyRange(type)
+		nullptr
 	);
 }
 
@@ -34,7 +78,7 @@ Enemy* Enemy::MakeRandomEnemy(const sf::Vector2f& spawn_position, TextureManager
 std::pair<GAME_OBJECT_TYPE, TEXTURE> Enemy::GetRandomEnemy()
 {
 	unsigned int random_num = std::rand()%3; // random uint mod num of enemy types
-	
+	std::cout << random_num << "\n";
 	switch (random_num)
 	{
 	case 0:
@@ -100,4 +144,28 @@ float Enemy::GetEnemyHp(const GAME_OBJECT_TYPE& type)
 	default:
 		return GAME_CONST::ENEMY_HP[0];
 	}
+}
+
+float Enemy::GetEnemyFollowSpeed(const GAME_OBJECT_TYPE& type)
+{
+	switch (type)
+	{
+	case GAME_OBJECT_TYPE::ENEMY_0:
+		return GAME_CONST::ENEMY_FOLLOW_ACCELERATION[0];
+
+	case GAME_OBJECT_TYPE::ENEMY_1:
+		return GAME_CONST::ENEMY_FOLLOW_ACCELERATION[1];
+
+	case GAME_OBJECT_TYPE::ENEMY_2:
+		return GAME_CONST::ENEMY_FOLLOW_ACCELERATION[2];
+
+	default:
+		return GAME_CONST::ENEMY_FOLLOW_ACCELERATION[0];
+	}
+}
+
+void Enemy::Update(const float& delta_time)
+{
+	Entity::Update(delta_time);
+	this->Follow();
 }
