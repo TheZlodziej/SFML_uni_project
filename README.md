@@ -1,6 +1,4 @@
 # TODO
-- [ ] add Random class (GetRandomEnemy(), GetRandomFloat(range), etc.)
-- [ ] add child classes to Enemy
 - [x] add sprite animations
 - [ ] add different states to animation (so it's easy to control (now you have to give it a row index)
 - [x] implement HUD
