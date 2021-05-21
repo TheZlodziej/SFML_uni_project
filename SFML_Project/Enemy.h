@@ -6,7 +6,7 @@ class Enemy : public Entity
 {
 private:
 	float range_;		 // range in which enemy can track the player
-	float follow_speed_; // acceleration value (defuned in GameConstants.h)
+	float follow_speed_; // acceleration value (defined in GameConstants.h)
 	Entity* to_follow_;
 	
 public:
