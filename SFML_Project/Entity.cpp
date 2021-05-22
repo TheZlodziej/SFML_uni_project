@@ -100,6 +100,13 @@ void Entity::LoseHp(const float& amount)
 	//}
 }
 
+void Entity::LookAt(GameObject* object)
+{
+	sf::Vector2f object_pos = object->GetSprite().getPosition() - this->sprite_.getPosition();
+	float angle = std::atan2(object_pos.y, object_pos.x) * 180.0f / GAME_CONST::PI;
+	this->sprite_.setRotation(angle + 90.0f);
+}
+
 sf::Vector2f Entity::GetDirection(const Entity* entity) const
 {
 	return NormalizeVec2f(entity->sprite_.getPosition() - this->sprite_.getPosition());

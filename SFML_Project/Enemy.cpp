@@ -38,6 +38,7 @@ void Enemy::Follow()
 	{
 		sf::Vector2f acc = this->GetDirection(this->to_follow_) * this->follow_speed_;
 		this->SetAcceleration(acc);
+		this->LookAt(this->to_follow_);
 	}
 	else
 	{

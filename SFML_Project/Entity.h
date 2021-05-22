@@ -48,5 +48,6 @@ public:
 	sf::Vector2f GetDirection(const Entity* entity) const;		// returns direction to entity given in argument
 	sf::Vector2f GetAcceleration() const;						// remove later maybe?? (not used)
 	void LoseHp(const float& amount);							// removes % of players hp -> new hp = (curr hp - arg)%
+	void LookAt(GameObject* object);							// rotates entity to look at specific object
 };
 
