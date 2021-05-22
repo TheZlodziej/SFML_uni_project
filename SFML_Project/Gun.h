@@ -1,5 +1,9 @@
 #pragma once
 #include "Item.h"
+
+//debug
+#include <iostream>
+
 class Gun : public Item
 {
 private:

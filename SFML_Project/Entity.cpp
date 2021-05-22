@@ -3,7 +3,7 @@
 Entity::Entity(const sf::Vector2f& position, TextureManager* textures, const TEXTURE& texture, const sf::Vector2f& velocity, const sf::Vector2f& acceleration, const float& strength, const float& hp, const GAME_OBJECT_TYPE& type, const sf::Vector2u& animation_frames, const float& animation_time) :
 	GameObject(position, type, textures, texture, animation_frames, animation_time),
 	velocity_(velocity),
-	hp_(hp),
+	hp_bar_(hp),
 	acceleration_(acceleration),
 	strength_(strength)
 {}
@@ -13,15 +13,18 @@ Entity::~Entity() {}
 void Entity::Draw(sf::RenderWindow& window)
 {
 	window.draw(this->sprite_);
+	this->hp_bar_.Draw(window);
 }
 
 void Entity::Update(const float& delta_time)
 {
 	GameObject::Update(delta_time);
+	this->inventory_.Update(delta_time);
 	this->UpdateAcceleration();
 	this->UpdateVelocity(delta_time);
 	this->ApplyDrag();
 	this->Move();
+	this->hp_bar_.Update(this);
 }
 
 void Entity::UpdateVelocity(const float& delta_time)
@@ -61,26 +64,32 @@ void Entity::Stop()
 	this->velocity_ = sf::Vector2f(0.0f, 0.0f);
 }
 
+void Entity::UseItem()
+{
+	Item* it = this->inventory_.GetCurrentItem();
+
+	if (it != nullptr)
+	{
+		it->Use();
+	}
+}
+
 sf::Vector2f Entity::GetAcceleration() const 
 {
 	return this->acceleration_;
 }
 
-float Entity::GetHp() const
+void Entity::LoseHp(const float& amount)
 {
-	return this->hp_;
-}
+	float new_hp = this->hp_bar_.hp - amount;
 
-void Entity::LoseHp(const float& percentage)
-{
-	float new_hp = this->hp_ - percentage;
 	if (new_hp > 0.0f)
 	{
-		this->hp_ = new_hp;
+		this->hp_bar_.hp = new_hp;
 	}
 	else
 	{
-		this->hp_ = 0.0f;
+		this->hp_bar_.hp = 0.0f;
 	}
 
 	//this->hp_ -= percentage;

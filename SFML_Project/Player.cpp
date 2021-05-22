@@ -10,8 +10,7 @@ Player::Player(const sf::Vector2f& position,
 				const GAME_OBJECT_TYPE& type,
 				const sf::Vector2u& animation_frames,
 				const float& animation_time):
-	Entity(position, textures, texture, velocity, acceleration, strength, hp, type, animation_frames, animation_time),
-	hud_(textures)
+	Entity(position, textures, texture, velocity, acceleration, strength, hp, type, animation_frames, animation_time)
 {}
 
 Player::~Player()
@@ -38,11 +37,11 @@ void Player::LookAtMouse(const sf::RenderWindow& window)
 void Player::Draw(sf::RenderWindow& window)
 {
 	Entity::Draw(window);
-	this->hud_.Draw(window);
+	this->inventory_.Draw(window);
 }
 
 void Player::Update(const float& delta_time)
 {
 	Entity::Update(delta_time);
-	this->hud_.Update(this);
+	this->inventory_.Update(delta_time);
 }

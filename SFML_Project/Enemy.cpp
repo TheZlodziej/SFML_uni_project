@@ -78,7 +78,6 @@ Enemy* Enemy::MakeRandomEnemy(const sf::Vector2f& spawn_position, TextureManager
 std::pair<GAME_OBJECT_TYPE, TEXTURE> Enemy::GetRandomEnemy()
 {
 	unsigned int random_num = std::rand()%3; // random uint mod num of enemy types
-	std::cout << random_num << "\n";
 	switch (random_num)
 	{
 	case 0:

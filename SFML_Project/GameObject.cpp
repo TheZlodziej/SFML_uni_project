@@ -51,3 +51,8 @@ float GameObject::GetRadius() const
 	float r = std::sqrt(pos_rect.width * pos_rect.width + pos_rect.height * pos_rect.height) * 0.5f;
 	return r;
 }
+
+sf::Sprite& GameObject::GetSprite()
+{
+	return this->sprite_;
+}

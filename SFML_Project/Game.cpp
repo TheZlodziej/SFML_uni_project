@@ -171,7 +171,12 @@ void Game::HandlePlayerInventory()
 		{
 			inv->SetCurrentItemIdx(i - sf::Keyboard::Num0 - 1);
 		}
-	}	
+	}
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+	{
+		player->UseItem();
+	}
 }
 
 void Game::MouseInput()

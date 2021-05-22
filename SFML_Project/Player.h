@@ -1,13 +1,12 @@
 #pragma once
 
 #include "Entity.h"
-#include "HUD.h"
 #include <cmath>
 
 class Player : public Entity
 {
 private:
-	HUD hud_;
+
 public:
 	Player(const sf::Vector2f& position,
 		TextureManager* textures,

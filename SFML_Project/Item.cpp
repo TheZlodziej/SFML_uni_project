@@ -24,7 +24,7 @@ bool Item::CanUse() const
 
 void Item::Draw(sf::RenderWindow& window)
 {
-	
+	window.draw(this->sprite_);
 }
 
 void Item::Update(const float& delta_time)

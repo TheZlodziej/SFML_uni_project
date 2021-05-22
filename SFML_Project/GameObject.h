@@ -39,5 +39,6 @@ public:
 	float GetRadius() const;
 	Collider GetCollider();
 	sf::Texture& GetTexture();
+	sf::Sprite& GetSprite();
 };
 

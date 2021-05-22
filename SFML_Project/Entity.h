@@ -8,6 +8,7 @@
 #include "Inventory.h"
 #include "GameConstants.h"
 #include "HelperFunctions.h"
+#include "HpBar.h"
 
 //debug
 #include <iostream>
@@ -16,7 +17,7 @@ class Entity : public GameObject
 {
 protected:
 	float strength_;
-	float hp_;
+	HpBar hp_bar_;
 	sf::Vector2f velocity_;
 	sf::Vector2f acceleration_;
 	Inventory inventory_;
@@ -42,10 +43,10 @@ public:
 	void UpdateAcceleration();									// updates entity's acceleration
 	void Move();												// calls sf::Sprite::move function
 	void Stop();												// stops movement of the object (sets vel & acc to 0)
+	void UseItem();												// calls Use() on item that is currently selected
 	void UpdateVelocity(const float& delta_time);				// updates entity's velocity
 	sf::Vector2f GetDirection(const Entity* entity) const;		// returns direction to entity given in argument
 	sf::Vector2f GetAcceleration() const;						// remove later maybe?? (not used)
-	float GetHp() const;										// returns percentage of hp
-	void LoseHp(const float& percentage);						// removes % of players hp -> new hp = (curr hp - arg)%
+	void LoseHp(const float& amount);							// removes % of players hp -> new hp = (curr hp - arg)%
 };
 

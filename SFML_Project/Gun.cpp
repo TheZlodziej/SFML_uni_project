@@ -20,5 +20,7 @@ void Gun::Use()
 	{
 		this->time_after_use_ = 0.0f;
 		// ... 
+		std::cout << "boom\n";
+		// ...
 	}
 }

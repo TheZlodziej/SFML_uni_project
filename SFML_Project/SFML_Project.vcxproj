@@ -162,7 +162,7 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Gun.cpp" />
     <ClCompile Include="HelperFunctions.cpp" />
-    <ClCompile Include="HUD.cpp" />
+    <ClCompile Include="HpBar.cpp" />
     <ClCompile Include="Inventory.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="main.cpp" />
@@ -180,7 +180,7 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Gun.h" />
     <ClInclude Include="HelperFunctions.h" />
-    <ClInclude Include="HUD.h" />
+    <ClInclude Include="HpBar.h" />
     <ClInclude Include="Inventory.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="Player.h" />
