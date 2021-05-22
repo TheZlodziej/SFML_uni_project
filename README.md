@@ -1,8 +1,12 @@
 # TODO
 - [x] add sprite animations
+- [x] remake hud
+- [x] add enemies rotating to player when in range
+- [x] add different types of enemies
+- [ ] make sprites
 - [ ] add different states to animation (so it's easy to control (now you have to give it a row index)
 - [x] implement HUD
-- [ ] make hud look good (add everthing)
+- [x] make hud look good (add everthing)
 - [x] Add inventory displaying
 - [ ] Add custom cursor (or hide it)
 - [ ] Add surroundings (terrain)
