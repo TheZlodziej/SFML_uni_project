@@ -19,7 +19,7 @@ void Entity::Draw(sf::RenderWindow& window)
 void Entity::Update(const float& delta_time)
 {
 	GameObject::Update(delta_time);
-	this->inventory_.Update(delta_time);
+	this->inventory_.Update(this, delta_time);
 	this->UpdateAcceleration();
 	this->UpdateVelocity(delta_time);
 	this->ApplyDrag();

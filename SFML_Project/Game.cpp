@@ -74,7 +74,7 @@ void Game::HandleWindowEvents()
 
 void Game::ClearWindow()
 {
-	this->window_.clear(sf::Color(19,58,43));
+	this->window_.clear(sf::Color(GAME_CONST::BG_R, GAME_CONST::BG_G, GAME_CONST::BG_B));
 }
 
 void Game::UpdateGameObjects()

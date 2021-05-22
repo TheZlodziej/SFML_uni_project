@@ -2,8 +2,19 @@
 
 Inventory::Inventory():
 	curr_item_idx_(0),
-	capacity_(6)
-{}
+	capacity_(6),
+	view_size_(1.0f, 1.0f)
+{
+	using namespace GAME_CONST;
+
+	this->items_bg_.setFillColor(sf::Color(ITEMS_BG_R, ITEMS_BG_G, ITEMS_BG_B));
+	this->items_bg_.setSize(sf::Vector2f(INVENTORY_ITEM_SIZE * this->capacity_, INVENTORY_ITEM_SIZE));
+	this->items_bg_.setOrigin(sf::Vector2f(INVENTORY_ITEM_SIZE, INVENTORY_ITEM_SIZE));
+
+	this->selected_item_bg_.setFillColor(sf::Color(SELECTED_ITEM_R, SELECTED_ITEM_G, SELECTED_ITEM_B));
+	this->selected_item_bg_.setSize(sf::Vector2f(INVENTORY_ITEM_SIZE, INVENTORY_ITEM_SIZE));
+	this->selected_item_bg_.setOrigin(sf::Vector2f(INVENTORY_ITEM_SIZE, INVENTORY_ITEM_SIZE));
+}
 
 Inventory::~Inventory()
 {
@@ -41,29 +52,21 @@ void Inventory::Remove(const unsigned int& item_idx)
 		item_it = this->items_.erase(item_it);
 	}
 }
-#include <iostream>
-void Inventory::Draw(sf::RenderWindow& window) const
+
+void Inventory::Draw(sf::RenderWindow& window)
 {
-	// draw empty square && draw item miniature inside
+	this->view_size_ = sf::Vector2f(window.getView().getSize());
+	window.draw(this->items_bg_);
+	window.draw(this->selected_item_bg_);
+
 	for (unsigned int i = 0; i < this->GetCapacity(); i++)
 	{
-		std::cout << " " << i;
-		// draw square
-		if (i == this->curr_item_idx_)
-		{
-			// make it stand out
-			std::cout << "<-";
-			
-		}
-
 		if (i < this->GetSize())
 		{
 			sf::Sprite* sprite = &this->items_[i]->GetSprite();
-			sprite->setPosition(i*100.0f, 100.0f);
 			this->items_[i]->Draw(window);
 		}
 	}
-	std::cout << "\n";
 }
 
 unsigned int Inventory::GetCurrentItemIndex() const
@@ -96,10 +99,39 @@ Item* Inventory::GetCurrentItem()
 	return nullptr;
 }
 
-void Inventory::Update(const float& delta_time)
+void Inventory::Update(GameObject* relative_to, const float& delta_time)
+{
+	this->UpdateItems(delta_time);
+	this->UpdatePosition(relative_to);
+}
+
+void Inventory::UpdateItems(const float& delta_time)
 {
 	for (auto& it : this->items_)
 	{
 		it->Update(delta_time);
+	}
+}
+
+void Inventory::UpdatePosition(GameObject* relative_to)
+{
+	using namespace GAME_CONST;
+
+	sf::Vector2f pos = relative_to->GetPosition();
+	sf::Vector2f offset(INVENTORY_OFFSET_X, INVENTORY_OFFSET_Y);
+	ScaleVec2f(offset, this->view_size_);
+
+	this->items_bg_.setPosition(pos + offset);
+	this->selected_item_bg_.setPosition(pos + offset + sf::Vector2f(INVENTORY_ITEM_SIZE * this->GetCurrentItemIndex(), 0.0f));
+
+	for (unsigned int i = 0; i < this->GetSize(); i++)
+	{
+		sf::Sprite* it_spr = &this->items_[i]->GetSprite();
+		float it_offset_x = INVENTORY_OFFSET_X - INVENTORY_ITEM_SIZE * 0.5f + INVENTORY_ITEM_SIZE * i;
+		float it_offset_y = INVENTORY_OFFSET_Y - INVENTORY_ITEM_SIZE * 0.5f;
+		sf::Vector2f item_offset(it_offset_x, it_offset_y);
+		ScaleVec2f(item_offset, this->view_size_);
+
+		it_spr->setPosition(pos+item_offset);
 	}
 }

@@ -24,7 +24,24 @@ namespace GAME_CONST
 	
 	const float HP_BAR_HEIGHT = 10.0f;
 	const float HP_BAR_WIDTH = 120.0f;
+	const float HP_BAR_OFFSET = 30.0f;
 	const unsigned int HP_BAR_R = 220;
 	const unsigned int HP_BAR_G = 0;
 	const unsigned int HP_BAR_B = 44;
+
+	const float INVENTORY_OFFSET_X = -CAMERA_WIDTH * 0.75f;
+	const float INVENTORY_OFFSET_Y = CAMERA_HEIGHT * 0.5f;
+	const float INVENTORY_ITEM_SIZE = 50.0f;			// it is a square so no need for 2 variables
+
+	const unsigned int ITEMS_BG_R = 74;
+	const unsigned int ITEMS_BG_G = 169;
+	const unsigned int ITEMS_BG_B = 108;
+
+	const unsigned int SELECTED_ITEM_R = 159;
+	const unsigned int SELECTED_ITEM_G = 230;
+	const unsigned int SELECTED_ITEM_B = 160;
+
+	const unsigned int BG_R = 19;
+	const unsigned int BG_G = 58;
+	const unsigned int BG_B = 43;
 };

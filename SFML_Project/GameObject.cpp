@@ -14,8 +14,8 @@ GameObject::GameObject(const sf::Vector2f& position, const GAME_OBJECT_TYPE& typ
 	this->sprite_.setTextureRect(this->animation_.GetFrameRect());
 
 	//set origin of the entity to center
-	float mid_point_x = this->sprite_.getLocalBounds().width / 2.0f;
-	float mid_point_y = this->sprite_.getLocalBounds().height / 2.0f;
+	float mid_point_x = this->sprite_.getLocalBounds().width * 0.5f;
+	float mid_point_y = this->sprite_.getLocalBounds().height * 0.5f;
 
 	this->sprite_.setOrigin(mid_point_x, mid_point_y);
 }

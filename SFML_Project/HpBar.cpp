@@ -16,7 +16,7 @@ void HpBar::UpdatePosition(GameObject* relative_to)
 	sf::Sprite* sprite = &relative_to->GetSprite();
 	sf::Vector2f pos = sprite->getPosition();
 
-	float offset =  -sprite->getGlobalBounds().height * 0.5f - 30.0f;
+	float offset =  -sprite->getGlobalBounds().height * 0.5f - GAME_CONST::HP_BAR_OFFSET;
 	pos.y += offset;
 
 	this->bar.setPosition(pos);
