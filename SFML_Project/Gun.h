@@ -16,7 +16,8 @@ public:
 		const TEXTURE& texture = TEXTURE::ITEM_GUN,
 		const GAME_OBJECT_TYPE& type = GAME_OBJECT_TYPE::ITEM,
 		const sf::Vector2u& animation_frames = sf::Vector2u(2, 1),
-		const float& animation_time = 1.0f
+		const float& animation_time = 1.0f,
+		const float& push_back_force = 1.0f
 	);
 	virtual ~Gun();
 	virtual void Use() override;

@@ -9,12 +9,14 @@ Enemy::Enemy(
 	const TEXTURE& texture, 
 	const sf::Vector2f& velocity, 
 	const sf::Vector2f& acceleration, 
-	const float& strength, const float& hp, 
+	const float& strength, 
+	const float& hp, 
+	const float& push_back_force,
 	const sf::Vector2u& animation_frames, 
 	const float& animation_time,
 	Entity* to_follow
 	) :
-	Entity(position, textures, texture, velocity, acceleration, strength, hp, type, animation_frames, animation_time),
+	Entity(position, textures, texture, velocity, acceleration, strength, hp, push_back_force, type, animation_frames, animation_time),
 	range_(range),
 	follow_speed_(follow_speed),
 	to_follow_(to_follow)
@@ -64,6 +66,7 @@ Enemy* Enemy::MakeEnemy(const sf::Vector2f& spawn_position, TextureManager* text
 		sf::Vector2f(0.0f, 0.0f), 
 		Enemy::GetEnemyStrength(type),
 		Enemy::GetEnemyHp(type),
+		Enemy::GetEnemyPushBackForce(type),
 		sf::Vector2u(1,1),
 		1.0f,
 		nullptr
@@ -161,6 +164,24 @@ float Enemy::GetEnemyFollowSpeed(const GAME_OBJECT_TYPE& type)
 
 	default:
 		return GAME_CONST::ENEMY_FOLLOW_ACCELERATION[0];
+	}
+}
+
+float Enemy::GetEnemyPushBackForce(const GAME_OBJECT_TYPE& type)
+{
+	switch (type)
+	{
+	case GAME_OBJECT_TYPE::ENEMY_0:
+		return GAME_CONST::ENEMY_PUSH_BACK_FORCE[0];
+
+	case GAME_OBJECT_TYPE::ENEMY_1:
+		return GAME_CONST::ENEMY_PUSH_BACK_FORCE[1];
+
+	case GAME_OBJECT_TYPE::ENEMY_2:
+		return GAME_CONST::ENEMY_PUSH_BACK_FORCE[2];
+
+	default:
+		return GAME_CONST::ENEMY_PUSH_BACK_FORCE[0];
 	}
 }
 

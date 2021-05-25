@@ -1,11 +1,12 @@
 #include "GameObject.h"
 
-GameObject::GameObject(const sf::Vector2f& position, const GAME_OBJECT_TYPE& type, TextureManager* textures, const TEXTURE& texture, const sf::Vector2u& animation_frames, const float& animation_time):
+GameObject::GameObject(const sf::Vector2f& position, const GAME_OBJECT_TYPE& type, TextureManager* textures, const TEXTURE& texture, const float& push_back_force, const sf::Vector2u& animation_frames, const float& animation_time):
 	sprite_(sf::Sprite()),
 	type_(type),
 	textures_(textures),
 	texture_(texture),
-	animation_(textures->Get(texture), animation_frames, animation_time)
+	animation_(textures->Get(texture), animation_frames, animation_time),
+	push_back_force_(std::clamp(push_back_force, 0.0f, 1.0f))
 {
 	this->sprite_.setPosition(position);
 
@@ -55,4 +56,14 @@ float GameObject::GetRadius() const
 sf::Sprite& GameObject::GetSprite()
 {
 	return this->sprite_;
+}
+
+float GameObject::GetPushBackForce() const
+{
+	return this->push_back_force_;
+}
+
+void GameObject::Draw(sf::RenderWindow& window)
+{
+	window.draw(this->sprite_);
 }

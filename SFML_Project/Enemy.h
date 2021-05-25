@@ -20,6 +20,7 @@ public:
 		const sf::Vector2f& acceleration = sf::Vector2f(0.0f, 0.0f),
 		const float& strength = 10.0f,
 		const float& hp = 1.0f,
+		const float& push_back_force = 0.5f,
 		const sf::Vector2u& animation_frames = sf::Vector2u(1, 1),
 		const float& animation_time = 1.0f,
 		Entity* to_follow = nullptr
@@ -35,6 +36,7 @@ public:
 	static float GetEnemyStrength(const GAME_OBJECT_TYPE& type);
 	static float GetEnemyHp(const GAME_OBJECT_TYPE& type);
 	static float GetEnemyFollowSpeed(const GAME_OBJECT_TYPE& type);
+	static float GetEnemyPushBackForce(const GAME_OBJECT_TYPE& type);
 	virtual void Update(const float& delta_time) override;
 };
 

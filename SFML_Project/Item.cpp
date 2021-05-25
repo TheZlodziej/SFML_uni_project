@@ -4,11 +4,12 @@ Item::Item(const sf::Vector2f& position,
 			const unsigned int& durability, 
 			TextureManager* textures,
 			const float& cooldown,
-			const TEXTURE& texture, 
+			const TEXTURE& texture,
 			const GAME_OBJECT_TYPE& type,
 			const sf::Vector2u& animation_frames,
-			const float& animation_time):
-	GameObject(position, type, textures, texture, animation_frames, animation_time),
+			const float& animation_time,
+			const float& push_back_force):
+	GameObject(position, type, textures, texture, push_back_force, animation_frames, animation_time),
 	uses_(0u),
 	durability_(durability),
 	time_after_use_(cooldown),
@@ -25,7 +26,7 @@ bool Item::CanUse() const
 
 void Item::Draw(sf::RenderWindow& window)
 {
-	window.draw(this->sprite_);
+	GameObject::Draw(window);
 }
 
 void Item::Update(const float& delta_time)

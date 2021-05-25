@@ -12,7 +12,8 @@ enum class GAME_OBJECT_TYPE
 	ENEMY_0,
 	ENEMY_1,
 	ENEMY_2,
-	ITEM
+	ITEM,
+	TERRAIN
 };
 
 class GameObject
@@ -23,22 +24,25 @@ protected:
 	TextureManager* textures_;
 	TEXTURE texture_;
 	Animation animation_;
+	float push_back_force_;
 
 public:
 	GameObject(const sf::Vector2f& position,
 			const GAME_OBJECT_TYPE& type, 
 			TextureManager* textures, 
-			const TEXTURE& texture = TEXTURE::DEFAULT, 
+			const TEXTURE& texture = TEXTURE::DEFAULT,
+			const float& push_back_force = 0.5f,
 			const sf::Vector2u& animation_frames = { 1,1 }, 
 			const float& animation_time=1.0f);
 	virtual ~GameObject();
 
 	virtual void Update(const float& delta_time);
-	virtual void Draw(sf::RenderWindow& window)=0;
+	virtual void Draw(sf::RenderWindow& window);
 	sf::Vector2f GetPosition() const;
 	float GetRadius() const;
 	Collider GetCollider();
 	sf::Texture& GetTexture();
 	sf::Sprite& GetSprite();
+	float GetPushBackForce() const;
 };
 

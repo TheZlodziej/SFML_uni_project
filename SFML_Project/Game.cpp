@@ -16,6 +16,9 @@ Game::Game() :
 	this->game_objects_.emplace_back(Enemy::MakeRandomEnemy({ 300.0f, 200.0f }, &this->textures_));
 
 	this->game_objects_.emplace_back(new Gun({100.0f, 100.0f}, 10, &this->textures_));
+
+	this->game_objects_.emplace_back(Terrain::MakeTerrain(TERRAIN::TREE, &this->textures_, { 200.0f, 300.0f }));
+	this->game_objects_.emplace_back(Terrain::MakeTerrain(TERRAIN::WALL, &this->textures_, { -200.0f, -300.0f }));
 }
 
 Game::~Game()
@@ -38,6 +41,8 @@ void Game::LoadTextures()
 	this->textures_.Add(TEXTURE::SELECTED_ITEM, "assets/selected_item.png");
 	this->textures_.Add(TEXTURE::ITEM_BG, "assets/items_bg.png");
 	this->textures_.Add(TEXTURE::ITEM_GUN, "assets/item_gun.png");
+	this->textures_.Add(TEXTURE::TREE, "assets/tree.png");
+	this->textures_.Add(TEXTURE::WALL, "assets/wall.png");
 }
 
 void Game::SetupCamera()
@@ -89,7 +94,7 @@ void Game::UpdateGameObjects()
 	for (unsigned int i = 1; i < this->game_objects_.size(); i++)
 	{
 		Collider playerCollider = this->game_objects_[0]->GetCollider();
-		this->game_objects_[i]->GetCollider().CheckCollision(playerCollider, .5f);
+		this->game_objects_[i]->GetCollider().CheckCollision(playerCollider, this->game_objects_[i]->GetPushBackForce());
 	}
 }
 

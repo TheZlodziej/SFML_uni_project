@@ -13,6 +13,7 @@
 #include "Player.h"
 #include "Gun.h"
 #include "Enemy.h"
+#include "Terrain.h"
 #include <iostream>
 
 class Game

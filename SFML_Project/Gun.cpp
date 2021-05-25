@@ -7,8 +7,9 @@ Gun::Gun(const sf::Vector2f& position,
 	const TEXTURE& texture, 
 	const GAME_OBJECT_TYPE& type, 
 	const sf::Vector2u& animation_frames,
-	const float& animation_time):
-Item(position, durability, textures, cooldown, texture, type, animation_frames, animation_time)
+	const float& animation_time,
+	const float& push_back_force):
+Item(position, durability, textures, cooldown, texture, type, animation_frames, animation_time, push_back_force)
 {}
 
 Gun::~Gun()

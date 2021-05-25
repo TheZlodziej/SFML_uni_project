@@ -9,7 +9,6 @@ enum class TERRAIN {
 class Terrain : public GameObject
 {
 private:
-	float push_back_force_;
 public:
 	Terrain(const float& push_back_force,
 		const sf::Vector2f& position,
@@ -21,8 +20,8 @@ public:
 		const float& animation_time = 1.0f);
 	virtual ~Terrain();
 
-	static Terrain* MakeTree(const sf::Vector2f& scale);
-	static Terrain* MakeWall(const sf::Vector2f& scale);
-	static Terrain* MakeTerrain(const TERRAIN& type, const sf::Vector2f& scale = {1.0f, 1.0f});
+	static Terrain* MakeTree(const sf::Vector2f& position, TextureManager* textures, const sf::Vector2f& scale);
+	static Terrain* MakeWall(const sf::Vector2f& position, TextureManager* textures, const sf::Vector2f& scale);
+	static Terrain* MakeTerrain(const TERRAIN& type, TextureManager* textures, const sf::Vector2f& position, const sf::Vector2f& scale = {1.0f, 1.0f});
 };
 

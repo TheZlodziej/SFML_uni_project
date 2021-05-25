@@ -1,7 +1,7 @@
 #include "Entity.h"
 
-Entity::Entity(const sf::Vector2f& position, TextureManager* textures, const TEXTURE& texture, const sf::Vector2f& velocity, const sf::Vector2f& acceleration, const float& strength, const float& hp, const GAME_OBJECT_TYPE& type, const sf::Vector2u& animation_frames, const float& animation_time) :
-	GameObject(position, type, textures, texture, animation_frames, animation_time),
+Entity::Entity(const sf::Vector2f& position, TextureManager* textures, const TEXTURE& texture, const sf::Vector2f& velocity, const sf::Vector2f& acceleration, const float& strength, const float& hp, const float& push_back_force, const GAME_OBJECT_TYPE& type, const sf::Vector2u& animation_frames, const float& animation_time) :
+	GameObject(position, type, textures, texture, push_back_force, animation_frames, animation_time),
 	velocity_(velocity),
 	hp_bar_(hp),
 	acceleration_(acceleration),
@@ -12,7 +12,7 @@ Entity::~Entity() {}
 
 void Entity::Draw(sf::RenderWindow& window)
 {
-	window.draw(this->sprite_);
+	GameObject::Draw(window);
 	this->hp_bar_.Draw(window);
 }
 
