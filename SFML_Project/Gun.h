@@ -15,7 +15,7 @@ public:
 		const float& cooldown = 1.0f,
 		const TEXTURE& texture = TEXTURE::ITEM_GUN,
 		const GAME_OBJECT_TYPE& type = GAME_OBJECT_TYPE::ITEM,
-		const sf::Vector2u& animation_frames = sf::Vector2u(1, 1),
+		const sf::Vector2u& animation_frames = sf::Vector2u(2, 1),
 		const float& animation_time = 1.0f
 	);
 	virtual ~Gun();
