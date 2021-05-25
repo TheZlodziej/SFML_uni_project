@@ -6,7 +6,7 @@ GameObject::GameObject(const sf::Vector2f& position, const GAME_OBJECT_TYPE& typ
 	textures_(textures),
 	texture_(texture),
 	animation_(textures->Get(texture), animation_frames, animation_time),
-	push_back_force_(std::clamp(push_back_force, 0.0f, 1.0f))
+	push_back_force_(push_back_force)
 {
 	this->sprite_.setPosition(position);
 
@@ -61,6 +61,11 @@ sf::Sprite& GameObject::GetSprite()
 float GameObject::GetPushBackForce() const
 {
 	return this->push_back_force_;
+}
+
+GAME_OBJECT_TYPE GameObject::GetType() const
+{
+	return this->type_;
 }
 
 void GameObject::Draw(sf::RenderWindow& window)

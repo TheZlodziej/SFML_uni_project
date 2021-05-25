@@ -43,6 +43,7 @@ public:
 	Collider GetCollider();
 	sf::Texture& GetTexture();
 	sf::Sprite& GetSprite();
+	GAME_OBJECT_TYPE GetType() const;
 	float GetPushBackForce() const;
 };
 

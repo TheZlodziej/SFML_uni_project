@@ -14,7 +14,7 @@ public:
 		TextureManager* textures,
 		const float& range,
 		const float& follow_speed,
-		const GAME_OBJECT_TYPE& type = GAME_OBJECT_TYPE::ENEMY_1,
+		const GAME_OBJECT_TYPE& type = GAME_OBJECT_TYPE::ENEMY_0,
 		const TEXTURE& texture = TEXTURE::ENEMY_1,
 		const sf::Vector2f& velocity = sf::Vector2f(0.0f, 0.0f),
 		const sf::Vector2f& acceleration = sf::Vector2f(0.0f, 0.0f),

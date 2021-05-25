@@ -33,9 +33,9 @@ void Game::LoadTextures()
 {
 	this->textures_.Add(TEXTURE::DEFAULT, "assets/test.png");
 	this->textures_.Add(TEXTURE::PLAYER, "assets/test_player_texture.png");
-	this->textures_.Add(TEXTURE::ENEMY_0, "assets/test_enemy_texture.png");
-	this->textures_.Add(TEXTURE::ENEMY_1, "assets/test_enemy_texture.png");
-	this->textures_.Add(TEXTURE::ENEMY_2, "assets/test_enemy_texture.png");
+	this->textures_.Add(TEXTURE::ENEMY_0, "assets/test_enemy_texture_0.png");
+	this->textures_.Add(TEXTURE::ENEMY_1, "assets/test_enemy_texture_1.png");
+	this->textures_.Add(TEXTURE::ENEMY_2, "assets/test_enemy_texture_2.png");
 	this->textures_.Add(TEXTURE::HP_BAR, "assets/hp_bar.png");
 	this->textures_.Add(TEXTURE::ITEM, "assets/item_1.png");
 	this->textures_.Add(TEXTURE::SELECTED_ITEM, "assets/selected_item.png");
@@ -91,10 +91,30 @@ void Game::UpdateGameObjects()
 		game_obj->Update(this->delta_time_);
 	}
 
-	for (unsigned int i = 1; i < this->game_objects_.size(); i++)
+	for (unsigned int i = 0; i < this->game_objects_.size(); i++)
 	{
-		Collider playerCollider = this->game_objects_[0]->GetCollider();
-		this->game_objects_[i]->GetCollider().CheckCollision(playerCollider, this->game_objects_[i]->GetPushBackForce());
+		Collider obj1_collider = this->game_objects_[i]->GetCollider();
+		for (unsigned int j = 0; j < this->game_objects_.size(); j++)
+		{
+			if (this->game_objects_[i] != this->game_objects_[j])
+			{
+				Collider obj2_collider = this->game_objects_[j]->GetCollider();
+				if (obj2_collider.CheckCollision(obj1_collider, this->game_objects_[j]->GetPushBackForce()))
+				{
+					//test with items // add it elsewhere
+					auto can_recieve_item = [=](GameObject* obj) {
+						GAME_OBJECT_TYPE t = obj->GetType();
+						return t == GAME_OBJECT_TYPE::PLAYER || t == GAME_OBJECT_TYPE::ENEMY_1 || t == GAME_OBJECT_TYPE::ENEMY_2 || t == GAME_OBJECT_TYPE::ENEMY_0;
+					};
+
+					if (this->game_objects_[j]->GetType() == GAME_OBJECT_TYPE::ITEM && can_recieve_item(this->game_objects_[i]))
+					{
+						static_cast<Player*>(this->game_objects_[i])->GetInventory()->Add(static_cast<Item*>(this->game_objects_[j]));
+						this->game_objects_.erase(this->game_objects_.begin() + j);
+					}
+				}
+			}
+		}
 	}
 }
 
@@ -143,6 +163,15 @@ void Game::HandlePlayerMovement()
 		player->LoseHp(0.01f);
 	}
 	//endtest
+
+	//test enemy
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::R))
+	{
+		Enemy* e = Enemy::MakeRandomEnemy({ float(rand() % 1000), float(rand() % 1000) }, &this->textures_);
+		e->SetObjectToFollow(static_cast<Entity*>(this->game_objects_[0]));
+		this->game_objects_.emplace_back(e);
+	}
+	//end test
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 	{
