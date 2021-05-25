@@ -14,6 +14,8 @@ Game::Game() :
 	this->game_objects_.emplace_back(new_e);
 
 	this->game_objects_.emplace_back(Enemy::MakeRandomEnemy({ 300.0f, 200.0f }, &this->textures_));
+
+	this->game_objects_.emplace_back(new Gun({100.0f, 100.0f}, 10, &this->textures_));
 }
 
 Game::~Game()
@@ -121,7 +123,7 @@ void Game::HandlePlayerMovement()
 	Player* player = static_cast<Player*>(this->game_objects_[0]);
 	sf::Vector2f new_acceleration(0.0f, 0.0f);
 	float dir_force = GAME_CONST::ENTITY_MOVE_ACCELERATION;
-	
+
 	//gun test
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Y))
 	{

@@ -5,12 +5,13 @@
 class Item : public GameObject
 {
 protected:
-	int durability_;		// uses before item is destroyed
-	float time_after_use_;  // time to check whether item can be used again
-	float cooldown_time_;   // time after you can use the item again
+	unsigned int uses_;
+	unsigned int durability_;		// uses before item is destroyed
+	float time_after_use_;			// time to check whether item can be used again
+	float cooldown_time_;			// time after you can use the item again
 public:
 	Item(const sf::Vector2f& position,
-		const int& duarbility,
+		const unsigned int& duarbility,
 		TextureManager* textures,
 		const float& cooldown = 2.0f,
 		const TEXTURE& texture = TEXTURE::ITEM,

@@ -1,7 +1,7 @@
 #include "Item.h"
 
 Item::Item(const sf::Vector2f& position, 
-			const int& durability, 
+			const unsigned int& durability, 
 			TextureManager* textures,
 			const float& cooldown,
 			const TEXTURE& texture, 
@@ -9,6 +9,7 @@ Item::Item(const sf::Vector2f& position,
 			const sf::Vector2u& animation_frames,
 			const float& animation_time):
 	GameObject(position, type, textures, texture, animation_frames, animation_time),
+	uses_(0u),
 	durability_(durability),
 	time_after_use_(cooldown),
 	cooldown_time_(cooldown)

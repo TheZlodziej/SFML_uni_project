@@ -1,7 +1,7 @@
 #include "Gun.h"
 
 Gun::Gun(const sf::Vector2f& position, 
-	const int& durability, 
+	const unsigned int& durability, 
 	TextureManager* textures,
 	const float& cooldown,
 	const TEXTURE& texture, 

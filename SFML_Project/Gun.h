@@ -10,7 +10,7 @@ private:
 	 
 public:
 	Gun(const sf::Vector2f& position,
-		const int& durability,
+		const unsigned int& durability,
 		TextureManager* textures,
 		const float& cooldown = 1.0f,
 		const TEXTURE& texture = TEXTURE::ITEM_GUN,
