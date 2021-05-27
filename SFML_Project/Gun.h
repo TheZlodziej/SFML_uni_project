@@ -8,13 +8,13 @@
 class Gun : public Item
 {
 private:
-	//std::vector<Bullet> bullets_;
+	std::vector<Bullet> bullets_;
 public:
 	Gun(const sf::Vector2f& position,
 		const unsigned int& durability,
 		TextureManager* textures,
-		//Entity* owner = nullptr,
-		const float& cooldown = 1.0f,
+		GameObject* owner = nullptr,
+		const float& cooldown = 2.0f,
 		const TEXTURE& texture = TEXTURE::ITEM_GUN,
 		const GAME_OBJECT_TYPE& type = GAME_OBJECT_TYPE::ITEM,
 		const sf::Vector2u& animation_frames = sf::Vector2u(2, 1),

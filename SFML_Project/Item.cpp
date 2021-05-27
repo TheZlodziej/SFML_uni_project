@@ -3,7 +3,7 @@
 Item::Item(const sf::Vector2f& position,
 			const unsigned int& durability, 
 			TextureManager* textures,
-			//Entity* owner,
+			GameObject* owner,
 			const float& cooldown,
 			const TEXTURE& texture,
 			const GAME_OBJECT_TYPE& type,
@@ -11,7 +11,7 @@ Item::Item(const sf::Vector2f& position,
 			const float& animation_time,
 			const float& push_back_force):
 	GameObject(position, type, textures, texture, push_back_force, animation_frames, animation_time),
-	//owner_(owner),
+	owner_(owner),
 	uses_(0u),
 	durability_(durability),
 	time_after_use_(cooldown),
@@ -23,23 +23,25 @@ Item::~Item()
 
 bool Item::CanUse() const
 {
-	return this->time_after_use_ >= this->cooldown_time_;
+	return this->time_after_use_ >= this->cooldown_time_ 
+		&& this->HasOwner()
+		&& this-> uses_ < this->durability_;
 }
 
-//void Item::SetOwner(Entity* entity)
-//{
-//	this->owner_ = entity;
-//}
-//
-//void Item::RemoveOwner()
-//{
-//	this->owner_ = nullptr;
-//}
-//
-//bool Item::HasOwner() const
-//{
-//	return this->owner_ != nullptr;
-//}
+void Item::SetOwner(GameObject* entity)
+{
+	this->owner_ = entity;
+}
+
+void Item::RemoveOwner()
+{
+	this->owner_ = nullptr;
+}
+
+bool Item::HasOwner() const
+{
+	return this->owner_ != nullptr;
+}
 
 void Item::Draw(sf::RenderWindow& window)
 {

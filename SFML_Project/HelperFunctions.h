@@ -10,4 +10,4 @@ void ClampFloat(float& num, const float& min, const float& max);
 float DistanceVec2f(const sf::Vector2f& vec_a, const sf::Vector2f& vec_b);	// returns distance between 2 given vectors
 float LengthVec2f(const sf::Vector2f& vec);									// returns length of vector
 sf::Vector2f ScaleVec2f(const sf::Vector2f& vec, const sf::Vector2f& scale);// scales given vector in x and y direction
-sf::Vector2f NormalizeVec2f(sf::Vector2f vec);								// returns negative unit vector to given vector
+sf::Vector2f NormalizeVec2f(sf::Vector2f vec);								// returns vector with length 1

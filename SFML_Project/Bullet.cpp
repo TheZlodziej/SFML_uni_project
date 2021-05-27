@@ -26,3 +26,8 @@ void Bullet::SetVelocity(const sf::Vector2f& velocity)
 {
 	this->velocity_ = velocity;
 }
+
+bool Bullet::OutOfRange() const
+{
+	return this->distance_traveled_ >= max_distance_;
+}

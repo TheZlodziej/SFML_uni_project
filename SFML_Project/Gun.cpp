@@ -3,14 +3,14 @@
 Gun::Gun(const sf::Vector2f& position, 
 	const unsigned int& durability, 
 	TextureManager* textures,
-	//Entity* owner,
+	GameObject* owner,
 	const float& cooldown,
 	const TEXTURE& texture, 
 	const GAME_OBJECT_TYPE& type, 
 	const sf::Vector2u& animation_frames,
 	const float& animation_time,
 	const float& push_back_force):
-Item(position, durability, textures, /*owner,*/ cooldown, texture, type, animation_frames, animation_time, push_back_force)
+Item(position, durability, textures, owner, cooldown, texture, type, animation_frames, animation_time, push_back_force)
 {}
 
 Gun::~Gun()
@@ -20,15 +20,15 @@ void Gun::Use()
 {
 	if (this->CanUse())
 	{
+		this->uses_++;
 		this->time_after_use_ = 0.0f;
 		// ... 
 		std::cout << "boom\n";
-
 		// test
-		//sf::Vector2f bullet_dir(0, 0);
-		//Bullet new_bullet(this->owner_->GetPosition(), GAME_OBJECT_TYPE::ITEM, this->textures_);
-		//new_bullet.SetVelocity({ 100.0f, 100.0f });
-		//this->bullets_.emplace_back(new_bullet);
+		
+		Bullet new_bullet(this->owner_->GetPosition(), GAME_OBJECT_TYPE::ITEM, this->textures_);
+		new_bullet.SetVelocity({500.0f, 0.0f});
+		this->bullets_.emplace_back(new_bullet);
 		// ...
 	}
 }
@@ -36,17 +36,27 @@ void Gun::Use()
 void Gun::Draw(sf::RenderWindow& window)
 {
 	Item::Draw(window);
-	/*for (auto& b : this->bullets_)
+	for (auto& b : this->bullets_)
 	{
 		b.Draw(window);
-	}*/
+	}
 }
 
 void Gun::Update(const float& delta_time)
 {
 	Item::Update(delta_time);
-	/*for (auto& b : this->bullets_)
+	auto it = this->bullets_.begin();
+	while (it != this->bullets_.end())
 	{
-		b.Update(delta_time);
-	}*/
+	
+		it->Update(delta_time);
+		if (it->OutOfRange())
+		{
+			it = this->bullets_.erase(it);
+		}
+		else
+		{
+			++it;
+		}
+	}
 }

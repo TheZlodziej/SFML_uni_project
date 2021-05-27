@@ -21,5 +21,6 @@ public:
 	virtual void Update(const float& delta_time) override;
 	virtual void Draw(sf::RenderWindow& window) override;
 	void SetVelocity(const sf::Vector2f& velocity);
+	bool OutOfRange() const;
 };
 

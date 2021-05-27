@@ -54,7 +54,7 @@ void Game::SetupCamera()
 void Game::SetupPlayer()
 {
 	Player* player = new Player({0.0f, 0.0f}, &this->textures_, TEXTURE::PLAYER);
-	player->GetInventory()->Add(new Gun(sf::Vector2f{ 0.0f, 0.0f }, 10, &this->textures_));
+	player->GetInventory()->Add(new Gun(sf::Vector2f{ 0.0f, 0.0f }, 100, &this->textures_, player, 0.5f));
 	this->game_objects_.emplace_back(player);
 }
 
@@ -113,7 +113,7 @@ void Game::UpdateGameObjects()
 						Entity* ent = static_cast<Entity*>(this->game_objects_[i]);
 						Item* it = static_cast<Item*>(this->game_objects_[j]);
 						
-						//it->SetOwner(ent);
+						it->SetOwner(ent);
 						ent->GetInventory()->Add(it);
 						this->game_objects_.erase(this->game_objects_.begin() + j);
 					}

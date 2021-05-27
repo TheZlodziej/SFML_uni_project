@@ -8,7 +8,7 @@ class Inventory
 private:
 	std::vector<Item*> items_;
 	unsigned int curr_item_idx_;
-	unsigned int capacity_;							// maximum size of inventory
+	unsigned int capacity_;												// maximum size of inventory
 	sf::RectangleShape items_bg_;
 	sf::RectangleShape selected_item_bg_;
 	sf::Vector2f view_size_;
