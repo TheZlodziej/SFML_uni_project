@@ -43,6 +43,7 @@ void Game::LoadTextures()
 	this->textures_.Add(TEXTURE::ITEM_GUN, "assets/item_gun.png");
 	this->textures_.Add(TEXTURE::TREE, "assets/tree.png");
 	this->textures_.Add(TEXTURE::WALL, "assets/wall.png");
+	this->textures_.Add(TEXTURE::BULLET, "assets/bullet.png");
 }
 
 void Game::SetupCamera()
@@ -109,7 +110,11 @@ void Game::UpdateGameObjects()
 
 					if (this->game_objects_[j]->GetType() == GAME_OBJECT_TYPE::ITEM && can_recieve_item(this->game_objects_[i]))
 					{
-						static_cast<Player*>(this->game_objects_[i])->GetInventory()->Add(static_cast<Item*>(this->game_objects_[j]));
+						Entity* ent = static_cast<Entity*>(this->game_objects_[i]);
+						Item* it = static_cast<Item*>(this->game_objects_[j]);
+						
+						//it->SetOwner(ent);
+						ent->GetInventory()->Add(it);
 						this->game_objects_.erase(this->game_objects_.begin() + j);
 					}
 				}

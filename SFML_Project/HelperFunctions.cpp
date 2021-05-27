@@ -41,6 +41,10 @@ sf::Vector2f NormalizeVec2f(sf::Vector2f vec)
 		return vec;
 	}
 	
-	float vec_len = std::sqrt(vec.x * vec.x + vec.y * vec.y);
-	return 1.0f / vec_len * vec;
+	return 1.0f / LengthVec2f(vec) * vec;
+}
+
+float LengthVec2f(const sf::Vector2f& vec)
+{
+	return std::sqrt(vec.x * vec.x + vec.y * vec.y);
 }

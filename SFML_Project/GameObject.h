@@ -31,7 +31,7 @@ public:
 			const GAME_OBJECT_TYPE& type, 
 			TextureManager* textures, 
 			const TEXTURE& texture = TEXTURE::DEFAULT,
-			const float& push_back_force = 0.5f,
+			const float& push_back_force = 1.0f,
 			const sf::Vector2u& animation_frames = { 1,1 }, 
 			const float& animation_time=1.0f);
 	virtual ~GameObject();

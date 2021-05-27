@@ -1,5 +1,6 @@
 #pragma once
 #include "Item.h"
+#include "Bullet.h"
 
 //debug
 #include <iostream>
@@ -7,11 +8,12 @@
 class Gun : public Item
 {
 private:
-	 
+	//std::vector<Bullet> bullets_;
 public:
 	Gun(const sf::Vector2f& position,
 		const unsigned int& durability,
 		TextureManager* textures,
+		//Entity* owner = nullptr,
 		const float& cooldown = 1.0f,
 		const TEXTURE& texture = TEXTURE::ITEM_GUN,
 		const GAME_OBJECT_TYPE& type = GAME_OBJECT_TYPE::ITEM,
@@ -21,5 +23,7 @@ public:
 	);
 	virtual ~Gun();
 	virtual void Use() override;
+	virtual void Draw(sf::RenderWindow& window) override;
+	virtual void Update(const float& delta_time) override;
 };
 

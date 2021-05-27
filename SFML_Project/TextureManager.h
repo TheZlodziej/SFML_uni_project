@@ -15,7 +15,8 @@ enum class TEXTURE {
 	SELECTED_ITEM,
 	ITEM_GUN,
 	TREE,
-	WALL
+	WALL,
+	BULLET
 };
 
 class TextureManager
