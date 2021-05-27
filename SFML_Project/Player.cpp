@@ -25,7 +25,7 @@ void Player::LookAtMouse(const sf::RenderWindow& window)
 	float x_diff = static_cast<float>(mouse_pos.x) - static_cast<float>(player_pos.x);
 	float y_diff = static_cast<float>(mouse_pos.y) - static_cast<float>(player_pos.y);
 
-	float rot_angle = std::atan2(y_diff, x_diff) * 180.0f/GAME_CONST::PI; //converted to degrees
+	float rot_angle = RadToDeg(std::atan2(y_diff, x_diff));
 																	
 	// add another 180 to match the argument list of setRotation
 	// which is an angle between 0 and 360

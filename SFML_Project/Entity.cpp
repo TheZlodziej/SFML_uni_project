@@ -103,7 +103,7 @@ void Entity::LoseHp(const float& amount)
 void Entity::LookAt(GameObject* object)
 {
 	sf::Vector2f object_pos = object->GetSprite().getPosition() - this->sprite_.getPosition();
-	float angle = std::atan2(object_pos.y, object_pos.x) * 180.0f / GAME_CONST::PI;
+	float angle = RadToDeg(std::atan2(object_pos.y, object_pos.x));
 	this->sprite_.setRotation(angle + 90.0f);
 }
 

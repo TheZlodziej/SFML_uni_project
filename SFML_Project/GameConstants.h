@@ -45,4 +45,6 @@ namespace GAME_CONST
 	const unsigned int BG_R = 19;
 	const unsigned int BG_G = 58;
 	const unsigned int BG_B = 43;
+
+	const float BULLET_SPEED = 500.0f;
 };

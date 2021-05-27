@@ -11,3 +11,5 @@ float DistanceVec2f(const sf::Vector2f& vec_a, const sf::Vector2f& vec_b);	// re
 float LengthVec2f(const sf::Vector2f& vec);									// returns length of vector
 sf::Vector2f ScaleVec2f(const sf::Vector2f& vec, const sf::Vector2f& scale);// scales given vector in x and y direction
 sf::Vector2f NormalizeVec2f(sf::Vector2f vec);								// returns vector with length 1
+float DegToRad(float deg);													// converts degrees to radians
+float RadToDeg(float rad);													// converts radians to degrees

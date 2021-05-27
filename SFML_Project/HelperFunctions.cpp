@@ -48,3 +48,13 @@ float LengthVec2f(const sf::Vector2f& vec)
 {
 	return std::sqrt(vec.x * vec.x + vec.y * vec.y);
 }
+
+float DegToRad(float deg)
+{
+	return deg * GAME_CONST::PI / 180.0f;
+}
+
+float RadToDeg(float rad)
+{
+	return rad * 180.0f / GAME_CONST::PI;
+}
