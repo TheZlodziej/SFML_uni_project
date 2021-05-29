@@ -43,6 +43,7 @@ public:
 	void ApplyDrag();											// decreases entity's velocity by constant factor
 	void UpdateAcceleration();									// updates entity's acceleration
 	void Move();												// calls sf::Sprite::move function
+	void DrawItemInHand(sf::RenderWindow& window);				// draws item in hand (if exists)
 	void Stop();												// stops movement of the object (sets vel & acc to 0)
 	void UseItem();												// calls Use() on item that is currently selected
 	void UpdateVelocity(const float& delta_time);				// updates entity's velocity

@@ -14,6 +14,7 @@ void Entity::Draw(sf::RenderWindow& window)
 {
 	GameObject::Draw(window);
 	this->hp_bar_.Draw(window);
+	this->DrawItemInHand(window);
 }
 
 void Entity::Update(const float& delta_time)
@@ -46,6 +47,16 @@ void Entity::UpdateAcceleration()
 void Entity::Move()
 {
 	this->sprite_.move(this->velocity_);
+}
+
+void Entity::DrawItemInHand(sf::RenderWindow& window)
+{
+	Item* it = this->inventory_.GetCurrentItem();
+	
+	if (it != nullptr)
+	{
+		it->Draw(window);
+	};
 }
 
 Inventory* Entity::GetInventory()

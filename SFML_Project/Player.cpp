@@ -40,9 +40,3 @@ void Player::Draw(sf::RenderWindow& window)
 	Entity::Draw(window);
 	this->inventory_.Draw(window);
 }
-
-void Player::Update(const float& delta_time)
-{
-	Entity::Update(delta_time);
-	this->inventory_.Update(this, delta_time);
-}

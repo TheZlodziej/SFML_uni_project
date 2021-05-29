@@ -23,11 +23,12 @@ void Gun::Use()
 		this->uses_++;
 		this->time_after_use_ = 0.0f;
 		
-		float owner_rot = DegToRad(-this->owner_->GetSprite().getRotation() + 180.0f);
-		sf::Vector2f bullet_dir(std::sin(owner_rot),std::cos(owner_rot));
+		float owner_rot = DegToRad(this->owner_->GetSprite().getRotation());
+		sf::Vector2f bullet_dir(std::sin(owner_rot),-std::cos(owner_rot));
 
-		Bullet new_bullet(this->owner_->GetPosition(), GAME_OBJECT_TYPE::ITEM, this->textures_);
+		Bullet new_bullet(this->GetPosition(), GAME_OBJECT_TYPE::ITEM, this->textures_);
 		new_bullet.SetVelocity(bullet_dir * GAME_CONST::BULLET_SPEED);
+		new_bullet.GetSprite().setRotation(RadToDeg(owner_rot));
 		
 		this->bullets_.emplace_back(new_bullet);
 	}

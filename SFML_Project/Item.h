@@ -10,6 +10,7 @@ protected:
 	float time_after_use_;			// time to check whether item can be used again
 	float cooldown_time_;			// time after you can use the item again
 	GameObject* owner_;				// owner of the item used to position item correctly
+	sf::Sprite icon_;				// field so item can be displayed in inventory while the original one is in hand
 public:
 	Item(const sf::Vector2f& position,
 		const unsigned int& duarbility,
@@ -27,6 +28,8 @@ public:
 	bool CanUse() const;			// checks is item is not on cooldown, has an owner and isn't destroyed
 	void SetOwner(GameObject* entity);
 	void RemoveOwner();
+	void UpdateIcon();
+	sf::Sprite& GetIcon();
 	bool HasOwner() const;
 	virtual void Draw(sf::RenderWindow& window) override;
 	virtual void Update(const float& delta_time) override;

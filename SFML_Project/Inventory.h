@@ -19,7 +19,7 @@ public:
 	void Add(Item* item);
 	void SetCurrentItemIdx(const int& item_index);
 	void Remove(const unsigned int& item_idx);
-	void Draw(sf::RenderWindow& window);								// draws inventory on screen
+	void Draw(sf::RenderWindow& window);							    // draws inventory on screen
 	void Update(GameObject* relative_to, const float& delta_time);		// calls update for items and position
 	void UpdateItems(const float& delta_time);							// calls update for each item
 	void UpdatePosition(GameObject* relative_to);						// moves inventory relative to given game object

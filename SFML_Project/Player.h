@@ -23,6 +23,5 @@ public:
 	virtual ~Player();
 	void LookAtMouse(const sf::RenderWindow& window);
 	void Draw(sf::RenderWindow& window) override;
-	void Update(const float& delta_time) override;
 };
 

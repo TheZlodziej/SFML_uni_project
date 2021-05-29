@@ -1,7 +1,7 @@
 #include "Inventory.h"
-
+#include <iostream>
 Inventory::Inventory():
-	curr_item_idx_(0),
+	curr_item_idx_(0u),
 	capacity_(6),
 	view_size_(1.0f, 1.0f)
 {
@@ -63,8 +63,8 @@ void Inventory::Draw(sf::RenderWindow& window)
 	{
 		if (i < this->GetSize())
 		{
-			sf::Sprite* sprite = &this->items_[i]->GetSprite();
-			this->items_[i]->Draw(window);
+			sf::Sprite* sprite = &this->items_[i]->GetIcon();
+			window.draw(*sprite);
 		}
 	}
 }
@@ -91,7 +91,7 @@ std::vector<Item*> Inventory::GetItems()
 
 Item* Inventory::GetCurrentItem()
 {
-	if (this->GetCurrentItemIndex() < this->GetSize())
+	if (this->curr_item_idx_ < this->GetSize())
 	{
 		return this->items_[this->curr_item_idx_];
 	}
@@ -126,12 +126,12 @@ void Inventory::UpdatePosition(GameObject* relative_to)
 
 	for (unsigned int i = 0; i < this->GetSize(); i++)
 	{
-		sf::Sprite* it_spr = &this->items_[i]->GetSprite();
-		float it_offset_x = INVENTORY_OFFSET_X - INVENTORY_ITEM_SIZE * 0.5f + INVENTORY_ITEM_SIZE * i;
-		float it_offset_y = INVENTORY_OFFSET_Y - INVENTORY_ITEM_SIZE * 0.5f;
-		sf::Vector2f item_offset(it_offset_x, it_offset_y);
-		ScaleVec2f(item_offset, this->view_size_);
+		sf::Sprite* it_icon = &this->items_[i]->GetIcon();
+		float icon_offset_x = INVENTORY_OFFSET_X - INVENTORY_ITEM_SIZE * 0.5f + INVENTORY_ITEM_SIZE * i;
+		float icon_offset_y = INVENTORY_OFFSET_Y - INVENTORY_ITEM_SIZE * 0.5f;
+		sf::Vector2f icon_offset(icon_offset_x, icon_offset_y);
+		ScaleVec2f(icon_offset, this->view_size_);
 
-		it_spr->setPosition(pos+item_offset);
+		it_icon->setPosition(pos+icon_offset);
 	}
 }
