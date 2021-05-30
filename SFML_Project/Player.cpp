@@ -27,9 +27,7 @@ void Player::LookAtMouse(const sf::RenderWindow& window)
 
 	float rot_angle = RadToDeg(std::atan2(y_diff, x_diff));
 																	
-	// add another 180 to match the argument list of setRotation
-	// which is an angle between 0 and 360
-	// but we also need to subtract 90 degrees so
+	// we need to add 90 degrees so
 	// the rotation of our sprite is correct
 
 	this->sprite_.setRotation(rot_angle + 90.0f); 

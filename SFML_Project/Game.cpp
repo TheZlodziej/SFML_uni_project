@@ -2,11 +2,13 @@
 
 Game::Game() :
 	window_(sf::VideoMode(GAME_CONST::WINDOW_WIDTH, GAME_CONST::WINDOW_HEIGHT), "MyGameTitle"),
-	delta_time_(0.0f)
+	delta_time_(0.0f),
+	cursor_()
 {	
 	this->LoadTextures();
 	this->SetupCamera();
 	this->SetupPlayer();
+	this->SetupCursor();
 
 	//test game objects
 	Enemy* new_e = Enemy::MakeRandomEnemy({ 550.0f, 0.0f }, &this->textures_);
@@ -44,11 +46,23 @@ void Game::LoadTextures()
 	this->textures_.Add(TEXTURE::TREE, "assets/tree.png");
 	this->textures_.Add(TEXTURE::WALL, "assets/wall.png");
 	this->textures_.Add(TEXTURE::BULLET, "assets/bullet.png");
+	this->textures_.Add(TEXTURE::CURSOR, "assets/cursor.png");
 }
 
 void Game::SetupCamera()
 {
 	this->camera_.Resize(this->window_);
+}
+
+void Game::SetupCursor()
+{
+	this->window_.setMouseCursorVisible(false);
+	this->cursor_.Init(&this->textures_, TEXTURE::CURSOR);
+}
+
+void Game::UpdateCursor()
+{
+	this->cursor_.Update(this->window_, this->camera_);
 }
 
 void Game::SetupPlayer()
@@ -157,7 +171,7 @@ void Game::HandlePlayerMovement()
 	//gun test
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Y))
 	{
-		Gun* gun = new Gun(sf::Vector2f(0.0f, 0.0f), 10, &this->textures_);
+		Gun* gun = new Gun(sf::Vector2f(0.0f, 0.0f), 10, &this->textures_, player);
 		player->GetInventory()->Add(gun);
 	}
 	//
@@ -239,11 +253,17 @@ void Game::UpdateCamera()
 	this->camera_.Attach(this->window_);
 }
 
+void Game::DrawCursor()
+{
+	this->cursor_.Draw(this->window_);
+}
+
 void Game::Draw()
 {
 	this->ClearWindow();
 	this->DrawGameObjects();
-	this->DisplayWindow();	
+	this->DrawCursor();
+	this->DisplayWindow();
 }
 
 void Game::Update()
@@ -253,4 +273,5 @@ void Game::Update()
 	this->HandleInputEvents();
 	this->UpdateGameObjects();
 	this->UpdateCamera();
+	this->UpdateCursor();
 }

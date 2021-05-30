@@ -7,6 +7,7 @@
 #include "GameConstants.h"
 #include "Camera.h"
 #include "TextureManager.h"
+#include "Cursor.h"
 
 //test
 #include "Entity.h"
@@ -25,6 +26,7 @@ private:
 	float delta_time_;
 	Camera camera_;
 	TextureManager textures_;
+	Cursor cursor_;
 
 public:
 	Game();
@@ -33,10 +35,13 @@ public:
 	void LoadTextures();			// loads textures; call in constructor
 	void HandleWindowEvents();		// function for handling window events (close, resize, etc.)
 	void SetupCamera();				// sets default camera values
+	void SetupCursor();				// initializes cursor
+	void UpdateCursor();			// updates cursor position
 	void SetupPlayer();				// sets default player values
 	void MouseInput();				// handles mouse inputs (click, movement, etc.)
 	void Update();					// main update function
 	void Draw();					// main draw function
+	void DrawCursor();				// draws cursor
 	void ClearWindow();				// clears window & sets its bg to certain color
 	void DisplayWindow();			// displays updated window
 	void UpdateGameObjects();		// calling update function for each game object
