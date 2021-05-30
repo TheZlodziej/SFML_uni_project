@@ -48,6 +48,22 @@ void Enemy::Follow()
 	}
 }
 
+void Enemy::Attack()
+{
+	Item* current_item = this->inventory_.GetCurrentItem();
+	if (current_item == nullptr)
+	{
+		return;
+	}
+
+	float distance = DistanceVec2f(this->to_follow_->GetPosition(), this->GetPosition());
+
+	if (distance < this->range_ * 0.7f)
+	{
+		current_item->Use();
+	}
+}
+
 void Enemy::StopFollowing()
 {
 	this->to_follow_ = nullptr;
@@ -189,4 +205,5 @@ void Enemy::Update(const float& delta_time)
 {
 	Entity::Update(delta_time);
 	this->Follow();
+	this->Attack();
 }

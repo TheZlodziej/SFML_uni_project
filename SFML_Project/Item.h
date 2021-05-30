@@ -11,6 +11,7 @@ protected:
 	float cooldown_time_;			// time after you can use the item again
 	GameObject* owner_;				// owner of the item used to position item correctly
 	sf::Sprite icon_;				// field so item can be displayed in inventory while the original one is in hand
+
 public:
 	Item(const sf::Vector2f& position,
 		const unsigned int& duarbility,

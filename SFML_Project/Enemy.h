@@ -27,7 +27,8 @@ public:
 	);
 	virtual ~Enemy();
 	void SetObjectToFollow(Entity* obj);
-	void Follow();			// sets enemy acceleration to go to to_follow_ 
+	void Follow();			// sets enemy acceleration to go to to_follow_
+	void Attack();			// attacks entity that the enemy is following
 	void StopFollowing();	// sets object_to_follow_ to nullptr
 	static Enemy* MakeEnemy(const sf::Vector2f& spawn_position, TextureManager* textures, const GAME_OBJECT_TYPE& type, const TEXTURE& texture);
 	static Enemy* MakeRandomEnemy(const sf::Vector2f& spawn_position, TextureManager* textures);
