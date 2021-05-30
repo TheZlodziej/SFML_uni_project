@@ -41,6 +41,7 @@ public:
 	void MouseInput();				// handles mouse inputs (click, movement, etc.)
 	void Update();					// main update function
 	void Draw();					// main draw function
+	void CheckObjectsCollision();   // checks if objects are colliding and applying suitable behavior
 	void DrawCursor();				// draws cursor
 	void ClearWindow();				// clears window & sets its bg to certain color
 	void DisplayWindow();			// displays updated window

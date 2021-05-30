@@ -99,6 +99,44 @@ void Game::ClearWindow()
 	this->window_.clear(sf::Color(GAME_CONST::BG_R, GAME_CONST::BG_G, GAME_CONST::BG_B));
 }
 
+void Game::CheckObjectsCollision()
+{
+	for (unsigned int i=0; i<this->game_objects_.size(); i++)
+	{
+		GameObject* obj_a = this->game_objects_[i];
+		Collider a_col = obj_a->GetCollider();
+		float a_pbf = obj_a->GetPushBackForce();
+
+		for (unsigned int j = i + 1; j < this->game_objects_.size(); j++) // +1 so it skips itself; i so it doesnt repeat checking collisions
+		{
+			GameObject* obj_b = this->game_objects_[j];
+			Collider b_col = obj_b->GetCollider();
+			float b_pbf = obj_b->GetPushBackForce();
+			
+			// basic collision
+			bool collision = a_pbf > b_pbf ? a_col.CheckCollision(b_col, a_pbf) : b_col.CheckCollision(a_col, b_pbf);
+
+			// entity - item collision
+
+			if (collision && GameObject::CanRecieveItem(obj_a) && obj_b->GetType() == GAME_OBJECT_TYPE::ITEM)
+			{
+				Entity* entity = static_cast<Entity*>(this->game_objects_[i]);
+				Item* item = static_cast<Item*>(this->game_objects_[j]);
+				
+				item->SetOwner(entity);
+				entity->GetInventory()->Add(item);
+
+				this->game_objects_.erase(this->game_objects_.begin() + j);
+			}
+
+			// TODO
+			// obj_a item - obj_b
+			// if true obj_b->LoseHp()
+			// if LoseHp() returns false then erase object from game objects
+		}
+	}
+}
+
 void Game::UpdateGameObjects()
 {		
 	for (auto& game_obj : this->game_objects_)
@@ -106,35 +144,7 @@ void Game::UpdateGameObjects()
 		game_obj->Update(this->delta_time_);
 	}
 
-	for (unsigned int i = 0; i < this->game_objects_.size(); i++)
-	{
-		Collider obj1_collider = this->game_objects_[i]->GetCollider();
-		for (unsigned int j = 0; j < this->game_objects_.size(); j++)
-		{
-			if (this->game_objects_[i] != this->game_objects_[j])
-			{
-				Collider obj2_collider = this->game_objects_[j]->GetCollider();
-				if (obj2_collider.CheckCollision(obj1_collider, this->game_objects_[j]->GetPushBackForce()))
-				{
-					//test with items // add it elsewhere
-					auto can_recieve_item = [=](GameObject* obj) {
-						GAME_OBJECT_TYPE t = obj->GetType();
-						return t == GAME_OBJECT_TYPE::PLAYER || t == GAME_OBJECT_TYPE::ENEMY_1 || t == GAME_OBJECT_TYPE::ENEMY_2 || t == GAME_OBJECT_TYPE::ENEMY_0;
-					};
-
-					if (this->game_objects_[j]->GetType() == GAME_OBJECT_TYPE::ITEM && can_recieve_item(this->game_objects_[i]))
-					{
-						Entity* ent = static_cast<Entity*>(this->game_objects_[i]);
-						Item* it = static_cast<Item*>(this->game_objects_[j]);
-						
-						it->SetOwner(ent);
-						ent->GetInventory()->Add(it);
-						this->game_objects_.erase(this->game_objects_.begin() + j);
-					}
-				}
-			}
-		}
-	}
+	this->CheckObjectsCollision();
 }
 
 void Game::DrawGameObjects()

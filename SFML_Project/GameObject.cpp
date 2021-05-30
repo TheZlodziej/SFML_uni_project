@@ -68,6 +68,16 @@ GAME_OBJECT_TYPE GameObject::GetType() const
 	return this->type_;
 }
 
+bool GameObject::CanRecieveItem(const GameObject* object)
+{
+	GAME_OBJECT_TYPE t = object->GetType();
+
+	return	t == GAME_OBJECT_TYPE::PLAYER  || 
+			t == GAME_OBJECT_TYPE::ENEMY_1 || 
+			t == GAME_OBJECT_TYPE::ENEMY_2 || 
+			t == GAME_OBJECT_TYPE::ENEMY_0;
+}
+
 void GameObject::Draw(sf::RenderWindow& window)
 {
 	window.draw(this->sprite_);
