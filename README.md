@@ -8,8 +8,8 @@
 - [x] implement HUD
 - [x] make hud look good (add everthing)
 - [x] Add inventory displaying
-- [ ] Add custom cursor (or hide it)
-- [ ] Add surroundings (terrain)
+- [x] Add custom cursor (or hide it)
+- [x] Add surroundings (terrain)
 - [x] Add inventory
-- [ ] Add item for testing inventory
+- [x] Add item for testing inventory
 - [x] Zapytac Zofii czy zrobi dzwieki
