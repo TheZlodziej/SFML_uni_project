@@ -1,5 +1,6 @@
 # TODO
-- [ ] add collisions to weapons (so they deal damage)
+- [ ] add sounds
+- [x] add collisions to weapons (so they deal damage)
 - [x] add sprite animations
 - [x] remake hud
 - [x] add enemies rotating to player when in range
