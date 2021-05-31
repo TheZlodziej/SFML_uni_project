@@ -3,31 +3,35 @@
 Game::Game() :
 	window_(sf::VideoMode(GAME_CONST::WINDOW_WIDTH, GAME_CONST::WINDOW_HEIGHT), "MyGameTitle"),
 	delta_time_(0.0f),
-	cursor_()
+	cursor_(),
+	player_(nullptr)
 {	
 	this->LoadTextures();
 	this->SetupCamera();
 	this->SetupPlayer();
+	this->SetupEnemies();
+	this->SetupTerrain();
+	this->SetupItems();
 	this->SetupCursor();
-
-	//test game objects
-	Enemy* new_e = Enemy::MakeRandomEnemy({ 550.0f, 0.0f }, &this->textures_);
-	new_e->SetObjectToFollow(static_cast<Entity*>(this->game_objects_[0]));
-	this->game_objects_.emplace_back(new_e);
-
-	this->game_objects_.emplace_back(Enemy::MakeRandomEnemy({ 300.0f, 200.0f }, &this->textures_));
-
-	this->game_objects_.emplace_back(new Gun({100.0f, 100.0f}, 10, &this->textures_));
-
-	this->game_objects_.emplace_back(Terrain::MakeTerrain(TERRAIN::TREE, &this->textures_, { 200.0f, 300.0f }));
-	this->game_objects_.emplace_back(Terrain::MakeTerrain(TERRAIN::WALL, &this->textures_, { -200.0f, -300.0f }));
 }
 
 Game::~Game()
 {
-	for (auto game_obj : this->game_objects_)
+	delete this->player_;
+
+	for (auto& i : this->items_)
 	{
-		delete game_obj;
+		delete i;
+	}
+
+	for (auto& e : this->enemies_)
+	{
+		delete e;
+	}
+
+	for (auto& t : this->terrain_)
+	{
+		delete t;
 	}
 }
 
@@ -67,9 +71,36 @@ void Game::UpdateCursor()
 
 void Game::SetupPlayer()
 {
-	Player* player = new Player({0.0f, 0.0f}, &this->textures_, TEXTURE::PLAYER);
+	Player* player = new Player({ 0.0f, 0.0f }, &this->textures_, TEXTURE::PLAYER);
 	player->GetInventory()->Add(new Gun(sf::Vector2f{ 0.0f, 0.0f }, 100, &this->textures_, player, 0.5f));
-	this->game_objects_.emplace_back(player);
+	this->player_ = player;
+}
+
+void Game::SetupTerrain()
+{
+	Terrain* t1 = Terrain::MakeTerrain(TERRAIN::TREE, &this->textures_, { 200.0f, 300.0f });
+	this->terrain_.emplace_back(t1);
+
+	Terrain* t2 = Terrain::MakeTerrain(TERRAIN::WALL, &this->textures_, { -200.0f, -300.0f });
+	this->terrain_.emplace_back(t2);
+}
+
+void Game::SetupEnemies()
+{
+	Enemy* e1 = Enemy::MakeRandomEnemy({ 550.0f, 0.0f }, &this->textures_);
+	e1->SetObjectToFollow(this->player_);
+	this->enemies_.emplace_back(e1);
+
+	Enemy* e2 = Enemy::MakeRandomEnemy({ 300.0f, 200.0f }, &this->textures_);
+	e2->SetObjectToFollow(this->player_);
+	this->enemies_.emplace_back(e2);
+	
+}
+
+void Game::SetupItems()
+{
+	Gun* gun = new Gun({ 100.0f, 100.0f }, 10, &this->textures_);
+	this->items_.push_back(gun);
 }
 
 bool Game::IsRunning()
@@ -101,151 +132,259 @@ void Game::ClearWindow()
 
 void Game::CheckObjectsCollision()
 {
-	for (auto it_a = this->game_objects_.begin(); it_a != this->game_objects_.end(); it_a++)
+	// player - enemy
+	// enemy - enemy
+	// enemy - terrain
+	// player - terrain
+	// enemy - item
+	// player - item
+	// player_item - enemy
+	// plyer_item - terrain
+	// enemy_item - terrain
+	// enemy_item - player
+
+	// player - enemy
+	Collider pl_coll = this->player_->GetCollider();
+	float pl_pbf = this->player_->GetPushBackForce();
+
+	for (auto& e : this->enemies_)
 	{
-		GameObject* obj_a = *it_a;
-		Collider a_col = obj_a->GetCollider();
-		float a_pbf = obj_a->GetPushBackForce();
+		Collider e_coll = e->GetCollider();
+		float e_pbf = e->GetPushBackForce();
 
-		for (auto it_b = it_a + 1; it_b != this->game_objects_.end(); )
+		if (pl_pbf > e_pbf)
 		{
-			GameObject* obj_b = *it_b;
-			Collider b_col = obj_b->GetCollider();
-			float b_pbf = obj_b->GetPushBackForce();
-
-			bool removed_b = false;
-
-			// basic collision
-			bool collision = a_pbf > b_pbf ? a_col.CheckCollision(b_col, a_pbf) : b_col.CheckCollision(a_col, b_pbf);
-
-			// entity collisions
-
-			if (GameObject::IsEntity(obj_a))
-			{
-				// entity - item
-				if (collision && obj_b->GetType() == GAME_OBJECT_TYPE::ITEM)
-				{
-					Entity* entity = static_cast<Entity*>(obj_a);
-					Item* item = static_cast<Item*>(obj_b);
-
-					item->SetOwner(entity);
-					entity->GetInventory()->Add(item);
-
-					it_b = this->game_objects_.erase(it_b);
-					removed_b = true;
-				}
-				else
-				{
-					// entity item collider - obj 2
-
-					Entity* entity_a = static_cast<Entity*>(obj_a);
-					Item* item = entity_a->GetInventory()->GetCurrentItem();
-					if (item != nullptr)
-					{
-						bool item_collision = item->CheckCollision(obj_b);
-
-						if (item_collision && GameObject::IsEntity(obj_b))
-						{
-							Entity* entity_b = static_cast<Entity*>(obj_b);
-							bool died = !entity_b->LoseHp(item->GetPower());
-
-							if (died)
-							{
-								it_b = this->game_objects_.erase(it_b);
-								removed_b = true;
-							}
-						}
-					}
-				}
-			}
-
-			if (!removed_b)
-			{
-				++it_b;
-			}
-
+			pl_coll.CheckCollision(e_coll, pl_pbf);
+		}
+		else
+		{
+			e_coll.CheckCollision(pl_coll, e_pbf);
 		}
 	}
 
-
-	for (unsigned int i=0; i<this->game_objects_.size(); i++)
+	// enemy - enemy
+	for (auto& e1 : this->enemies_)
 	{
-		GameObject* obj_a = this->game_objects_[i];
-		Collider a_col = obj_a->GetCollider();
-		float a_pbf = obj_a->GetPushBackForce();
+		Collider e1_coll = e1->GetCollider();
+		float e1_pbf = e1->GetPushBackForce();
 
-		for (unsigned int j = i + 1; j < this->game_objects_.size(); j++) // +1 so it skips itself; i so it doesnt repeat checking collisions
+		for (auto& e2 : this->enemies_)
 		{
-			GameObject* obj_b = this->game_objects_[j];
-			Collider b_col = obj_b->GetCollider();
-			float b_pbf = obj_b->GetPushBackForce();
-			
-			// basic collision
-			bool collision = a_pbf > b_pbf ? a_col.CheckCollision(b_col, a_pbf) : b_col.CheckCollision(a_col, b_pbf);
-
-			// entity - item collision
-
-			if (collision && GameObject::IsEntity(obj_a) && obj_b->GetType() == GAME_OBJECT_TYPE::ITEM)
+			if (e1 == e2)
 			{
-				Entity* entity = static_cast<Entity*>(obj_a);
-				Item* item = static_cast<Item*>(obj_b);
-				
-				item->SetOwner(entity);
-				entity->GetInventory()->Add(item);
-
-				auto it_it = this->game_objects_.begin() + j;
-				it_it = this->game_objects_.erase(it_it);
+				continue;
 			}
 
-			// entity - item collision (when using item)
-			
-			if (GameObject::IsEntity(obj_a))
+			Collider e2_coll = e2->GetCollider();
+			float e2_pbf = e2->GetPushBackForce();
+
+			if (e1_pbf > e2_pbf)
 			{
-				Entity* entity_a = static_cast<Entity*>(obj_a);
-				Item* item = entity_a->GetInventory()->GetCurrentItem();
-				if (item != nullptr)
-				{
-					bool item_collision = item->CheckCollision(obj_b);
+				e1_coll.CheckCollision(e2_coll, e1_pbf);
+			}
+			else
+			{
+				e2_coll.CheckCollision(e1_coll, e2_pbf);
+			}
+		}
+	}
 
-					if (item_collision && GameObject::IsEntity(obj_b))
-					{
-						Entity* entity_b = static_cast<Entity*>(obj_b);
-						bool died = !entity_b->LoseHp(item->GetPower());
+	// enemy - terrain
+	for (auto& e : this->enemies_)
+	{
+		Collider e_coll = e->GetCollider();
+		float e_pbf = e->GetPushBackForce();
+		
+		for (auto& t : this->terrain_)
+		{
+			Collider t_coll = t->GetCollider();
+			float t_pbf = t->GetPushBackForce();
 
-						if (died)
-						{
-							auto ent_it = this->game_objects_.begin() + j;
-							delete this->game_objects_[j];
-							ent_it =  this->game_objects_.erase(ent_it);
-						}
-					}
-				}
+			if (e_pbf > t_pbf)
+			{
+				e_coll.CheckCollision(t_coll, e_pbf);
+			}
+			else
+			{
+				t_coll.CheckCollision(e_coll, t_pbf);
+			}
+		}
+	}
+
+	// player - terrain
+	for (auto& t : this->terrain_)
+	{
+		Collider t_coll = t->GetCollider();
+		float t_pbf = t->GetPushBackForce();
+
+		if (pl_pbf > t_pbf)
+		{
+			pl_coll.CheckCollision(t_coll, pl_pbf);
+		}
+		else
+		{
+			t_coll.CheckCollision(pl_coll, t_pbf);
+		}
+	}
+
+	// player - item
+	for (auto it = this->items_.begin(); it != this->items_.end();)
+	{
+		Collider i_coll = (*it)->GetCollider();
+		
+		bool collision = pl_coll.CheckCollision(i_coll, 1.0f);
+		if (collision)
+		{
+			(*it)->SetOwner(this->player_);
+			this->player_->GetInventory()->Add(*it);
+			it = this->items_.erase(it);
+		}
+		else
+		{
+			++it;
+		}
+	}
+
+	// enemy - item
+	for (auto it = this->items_.begin(); it != this->items_.end();)
+	{
+		Collider i_coll = (*it)->GetCollider();
+		bool collision = false;
+
+		for (auto& e : this->enemies_)
+		{
+			Collider e_coll = e->GetCollider();
+			collision = e_coll.CheckCollision(i_coll, 1.0f);
+
+			if (collision)
+			{
+				(*it)->SetOwner(e);
+				e->GetInventory()->Add(*it);
+				it = this->items_.erase(it);
+				break;
+			}
+		}
+		
+		if (!collision)
+		{
+			++it;
+		}
+	}
+
+	// player_item - enemy
+	Item* pl_it = this->player_->GetInventory()->GetCurrentItem();
+	if (pl_it != nullptr)
+	{
+		for (auto e_it = this->enemies_.begin(); e_it != this->enemies_.end();)
+		{
+			bool collision = pl_it->CheckCollision(*e_it);
+			bool died = false;
+			
+			if (collision)
+			{
+				died = !((*e_it)->LoseHp(pl_it->GetPower()));
 			}
 
-			// TODO
-			// obj_a item - obj_b
-			// if true obj_b->LoseHp()
-			// if LoseHp() returns false then erase object from game objects
+			if (died)
+			{
+				e_it = this->enemies_.erase(e_it);
+			}
+			else
+			{
+				++e_it;
+			}
+		}
+	}
+
+	// player_item - terrain
+	if (pl_it != nullptr)
+	{
+		for (auto& t : this->terrain_)
+		{
+			pl_it->CheckCollision(t);
+		}
+	}
+
+	// enemy_item - terrain
+	for (auto& e : this->enemies_)
+	{
+		Item* it = e->GetInventory()->GetCurrentItem();
+		if (it == nullptr)
+		{
+			continue;
+		}
+
+		for (auto& t : this->terrain_)
+		{
+			it->CheckCollision(t);
+		}
+	}
+
+	// enemy_item - player
+	for (auto& e : this->enemies_)
+	{
+		Item* it = e->GetInventory()->GetCurrentItem();
+
+		if (it == nullptr)
+		{
+			continue;
+		}
+		
+		bool collision = it->CheckCollision(this->player_);
+
+		if (collision)
+		{
+			bool died = !(this->player_->LoseHp(it->GetPower()));
+
+			if (died)
+			{
+				// game over !
+				this->window_.close();
+			}
 		}
 	}
 }
 
 void Game::UpdateGameObjects()
 {		
-	for (auto& game_obj : this->game_objects_)
+	for (auto& game_obj : this->terrain_)
 	{
 		game_obj->Update(this->delta_time_);
 	}
+
+	for (auto& game_obj : this->items_)
+	{
+		game_obj->Update(this->delta_time_);
+	}
+
+	for (auto& game_obj : this->enemies_)
+	{
+		game_obj->Update(this->delta_time_);
+	}
+
+	this->player_->Update(this->delta_time_);
 
 	this->CheckObjectsCollision();
 }
 
 void Game::DrawGameObjects()
 {
-	for (auto& game_obj : this->game_objects_)
+	for (auto& game_obj : this->terrain_)
 	{
 		game_obj->Draw(this->window_);
 	}
+
+	for (auto& game_obj : this->items_)
+	{
+		game_obj->Draw(this->window_);
+	}
+
+	for (auto& game_obj : this->enemies_)
+	{
+		game_obj->Draw(this->window_);
+	}
+
+	this->player_->Draw(this->window_);
 }
 
 void Game::DisplayWindow()
@@ -256,7 +395,6 @@ void Game::DisplayWindow()
 void Game::SetDeltaTime()
 {
 	this->delta_time_ = this->clock_.restart().asSeconds();
-	//std::cout << this->delta_time_ << "\n";
 }
 
 void Game::KeyboardInput()
@@ -267,22 +405,21 @@ void Game::KeyboardInput()
 
 void Game::HandlePlayerMovement()
 {
-	Player* player = static_cast<Player*>(this->game_objects_[0]);
 	sf::Vector2f new_acceleration(0.0f, 0.0f);
 	float dir_force = GAME_CONST::ENTITY_MOVE_ACCELERATION;
 
 	//gun test
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Y))
 	{
-		Gun* gun = new Gun(sf::Vector2f(0.0f, 0.0f), 10, &this->textures_, player);
-		player->GetInventory()->Add(gun);
+		Gun* gun = new Gun(sf::Vector2f(0.0f, 0.0f), 10, &this->textures_, this->player_);
+		this->player_->GetInventory()->Add(gun);
 	}
 	//
 
 	//test
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::T))
 	{
-		player->LoseHp(0.01f);
+		this->player_->LoseHp(0.01f);
 	}
 	//endtest
 
@@ -290,8 +427,8 @@ void Game::HandlePlayerMovement()
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::R))
 	{
 		Enemy* e = Enemy::MakeRandomEnemy({ float(rand() % 1000), float(rand() % 1000) }, &this->textures_);
-		e->SetObjectToFollow(static_cast<Entity*>(this->game_objects_[0]));
-		this->game_objects_.emplace_back(e);
+		e->SetObjectToFollow(this->player_);
+		this->enemies_.emplace_back(e);
 	}
 	//end test
 
@@ -315,13 +452,12 @@ void Game::HandlePlayerMovement()
 		new_acceleration.y += dir_force;
 	}
 
-	player->SetAcceleration(new_acceleration);
+	this->player_->SetAcceleration(new_acceleration);
 }
 
 void Game::HandlePlayerInventory()
 {
-	Player* player = static_cast<Player*>(this->game_objects_[0]);
-	Inventory* inv = player->GetInventory();
+	Inventory* inv = this->player_->GetInventory();
 
 	for (int i = sf::Keyboard::Num0; i < sf::Keyboard::Num0 + 10; i++)
 	{
@@ -333,15 +469,14 @@ void Game::HandlePlayerInventory()
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 	{
-		player->UseItem();
+		this->player_->UseItem();
 	}
 }
 
 void Game::MouseInput()
 {
 	// make player look at mouse
-	Player* player = static_cast<Player*>(this->game_objects_[0]);
-	player->LookAtMouse(this->window_);
+	this->player_->LookAtMouse(this->window_);
 }
 
 void Game::HandleInputEvents()
@@ -352,7 +487,7 @@ void Game::HandleInputEvents()
 
 void Game::UpdateCamera()
 {
-	this->camera_.Update(this->game_objects_[0]->GetPosition()); //game_obj[0] reserved for player
+	this->camera_.Update(this->player_->GetPosition());
 	this->camera_.Attach(this->window_);
 }
 
