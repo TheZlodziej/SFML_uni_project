@@ -14,4 +14,3 @@
 - [x] Add surroundings (terrain)
 - [x] Add inventory
 - [x] Add item for testing inventory
-- [x] Zapytac Zofii czy zrobi dzwieki
