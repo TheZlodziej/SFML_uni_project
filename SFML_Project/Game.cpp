@@ -101,6 +101,73 @@ void Game::ClearWindow()
 
 void Game::CheckObjectsCollision()
 {
+	for (auto it_a = this->game_objects_.begin(); it_a != this->game_objects_.end(); it_a++)
+	{
+		GameObject* obj_a = *it_a;
+		Collider a_col = obj_a->GetCollider();
+		float a_pbf = obj_a->GetPushBackForce();
+
+		for (auto it_b = it_a + 1; it_b != this->game_objects_.end(); )
+		{
+			GameObject* obj_b = *it_b;
+			Collider b_col = obj_b->GetCollider();
+			float b_pbf = obj_b->GetPushBackForce();
+
+			bool removed_b = false;
+
+			// basic collision
+			bool collision = a_pbf > b_pbf ? a_col.CheckCollision(b_col, a_pbf) : b_col.CheckCollision(a_col, b_pbf);
+
+			// entity collisions
+
+			if (GameObject::IsEntity(obj_a))
+			{
+				// entity - item
+				if (collision && obj_b->GetType() == GAME_OBJECT_TYPE::ITEM)
+				{
+					Entity* entity = static_cast<Entity*>(obj_a);
+					Item* item = static_cast<Item*>(obj_b);
+
+					item->SetOwner(entity);
+					entity->GetInventory()->Add(item);
+
+					it_b = this->game_objects_.erase(it_b);
+					removed_b = true;
+				}
+				else
+				{
+					// entity item collider - obj 2
+
+					Entity* entity_a = static_cast<Entity*>(obj_a);
+					Item* item = entity_a->GetInventory()->GetCurrentItem();
+					if (item != nullptr)
+					{
+						bool item_collision = item->CheckCollision(obj_b);
+
+						if (item_collision && GameObject::IsEntity(obj_b))
+						{
+							Entity* entity_b = static_cast<Entity*>(obj_b);
+							bool died = !entity_b->LoseHp(item->GetPower());
+
+							if (died)
+							{
+								it_b = this->game_objects_.erase(it_b);
+								removed_b = true;
+							}
+						}
+					}
+				}
+			}
+
+			if (!removed_b)
+			{
+				++it_b;
+			}
+
+		}
+	}
+
+
 	for (unsigned int i=0; i<this->game_objects_.size(); i++)
 	{
 		GameObject* obj_a = this->game_objects_[i];
@@ -118,15 +185,41 @@ void Game::CheckObjectsCollision()
 
 			// entity - item collision
 
-			if (collision && GameObject::CanRecieveItem(obj_a) && obj_b->GetType() == GAME_OBJECT_TYPE::ITEM)
+			if (collision && GameObject::IsEntity(obj_a) && obj_b->GetType() == GAME_OBJECT_TYPE::ITEM)
 			{
-				Entity* entity = static_cast<Entity*>(this->game_objects_[i]);
-				Item* item = static_cast<Item*>(this->game_objects_[j]);
+				Entity* entity = static_cast<Entity*>(obj_a);
+				Item* item = static_cast<Item*>(obj_b);
 				
 				item->SetOwner(entity);
 				entity->GetInventory()->Add(item);
 
-				this->game_objects_.erase(this->game_objects_.begin() + j);
+				auto it_it = this->game_objects_.begin() + j;
+				it_it = this->game_objects_.erase(it_it);
+			}
+
+			// entity - item collision (when using item)
+			
+			if (GameObject::IsEntity(obj_a))
+			{
+				Entity* entity_a = static_cast<Entity*>(obj_a);
+				Item* item = entity_a->GetInventory()->GetCurrentItem();
+				if (item != nullptr)
+				{
+					bool item_collision = item->CheckCollision(obj_b);
+
+					if (item_collision && GameObject::IsEntity(obj_b))
+					{
+						Entity* entity_b = static_cast<Entity*>(obj_b);
+						bool died = !entity_b->LoseHp(item->GetPower());
+
+						if (died)
+						{
+							auto ent_it = this->game_objects_.begin() + j;
+							delete this->game_objects_[j];
+							ent_it =  this->game_objects_.erase(ent_it);
+						}
+					}
+				}
 			}
 
 			// TODO

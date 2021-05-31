@@ -18,7 +18,6 @@ public:
 		const TEXTURE& texture = TEXTURE::ENEMY_1,
 		const sf::Vector2f& velocity = sf::Vector2f(0.0f, 0.0f),
 		const sf::Vector2f& acceleration = sf::Vector2f(0.0f, 0.0f),
-		const float& strength = 10.0f,
 		const float& hp = 1.0f,
 		const float& push_back_force = 0.5f,
 		const sf::Vector2u& animation_frames = sf::Vector2u(1, 1),
@@ -34,7 +33,6 @@ public:
 	static Enemy* MakeRandomEnemy(const sf::Vector2f& spawn_position, TextureManager* textures);
 	static std::pair<GAME_OBJECT_TYPE, TEXTURE> GetRandomEnemy();
 	static float GetEnemyRange(const GAME_OBJECT_TYPE& type);
-	static float GetEnemyStrength(const GAME_OBJECT_TYPE& type);
 	static float GetEnemyHp(const GAME_OBJECT_TYPE& type);
 	static float GetEnemyFollowSpeed(const GAME_OBJECT_TYPE& type);
 	static float GetEnemyPushBackForce(const GAME_OBJECT_TYPE& type);

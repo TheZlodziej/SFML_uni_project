@@ -9,14 +9,13 @@ Enemy::Enemy(
 	const TEXTURE& texture, 
 	const sf::Vector2f& velocity, 
 	const sf::Vector2f& acceleration, 
-	const float& strength, 
 	const float& hp, 
 	const float& push_back_force,
 	const sf::Vector2u& animation_frames, 
 	const float& animation_time,
 	Entity* to_follow
 	) :
-	Entity(position, textures, texture, velocity, acceleration, strength, hp, push_back_force, type, animation_frames, animation_time),
+	Entity(position, textures, texture, velocity, acceleration, hp, push_back_force, type, animation_frames, animation_time),
 	range_(range),
 	follow_speed_(follow_speed),
 	to_follow_(to_follow)
@@ -58,7 +57,7 @@ void Enemy::Attack()
 
 	float distance = DistanceVec2f(this->to_follow_->GetPosition(), this->GetPosition());
 
-	if (distance < this->range_ * 0.7f)
+	if (distance < current_item->GetRange())
 	{
 		current_item->Use();
 	}
@@ -80,7 +79,6 @@ Enemy* Enemy::MakeEnemy(const sf::Vector2f& spawn_position, TextureManager* text
 		texture, 
 		sf::Vector2f(0.0f,0.0f), 
 		sf::Vector2f(0.0f, 0.0f), 
-		Enemy::GetEnemyStrength(type),
 		Enemy::GetEnemyHp(type),
 		Enemy::GetEnemyPushBackForce(type),
 		sf::Vector2u(1,1),
@@ -126,24 +124,6 @@ float Enemy::GetEnemyRange(const GAME_OBJECT_TYPE& type)
 
 	default:
 		return GAME_CONST::ENEMY_RANGE[0];
-	}
-}
-
-float Enemy::GetEnemyStrength(const GAME_OBJECT_TYPE& type)
-{
-	switch (type)
-	{
-	case GAME_OBJECT_TYPE::ENEMY_0:
-		return GAME_CONST::ENEMY_STRENGTH[0];
-
-	case GAME_OBJECT_TYPE::ENEMY_1:
-		return GAME_CONST::ENEMY_STRENGTH[1];
-
-	case GAME_OBJECT_TYPE::ENEMY_2:
-		return GAME_CONST::ENEMY_STRENGTH[2];
-
-	default:
-		return GAME_CONST::ENEMY_STRENGTH[0];
 	}
 }
 

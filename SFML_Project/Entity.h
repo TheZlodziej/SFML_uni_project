@@ -16,7 +16,6 @@
 class Entity : public GameObject
 {
 protected:
-	float strength_;
 	HpBar hp_bar_;
 	sf::Vector2f velocity_;
 	sf::Vector2f acceleration_;
@@ -28,7 +27,6 @@ public:
 		const TEXTURE& texture = TEXTURE::DEFAULT,
 		const sf::Vector2f& velocity = sf::Vector2f(0.0f, 0.0f),
 		const sf::Vector2f& acceleration = sf::Vector2f(0.0f, 0.0f),
-		const float& strength = 10.0f,
 		const float& hp = 1.0f,
 		const float& push_back_force = 0.5f,
 		const GAME_OBJECT_TYPE& type = GAME_OBJECT_TYPE::ENTITY,
@@ -49,7 +47,7 @@ public:
 	void UpdateVelocity(const float& delta_time);				// updates entity's velocity
 	sf::Vector2f GetDirection(const Entity* entity) const;		// returns direction to entity given in argument
 	sf::Vector2f GetAcceleration() const;						// remove later maybe?? (not used)
-	void LoseHp(const float& amount);							// removes % of players hp -> new hp = (curr hp - arg)%
+	bool LoseHp(const float& amount);							// removes hp from entity; returns true if object is alive and false if died
 	void LookAt(GameObject* object);							// rotates entity to look at specific object
 };
 

@@ -68,7 +68,7 @@ GAME_OBJECT_TYPE GameObject::GetType() const
 	return this->type_;
 }
 
-bool GameObject::CanRecieveItem(const GameObject* object)
+bool GameObject::IsEntity(const GameObject* object)
 {
 	GAME_OBJECT_TYPE t = object->GetType();
 

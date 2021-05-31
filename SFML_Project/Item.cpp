@@ -5,6 +5,8 @@ Item::Item(const sf::Vector2f& position,
 			TextureManager* textures,
 			GameObject* owner,
 			const float& cooldown,
+			const float& range,
+			const float& power,
 			const TEXTURE& texture,
 			const GAME_OBJECT_TYPE& type,
 			const sf::Vector2u& animation_frames,
@@ -16,7 +18,9 @@ Item::Item(const sf::Vector2f& position,
 	durability_(durability),
 	time_after_use_(cooldown),
 	cooldown_time_(cooldown),
-	icon_(sprite_)
+	icon_(sprite_),
+	range_(range),
+	power_(power)
 {}
 
 Item::~Item()
@@ -49,9 +53,19 @@ sf::Sprite& Item::GetIcon()
 	return this->icon_;
 }
 
+float Item::GetRange() const
+{
+	return this->range_;
+}
+
 bool Item::HasOwner() const
 {
 	return this->owner_ != nullptr;
+}
+
+float Item::GetPower() const
+{
+	return this->power_;
 }
 
 void Item::Draw(sf::RenderWindow& window)

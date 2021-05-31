@@ -46,6 +46,6 @@ public:
 	GAME_OBJECT_TYPE GetType() const;
 	float GetPushBackForce() const;
 
-	static bool CanRecieveItem(const GameObject* object);
+	static bool IsEntity(const GameObject* object);
 };
 

@@ -15,6 +15,8 @@ public:
 		TextureManager* textures,
 		GameObject* owner = nullptr,
 		const float& cooldown = 2.0f,
+		const float& range = 600.0f,
+		const float& power = 20.0f,
 		const TEXTURE& texture = TEXTURE::ITEM_GUN,
 		const GAME_OBJECT_TYPE& type = GAME_OBJECT_TYPE::ITEM,
 		const sf::Vector2u& animation_frames = sf::Vector2u(2, 1),
@@ -23,6 +25,7 @@ public:
 	);
 	virtual ~Gun();
 	virtual void Use() override;
+	virtual bool CheckCollision(GameObject* object) override;
 	virtual void Draw(sf::RenderWindow& window) override;
 	virtual void Update(const float& delta_time) override;
 };

@@ -5,12 +5,14 @@ Gun::Gun(const sf::Vector2f& position,
 	TextureManager* textures,
 	GameObject* owner,
 	const float& cooldown,
+	const float& range,
+	const float& power,
 	const TEXTURE& texture, 
 	const GAME_OBJECT_TYPE& type, 
 	const sf::Vector2u& animation_frames,
 	const float& animation_time,
 	const float& push_back_force):
-Item(position, durability, textures, owner, cooldown, texture, type, animation_frames, animation_time, push_back_force)
+Item(position, durability, textures, owner, cooldown, range, power, texture, type, animation_frames, animation_time, push_back_force)
 {}
 
 Gun::~Gun()
@@ -32,6 +34,31 @@ void Gun::Use()
 		
 		this->bullets_.emplace_back(new_bullet);
 	}
+}
+
+bool Gun::CheckCollision(GameObject* object)
+{
+	Collider obj_collider = object->GetCollider();
+
+	auto bullet = this->bullets_.begin();
+
+	while (bullet != this->bullets_.end())
+	{
+		Collider bullet_collider = bullet->GetCollider();
+		float pbf = object->GetPushBackForce();
+
+		if (obj_collider.CheckCollision(bullet_collider, pbf))
+		{
+			bullet = this->bullets_.erase(bullet);
+			return true;
+		}
+		else
+		{
+			++bullet;
+		}
+	}
+
+	return false;
 }
 
 void Gun::Draw(sf::RenderWindow& window)
