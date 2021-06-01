@@ -235,6 +235,10 @@ void Game::CheckObjectsCollision()
 		bool collision = pl_coll.CheckCollision(i_coll, 1.0f);
 		if (collision)
 		{
+			// don't free memory here because the inventory takes care of it 
+			// and you don't want to remove it anyway
+			// because you want to keep the item
+
 			(*it)->SetOwner(this->player_);
 			this->player_->GetInventory()->Add(*it);
 			it = this->items_.erase(it);
@@ -287,6 +291,7 @@ void Game::CheckObjectsCollision()
 
 			if (died)
 			{
+				delete (*e_it);
 				e_it = this->enemies_.erase(e_it);
 			}
 			else
