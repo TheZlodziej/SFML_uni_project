@@ -1,3 +1,5 @@
+# This project is still in development stage (should be finished in about two weeks)
+
 # TODO
 - [ ] add sounds
 - [x] add collisions to weapons (so they deal damage)
