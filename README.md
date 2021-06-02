@@ -1,14 +1,19 @@
-# This project is still in development stage (should be finished in about two weeks)
+## Keep in mind, this project is still in development stage (should be finished in about two weeks)
 
 # TODO
+- [ ] make enemies pick the best weapon they have in inventory 
+- [ ] add boss type enemies (basically the same as the others but stronger)
+- [ ] add different terrain elements (box that can be moved around)
+- [ ] add different weapons (sword for sure, hand as default weapong for every entity)
+- [ ] make sprites (textures for the game)
+- [ ] add different states to animation (so it's easy to control (now you have to give it a row index)
+- [ ] map generator
 - [ ] add sounds
 - [x] add collisions to weapons (so they deal damage)
 - [x] add sprite animations
 - [x] remake hud
 - [x] add enemies rotating to player when in range
 - [x] add different types of enemies
-- [ ] make sprites
-- [ ] add different states to animation (so it's easy to control (now you have to give it a row index)
 - [x] implement HUD
 - [x] make hud look good (add everthing)
 - [x] Add inventory displaying
