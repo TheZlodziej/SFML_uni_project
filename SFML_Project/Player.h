@@ -16,7 +16,7 @@ public:
 		const float& hp = GAME_CONST::PLAYER_HP,
 		const float& push_back_force = 0.5f,
 		const GAME_OBJECT_TYPE& type = GAME_OBJECT_TYPE::PLAYER,
-		const sf::Vector2u & animation_frames = sf::Vector2u(4, 1),
+		const sf::Vector2u & animation_frames = sf::Vector2u(4, 2),
 		const float& animation_time = .5f
 		);
 	virtual ~Player();

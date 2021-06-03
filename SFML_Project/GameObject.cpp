@@ -68,11 +68,6 @@ GAME_OBJECT_TYPE GameObject::GetType() const
 	return this->type_;
 }
 
-Animation& GameObject::GetAnimation()
-{
-	return this->animation_;
-}
-
 void GameObject::Draw(sf::RenderWindow& window)
 {
 	window.draw(this->sprite_);

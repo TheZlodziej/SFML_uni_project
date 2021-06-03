@@ -80,10 +80,7 @@ Enemy* Enemy::MakeEnemy(const sf::Vector2f& spawn_position, TextureManager* text
 		sf::Vector2f(0.0f,0.0f), 
 		sf::Vector2f(0.0f, 0.0f), 
 		Enemy::GetEnemyHp(type),
-		Enemy::GetEnemyPushBackForce(type),
-		sf::Vector2u(1,1),
-		1.0f,
-		nullptr
+		Enemy::GetEnemyPushBackForce(type)
 	);
 }
 

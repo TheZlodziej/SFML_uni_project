@@ -4,8 +4,7 @@
 enum class ANIMATION_STATE
 {
 	IDLE = 0,
-	MOVE_LEFT = 1,
-	MOVE_RIGHT = 2
+	WALK = 1
 };
 
 class Animation

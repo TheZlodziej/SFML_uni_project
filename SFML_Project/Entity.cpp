@@ -20,6 +20,7 @@ void Entity::Update(const float& delta_time)
 {
 	GameObject::Update(delta_time);
 	this->inventory_.Update(this, delta_time);
+	this->UpdateAnimation();
 	this->UpdateAcceleration();
 	this->UpdateVelocity(delta_time);
 	this->ApplyDrag();
@@ -41,6 +42,18 @@ void Entity::ApplyDrag()
 void Entity::UpdateAcceleration()
 {
 	ClampVec2f(this->acceleration_, -GAME_CONST::MAX_ENTITY_ACCELERATION, GAME_CONST::MAX_ENTITY_ACCELERATION);
+}
+
+void Entity::UpdateAnimation()
+{
+	if (LengthVec2f(this->velocity_) <= GAME_CONST::FLOAT_PRECISION)
+	{
+		this->animation_.UpdateState(ANIMATION_STATE::IDLE);
+	}
+	else
+	{
+		this->animation_.UpdateState(ANIMATION_STATE::WALK);
+	}
 }
 
 void Entity::Move()

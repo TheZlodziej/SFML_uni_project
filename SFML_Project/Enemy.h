@@ -20,7 +20,7 @@ public:
 		const sf::Vector2f& acceleration = sf::Vector2f(0.0f, 0.0f),
 		const float& hp = 1.0f,
 		const float& push_back_force = 0.5f,
-		const sf::Vector2u& animation_frames = sf::Vector2u(1, 1),
+		const sf::Vector2u& animation_frames = sf::Vector2u(1, 2),
 		const float& animation_time = 1.0f,
 		Entity* to_follow = nullptr
 	);

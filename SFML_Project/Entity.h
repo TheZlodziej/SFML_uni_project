@@ -40,6 +40,7 @@ public:
 	void SetAcceleration(const sf::Vector2f& acceleration);		// sets entity's acceleration to given value
 	void ApplyDrag();											// decreases entity's velocity by constant factor
 	void UpdateAcceleration();									// updates entity's acceleration
+	void UpdateAnimation();										// sets accurate animation to the state
 	void Move();												// calls sf::Sprite::move function
 	void DrawItemInHand(sf::RenderWindow& window);				// draws item in hand (if exists)
 	void Stop();												// stops movement of the object (sets vel & acc to 0)
