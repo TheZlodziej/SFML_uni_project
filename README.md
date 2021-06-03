@@ -5,9 +5,9 @@
 - [ ] add different terrain elements (box that can be moved around)
 - [ ] add different weapons (sword for sure, hand as default weapong for every entity)
 - [ ] make sprites (textures for the game)
-- [ ] add different states to animation (so it's easy to control (now you have to give it a row index)
 - [ ] map generator
 - [ ] add sounds
+- [x] add different states to animation (so it's easy to control (now you have to give it a row index)
 - [x] make enemies pick the best weapon they have in inventory 
 - [x] add collisions to weapons (so they deal damage)
 - [x] add sprite animations
