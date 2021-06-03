@@ -267,6 +267,7 @@ void Game::CheckObjectsCollision()
 			{
 				(*it)->SetOwner(e);
 				e->GetInventory()->Add(*it);
+				e->GetInventory()->SelectBestItem();
 				it = this->items_.erase(it);
 				break;
 			}
