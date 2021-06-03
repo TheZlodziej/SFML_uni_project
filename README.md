@@ -1,7 +1,6 @@
 ## Keep in mind, this project is still in development stage (should be finished in about two weeks)
 
 # TODO
-- [ ] make enemies pick the best weapon they have in inventory 
 - [ ] add boss type enemies (basically the same as the others but stronger)
 - [ ] add different terrain elements (box that can be moved around)
 - [ ] add different weapons (sword for sure, hand as default weapong for every entity)
@@ -9,6 +8,7 @@
 - [ ] add different states to animation (so it's easy to control (now you have to give it a row index)
 - [ ] map generator
 - [ ] add sounds
+- [x] make enemies pick the best weapon they have in inventory 
 - [x] add collisions to weapons (so they deal damage)
 - [x] add sprite animations
 - [x] remake hud
