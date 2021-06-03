@@ -28,6 +28,6 @@ public:
 	unsigned int GetSize() const;										// returns number of items in inventory
 	std::vector<Item*> GetItems();
 	Item* GetCurrentItem();
-	
+	void SelectBestItem();												// selects best item in inventory
 };
 

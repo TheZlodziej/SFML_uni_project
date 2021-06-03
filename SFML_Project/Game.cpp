@@ -101,6 +101,9 @@ void Game::SetupItems()
 {
 	Gun* gun = new Gun({ 100.0f, 100.0f }, 10, &this->textures_);
 	this->items_.push_back(gun);
+
+	Gun* gun1 = new Gun({ -500.0f, 100.0f }, 100, &this->textures_, nullptr, 0.1f, 1000.0f, 100.0f);
+	this->items_.push_back(gun1);
 }
 
 bool Game::IsRunning()

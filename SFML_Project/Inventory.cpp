@@ -99,6 +99,25 @@ Item* Inventory::GetCurrentItem()
 	return nullptr;
 }
 
+void Inventory::SelectBestItem()
+{
+	unsigned int max_idx = 0;
+	float max_pow = 0.0f;
+
+	for (unsigned int i = 0; i < this->GetSize(); i++)
+	{
+		Item* it = this->items_[i];
+		float it_pow = it->GetPower();
+
+		if (it_pow > max_pow)
+		{
+			max_idx = i;
+		}
+	}
+
+	this->SetCurrentItemIdx(max_idx);
+}
+
 void Inventory::Update(GameObject* relative_to, const float& delta_time)
 {
 	this->UpdateItems(delta_time);

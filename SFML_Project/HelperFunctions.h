@@ -13,3 +13,4 @@ sf::Vector2f ScaleVec2f(const sf::Vector2f& vec, const sf::Vector2f& scale);// s
 sf::Vector2f NormalizeVec2f(sf::Vector2f vec);								// returns vector with length 1
 float DegToRad(float deg);													// converts degrees to radians
 float RadToDeg(float rad);													// converts radians to degrees
+float Clamp(const float& num, const float& min, const float& max);			// works as standard clamp function

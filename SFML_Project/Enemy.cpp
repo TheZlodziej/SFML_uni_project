@@ -184,6 +184,7 @@ float Enemy::GetEnemyPushBackForce(const GAME_OBJECT_TYPE& type)
 void Enemy::Update(const float& delta_time)
 {
 	Entity::Update(delta_time);
+	this->inventory_.SelectBestItem();
 	this->Follow();
 	this->Attack();
 }

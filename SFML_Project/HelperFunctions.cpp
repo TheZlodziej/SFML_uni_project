@@ -1,14 +1,19 @@
 #include "HelperFunctions.h"
 
+float Clamp(const float& num, const float& min, const float& max)
+{
+	return std::max(min, std::min(num, max));
+}
+
 void ClampVec2f(sf::Vector2f& vec, const float& min, const float& max)
 {
-	vec.x = std::clamp(vec.x, min, max);
-	vec.y = std::clamp(vec.y, min, max);
+	vec.x = Clamp(vec.x, min, max);
+	vec.y = Clamp(vec.y, min, max);
 }
 
 void ClampFloat(float& num, const float& min, const float& max)
 {
-	num = std::clamp(num, min, max);
+	num = Clamp(num, min, max);
 }
 
 float DistanceVec2f(const sf::Vector2f& vec_a, const sf::Vector2f& vec_b)
