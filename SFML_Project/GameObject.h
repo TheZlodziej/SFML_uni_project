@@ -45,7 +45,6 @@ public:
 	sf::Sprite& GetSprite();
 	GAME_OBJECT_TYPE GetType() const;
 	float GetPushBackForce() const;
-
-	static bool IsEntity(const GameObject* object);
+	Animation& GetAnimation();
 };
 
