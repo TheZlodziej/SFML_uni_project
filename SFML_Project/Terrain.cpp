@@ -9,6 +9,11 @@ Terrain::Terrain(const float& push_back_force, const sf::Vector2f& position, con
 Terrain::~Terrain()
 {}
 
+Terrain* Terrain::MakeBox(const sf::Vector2f& position, TextureManager* textures, const sf::Vector2f& scale)
+{
+	return new Terrain(0.7f, position, GAME_OBJECT_TYPE::TERRAIN, textures, TEXTURE::BOX, scale);
+}
+
 Terrain* Terrain::MakeTree(const sf::Vector2f& position, TextureManager* textures, const sf::Vector2f& scale)
 {	
 	return new Terrain(1.0f, position, GAME_OBJECT_TYPE::TERRAIN, textures, TEXTURE::TREE, scale);
@@ -29,6 +34,9 @@ Terrain* Terrain::MakeTerrain(const TERRAIN& type, TextureManager* textures, con
 	case TERRAIN::WALL:
 		return Terrain::MakeWall(position, textures, scale);
 		
+	case TERRAIN::BOX:
+		return Terrain::MakeBox(position, textures, scale);
+
 	default:
 		return Terrain::MakeTree(position, textures, scale);
 	}

@@ -51,6 +51,7 @@ void Game::LoadTextures()
 	this->textures_.Add(TEXTURE::WALL, "assets/wall.png", true);
 	this->textures_.Add(TEXTURE::BULLET, "assets/bullet.png");
 	this->textures_.Add(TEXTURE::CURSOR, "assets/cursor.png");
+	this->textures_.Add(TEXTURE::BOX, "assets/box.png");
 }
 
 void Game::SetupCamera()
@@ -78,6 +79,10 @@ void Game::SetupPlayer()
 
 void Game::SetupTerrain()
 {
+	// boxes
+	Terrain* b1 = Terrain::MakeTerrain(TERRAIN::BOX, &this->textures_, { 600.0f, 600.0f });
+	this->terrain_.emplace_back(b1);
+
 	// trees
 	Terrain* t1 = Terrain::MakeTerrain(TERRAIN::TREE, &this->textures_, { 200.0f, 300.0f });
 	this->terrain_.emplace_back(t1);

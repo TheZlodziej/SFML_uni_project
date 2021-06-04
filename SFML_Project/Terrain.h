@@ -3,7 +3,8 @@
 
 enum class TERRAIN {
 	TREE,
-	WALL
+	WALL,
+	BOX
 };
 
 class Terrain : public GameObject
@@ -20,6 +21,7 @@ public:
 		const float& animation_time = 1.0f);
 	virtual ~Terrain();
 
+	static Terrain* MakeBox(const sf::Vector2f& position, TextureManager* textures, const sf::Vector2f& scale);
 	static Terrain* MakeTree(const sf::Vector2f& position, TextureManager* textures, const sf::Vector2f& scale);
 	static Terrain* MakeWall(const sf::Vector2f& position, TextureManager* textures, const sf::Vector2f& scale);
 	static Terrain* MakeTerrain(const TERRAIN& type, TextureManager* textures, const sf::Vector2f& position, const sf::Vector2f& scale = {1.0f, 1.0f});
