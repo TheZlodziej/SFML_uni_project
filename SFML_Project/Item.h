@@ -16,7 +16,7 @@ protected:
 
 public:
 	Item(const sf::Vector2f& position,
-		const unsigned int& duarbility,
+		const unsigned int& durability,
 		TextureManager* textures,
 		GameObject* owner = nullptr,
 		const float& cooldown = 2.0f,

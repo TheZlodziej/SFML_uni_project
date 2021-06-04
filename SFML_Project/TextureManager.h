@@ -18,7 +18,8 @@ enum class TEXTURE {
 	WALL,
 	BULLET,
 	CURSOR,
-	BOX
+	BOX,
+	SWORD
 };
 
 class TextureManager

@@ -52,6 +52,7 @@ void Game::LoadTextures()
 	this->textures_.Add(TEXTURE::BULLET, "assets/bullet.png");
 	this->textures_.Add(TEXTURE::CURSOR, "assets/cursor.png");
 	this->textures_.Add(TEXTURE::BOX, "assets/box.png");
+	this->textures_.Add(TEXTURE::SWORD, "assets/sword.png");
 }
 
 void Game::SetupCamera()
@@ -74,6 +75,7 @@ void Game::SetupPlayer()
 {
 	Player* player = new Player({ 0.0f, 0.0f }, &this->textures_, TEXTURE::PLAYER);
 	player->GetInventory()->Add(new Gun(sf::Vector2f{ 0.0f, 0.0f }, 100, &this->textures_, player, 0.5f));
+	player->GetInventory()->Add(new Sword(sf::Vector2f{ 0.0f, 0.0f }, 30, &this->textures_, player));
 	this->player_ = player;
 }
 
