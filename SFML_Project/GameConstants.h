@@ -47,4 +47,7 @@ namespace GAME_CONST
 	const unsigned int BG_B = 43;
 
 	const float BULLET_SPEED = 1000.0f;
+	
+	const float MAP_WIDTH = 5000.0f;
+	const float MAP_HEIGHT = MAP_WIDTH;
 };

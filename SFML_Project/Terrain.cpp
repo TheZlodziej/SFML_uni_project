@@ -4,7 +4,6 @@ Terrain::Terrain(const float& push_back_force, const sf::Vector2f& position, con
 	GameObject(position, type, textures, texture, push_back_force, animation_frames, animation_time)
 {
 	this->sprite_.setScale(scale);
-	//set repeating texture??
 }
 
 Terrain::~Terrain()

@@ -48,7 +48,7 @@ void Game::LoadTextures()
 	this->textures_.Add(TEXTURE::ITEM_BG, "assets/items_bg.png");
 	this->textures_.Add(TEXTURE::ITEM_GUN, "assets/item_gun.png");
 	this->textures_.Add(TEXTURE::TREE, "assets/tree.png");
-	this->textures_.Add(TEXTURE::WALL, "assets/wall.png");
+	this->textures_.Add(TEXTURE::WALL, "assets/wall.png", true);
 	this->textures_.Add(TEXTURE::BULLET, "assets/bullet.png");
 	this->textures_.Add(TEXTURE::CURSOR, "assets/cursor.png");
 }
@@ -78,11 +78,25 @@ void Game::SetupPlayer()
 
 void Game::SetupTerrain()
 {
+	// trees
 	Terrain* t1 = Terrain::MakeTerrain(TERRAIN::TREE, &this->textures_, { 200.0f, 300.0f });
 	this->terrain_.emplace_back(t1);
 
-	Terrain* t2 = Terrain::MakeTerrain(TERRAIN::WALL, &this->textures_, { -200.0f, -300.0f });
-	this->terrain_.emplace_back(t2);
+	// bounding walls
+	float map_w = GAME_CONST::MAP_WIDTH;
+	float map_h = GAME_CONST::MAP_HEIGHT;
+
+	Terrain* w1 = Terrain::MakeTerrain(TERRAIN::WALL, &this->textures_, { -map_w *0.5f, 0.0f }, { 1.0f, map_h/100.0f });
+	this->terrain_.emplace_back(w1);
+
+	Terrain* w2 = Terrain::MakeTerrain(TERRAIN::WALL, &this->textures_, { map_w * 0.5f, 0.0f }, { 1.0f, map_h/100.0f });
+	this->terrain_.emplace_back(w2);
+
+	Terrain* w3 = Terrain::MakeTerrain(TERRAIN::WALL, &this->textures_, { 0.0f, -map_h *0.5f }, { map_w/100.0f + 1.0f, 1.0f });
+	this->terrain_.emplace_back(w3);
+
+	Terrain* w4 = Terrain::MakeTerrain(TERRAIN::WALL, &this->textures_, { 0.0f, map_h * 0.5f }, { map_w/100.0f + 1.0f, 1.0f });
+	this->terrain_.emplace_back(w4);
 }
 
 void Game::SetupEnemies()

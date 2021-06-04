@@ -23,12 +23,12 @@ enum class TEXTURE {
 class TextureManager
 {
 private:
-	std::unordered_map<TEXTURE, sf::Texture> textures;
+	std::unordered_map<TEXTURE, sf::Texture> textures_;
 	
 public:
 	TextureManager();
 	~TextureManager();
-	void Add(const TEXTURE& texture_key, const std::string& filename);
+	void Add(const TEXTURE& texture_key, const std::string& filename, const bool& repeated = false);
 	sf::Texture& Get(const TEXTURE& texture_key);
 };
 
