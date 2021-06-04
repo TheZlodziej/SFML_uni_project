@@ -21,7 +21,14 @@ Item::Item(const sf::Vector2f& position,
 	icon_(sprite_),
 	range_(range),
 	power_(power)
-{}
+{
+	//setup icon so it's correct size
+	sf::FloatRect icon_rect = this->icon_.getGlobalBounds();
+	sf::Vector2f icon_size(icon_rect.width, icon_rect.height);
+	float icon_ratio = icon_size.x / icon_size.y;
+	sf::Vector2f icon_scale(GAME_CONST::INVENTORY_ITEM_SIZE / icon_size.x * icon_ratio, GAME_CONST::INVENTORY_ITEM_SIZE / icon_size.y);
+	this->icon_.setScale(icon_scale);
+}
 
 Item::~Item()
 {}
