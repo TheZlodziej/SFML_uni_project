@@ -2,10 +2,10 @@
 
 # TODO
 - [ ] add boss type enemies (basically the same as the others but stronger)
-- [ ] add different weapons (sword for sure, hand as default weapong for every entity)
 - [ ] make sprites (textures for the game)
 - [ ] map generator
 - [ ] add sounds
+- [x] add different weapons (sword for sure, hand as default weapong for every entity)
 - [x] add different terrain elements (box that can be moved around)
 - [x] add different states to animation (so it's easy to control (now you have to give it a row index)
 - [x] make enemies pick the best weapon they have in inventory 
