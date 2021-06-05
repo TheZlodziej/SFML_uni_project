@@ -30,7 +30,7 @@ public:
 	);
 	virtual ~Item();
 	virtual void Use()=0;
-	bool CanUse() const;			// checks is item is not on cooldown, has an owner and isn't destroyed
+	virtual bool CanUse() const;	// checks is item is not on cooldown, has an owner and isn't destroyed
 	void SetOwner(GameObject* entity);
 	void RemoveOwner();
 	void UpdateIcon();
@@ -39,6 +39,7 @@ public:
 	bool HasOwner() const;
 	float GetPower() const;
 	virtual bool CheckCollision(GameObject* object)=0;
+	void PutInHand();
 	virtual void Draw(sf::RenderWindow& window) override;
 	virtual void Update(const float& delta_time) override;
 };

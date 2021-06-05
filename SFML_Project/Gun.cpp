@@ -20,20 +20,22 @@ Gun::~Gun()
 
 void Gun::Use()
 {
-	if (this->CanUse())
+	if (!this->CanUse())
 	{
-		this->uses_++;
-		this->time_after_use_ = 0.0f;
-		
-		float owner_rot = DegToRad(this->owner_->GetSprite().getRotation());
-		sf::Vector2f bullet_dir(std::sin(owner_rot),-std::cos(owner_rot));
-
-		Bullet new_bullet(this->GetPosition(), GAME_OBJECT_TYPE::ITEM, this->textures_);
-		new_bullet.SetVelocity(bullet_dir * GAME_CONST::BULLET_SPEED);
-		new_bullet.GetSprite().setRotation(RadToDeg(owner_rot));
-		
-		this->bullets_.emplace_back(new_bullet);
+		return;
 	}
+
+	this->uses_++;
+	this->time_after_use_ = 0.0f;
+		
+	float owner_rot = DegToRad(this->owner_->GetSprite().getRotation());
+	sf::Vector2f bullet_dir(std::sin(owner_rot),-std::cos(owner_rot));
+
+	Bullet new_bullet(this->GetPosition(), GAME_OBJECT_TYPE::ITEM, this->textures_);
+	new_bullet.SetVelocity(bullet_dir * GAME_CONST::BULLET_SPEED);
+	new_bullet.GetSprite().setRotation(RadToDeg(owner_rot));
+		
+	this->bullets_.emplace_back(new_bullet);
 }
 
 bool Gun::CheckCollision(GameObject* object)
@@ -64,6 +66,8 @@ bool Gun::CheckCollision(GameObject* object)
 void Gun::Draw(sf::RenderWindow& window)
 {
 	Item::Draw(window);
+
+	// draw bullets
 	for (auto& b : this->bullets_)
 	{
 		b.Draw(window);
@@ -72,7 +76,10 @@ void Gun::Draw(sf::RenderWindow& window)
 
 void Gun::Update(const float& delta_time)
 {
+	this->PutInHand();
 	Item::Update(delta_time);
+
+	// update bullets
 	auto it = this->bullets_.begin();
 	while (it != this->bullets_.end())
 	{

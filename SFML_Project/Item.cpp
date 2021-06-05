@@ -75,30 +75,36 @@ float Item::GetPower() const
 	return this->power_;
 }
 
+void Item::PutInHand()
+{
+	if (this->owner_ == nullptr)
+	{
+		return;
+	}
+
+	sf::IntRect owner_size = this->owner_->GetSprite().getTextureRect();
+	float half_o_w = static_cast<float>(owner_size.width) * 0.5f;
+
+	sf::Vector2f owner_pos = this->owner_->GetPosition();
+
+	sf::Vector2f hand_pos = owner_pos;
+	hand_pos.x += half_o_w;
+
+	float half_i_h = static_cast<float>(this->sprite_.getTextureRect().height) * 0.5f;
+
+	float owner_rot = DegToRad(this->owner_->GetSprite().getRotation());
+	sf::Vector2f item_pos(
+		std::cos(owner_rot) * (hand_pos.x - owner_pos.x) - std::sin(owner_rot) * (hand_pos.y - owner_pos.y),
+		std::sin(owner_rot) * (hand_pos.x - owner_pos.x) + std::cos(owner_rot) * (hand_pos.y - owner_pos.y)
+	);
+
+	this->sprite_.setPosition(owner_pos + item_pos);
+	this->sprite_.setRotation(RadToDeg(owner_rot));
+}
+
 void Item::Draw(sf::RenderWindow& window)
 {
 	GameObject::Draw(window);
-	
-	//draw item in hand
-	if (this->HasOwner())
-	{
-		sf::IntRect owner_size = this->owner_->GetSprite().getTextureRect();
-		float half_o_w = static_cast<float>(owner_size.width) * 0.5f;
-
-		sf::Vector2f owner_pos = this->owner_->GetPosition();
-	
-		sf::Vector2f hand_pos = owner_pos;
-		hand_pos.x -= half_o_w;
-
-		float owner_rot = DegToRad(this->owner_->GetSprite().getRotation());
-		sf::Vector2f item_pos(
-			-std::cos(owner_rot) * (hand_pos.x - owner_pos.x) + std::sin(owner_rot) * (hand_pos.y - owner_pos.y),
-			-std::sin(owner_rot) * (hand_pos.x - owner_pos.x) - std::cos(owner_rot) * (hand_pos.y - owner_pos.y)
-		);
-
-		this->sprite_.setPosition(owner_pos + item_pos);
-		this->sprite_.setRotation(RadToDeg(owner_rot));
-	}
 }
 
 void Item::Update(const float& delta_time)
