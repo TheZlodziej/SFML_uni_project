@@ -3,7 +3,6 @@
 Game::Game() :
 	window_(sf::VideoMode(GAME_CONST::WINDOW_WIDTH, GAME_CONST::WINDOW_HEIGHT), "MyGameTitle"),
 	delta_time_(0.0f),
-	cursor_(),
 	player_(nullptr)
 {	
 	this->LoadTextures();
