@@ -24,11 +24,16 @@ Inventory::~Inventory()
 	}
 }
 
-void Inventory::Add(Item* item)
+void Inventory::Add(Item* item, sf::Font* font)
 {
 	if (this->items_.size() < this->capacity_)
 	{
 		this->items_.emplace_back(item);
+
+		sf::Text text("", *font, 13u);
+		text.setOutlineThickness(3.0f);
+		text.setOutlineColor(sf::Color::Black);
+		this->texts_.emplace_back(text);
 	}
 }
 
@@ -50,6 +55,29 @@ void Inventory::Remove(const unsigned int& item_idx)
 	{
 		auto item_it = this->items_.begin() + item_idx;
 		item_it = this->items_.erase(item_it);
+
+		auto text_it = this->texts_.begin() + item_idx;
+		text_it = this->texts_.erase(text_it);
+	}
+}
+
+void Inventory::UpdateTexts()
+{
+	for (unsigned int i=0; i<this->items_.size(); i++)
+	{
+		auto it_dur_info = this->items_[i]->GetDurabilityInfo();
+
+		std::string new_str = std::to_string(it_dur_info.second - it_dur_info.first) + "/" + std::to_string(it_dur_info.second);
+		this->texts_[i].setString(new_str);
+		
+		// calculating new text position
+		sf::FloatRect text_rect = this->texts_[i].getGlobalBounds();
+		sf::Vector2f text_new_pos = this->items_[i]->GetIcon().getPosition();
+
+		text_new_pos.x += GAME_CONST::INVENTORY_ITEM_SIZE / 2.0f - text_rect.width ;
+		text_new_pos.y += GAME_CONST::INVENTORY_ITEM_SIZE / 2.0f - text_rect.height ;
+		
+		this->texts_[i].setPosition(text_new_pos);
 	}
 }
 
@@ -65,6 +93,7 @@ void Inventory::Draw(sf::RenderWindow& window)
 		{
 			sf::Sprite* sprite = &this->items_[i]->GetIcon();
 			window.draw(*sprite);
+			window.draw(this->texts_[i]);
 		}
 	}
 }
@@ -122,6 +151,7 @@ void Inventory::Update(GameObject* relative_to, const float& delta_time)
 {
 	this->UpdateItems(delta_time);
 	this->UpdatePosition(relative_to);
+	this->UpdateTexts();
 }
 
 void Inventory::UpdateItems(const float& delta_time)

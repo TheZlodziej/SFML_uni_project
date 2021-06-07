@@ -27,6 +27,7 @@ private:
 	Camera camera_;
 	TextureManager textures_;
 	Cursor cursor_;
+	sf::Font* font_;
 
 	Player* player_;
 	std::vector<Enemy*> enemies_;
@@ -37,6 +38,7 @@ public:
 	Game();
 	virtual ~Game();
 	bool IsRunning();									// returns the state of the game window
+	void LoadFont();									// load font for the game
 	void LoadTextures();								// loads textures; call in constructor
 	void HandleWindowEvents();							// function for handling window events (close, resize, etc.)
 	void SetupCamera();									// sets default camera values

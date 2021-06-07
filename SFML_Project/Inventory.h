@@ -7,6 +7,7 @@ class Inventory
 {
 private:
 	std::vector<Item*> items_;
+	std::vector<sf::Text> texts_;										// for displaying left uses of item in format [uses / durability]
 	unsigned int curr_item_idx_;
 	unsigned int capacity_;												// maximum size of inventory
 	sf::RectangleShape items_bg_;
@@ -16,9 +17,10 @@ private:
 public:
 	Inventory();
 	virtual ~Inventory();
-	void Add(Item* item);
+	void Add(Item* item, sf::Font* font = nullptr);
 	void SetCurrentItemIdx(const int& item_index);
 	void Remove(const unsigned int& item_idx);
+	void UpdateTexts();
 	void Draw(sf::RenderWindow& window);							    // draws inventory on screen
 	void Update(GameObject* relative_to, const float& delta_time);		// calls update for items and position
 	void UpdateItems(const float& delta_time);							// calls update for each item

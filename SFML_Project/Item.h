@@ -5,7 +5,7 @@
 class Item : public GameObject
 {
 protected:
-	unsigned int uses_;
+	unsigned int uses_;				// number of times that 
 	unsigned int durability_;		// uses before item is destroyed
 	float time_after_use_;			// time to check whether item can be used again
 	float power_;					// dmg that the item deals
@@ -37,6 +37,7 @@ public:
 	sf::Sprite& GetIcon();
 	float GetRange() const;
 	bool HasOwner() const;
+	std::pair<unsigned int, unsigned int> GetDurabilityInfo() const;
 	float GetPower() const;
 	virtual bool CheckCollision(GameObject* object)=0;
 	void PutInHand();

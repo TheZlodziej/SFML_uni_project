@@ -70,6 +70,11 @@ bool Item::HasOwner() const
 	return this->owner_ != nullptr;
 }
 
+std::pair<unsigned int, unsigned int> Item::GetDurabilityInfo() const
+{
+	return std::pair<unsigned int, unsigned int>(this->uses_, this->durability_);
+}
+
 float Item::GetPower() const
 {
 	return this->power_;

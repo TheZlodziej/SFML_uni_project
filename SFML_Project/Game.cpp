@@ -3,9 +3,11 @@
 Game::Game() :
 	window_(sf::VideoMode(GAME_CONST::WINDOW_WIDTH, GAME_CONST::WINDOW_HEIGHT), "MyGameTitle"),
 	delta_time_(0.0f),
-	player_(nullptr)
+	player_(nullptr),
+	font_(nullptr)
 {	
 	this->LoadTextures();
+	this->LoadFont();
 	this->SetupCamera();
 	this->SetupPlayer();
 	this->SetupEnemies();
@@ -16,6 +18,7 @@ Game::Game() :
 
 Game::~Game()
 {
+	delete this->font_;
 	delete this->player_;
 
 	for (auto& i : this->items_)
@@ -132,6 +135,18 @@ void Game::SetupItems()
 bool Game::IsRunning()
 {
 	return this->window_.isOpen();
+}
+
+void Game::LoadFont()
+{
+	sf::Font* font = new sf::Font();
+
+	if (!font->loadFromFile("assets/test_font.ttf"))
+	{
+		throw std::invalid_argument("Couldn't open font file.");
+	}
+	
+	this->font_ = font;
 }
 
 void Game::HandleWindowEvents()
@@ -266,7 +281,7 @@ void Game::CheckObjectsCollision()
 			// because you want to keep the item
 
 			(*it)->SetOwner(this->player_);
-			this->player_->GetInventory()->Add(*it);
+			this->player_->GetInventory()->Add(*it, this->font_);
 			it = this->items_.erase(it);
 		}
 		else
