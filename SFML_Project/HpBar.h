@@ -8,6 +8,7 @@ class HpBar
 {
 public:
 	sf::RectangleShape bar;
+	sf::RectangleShape bar_bg;
 	float hp;
 	float max_hp;
 
