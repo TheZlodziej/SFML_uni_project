@@ -4,7 +4,8 @@ Game::Game() :
 	window_(sf::VideoMode(GAME_CONST::WINDOW_WIDTH, GAME_CONST::WINDOW_HEIGHT), "MyGameTitle"),
 	delta_time_(0.0f),
 	player_(nullptr),
-	font_(nullptr)
+	font_(nullptr),
+	paused_(false)
 {	
 	this->LoadTextures();
 	this->LoadFont();
@@ -14,6 +15,7 @@ Game::Game() :
 	this->SetupTerrain();
 	this->SetupItems();
 	this->SetupCursor();
+	this->SetupScreens();
 }
 
 Game::~Game()
@@ -62,10 +64,52 @@ void Game::SetupCamera()
 	this->camera_.Resize(this->window_);
 }
 
+void Game::CheckIfGamePaused()
+{
+	paused_ = std::any_of(this->screens_.begin(), this->screens_.end(), 
+		[](const std::pair<SCREEN_TYPE, Screen>& screen) 
+		{
+			return screen.second.IsActive();
+		}
+	);
+}
+
 void Game::SetupCursor()
 {
 	this->window_.setMouseCursorVisible(false);
 	this->cursor_.Init(&this->textures_, TEXTURE::CURSOR);
+}
+
+void Game::SetupScreens()
+{
+	Screen start_screen(this->player_);
+	start_screen.AddLabel(this->font_, "TESTOWY EKRAN", { 0.0f, -100.0f }, 32u);
+	start_screen.AddButton(this->font_, BUTTON_TYPE::CLOSE, "TESTOWY PRZYCISK", { 0.0f, 200.0f });
+	start_screen.SetActive(true);
+	this->screens_.insert(std::make_pair(SCREEN_TYPE::START, start_screen));
+
+	Screen pause_screen(this->player_);
+	pause_screen.AddLabel(this->font_, "GAME PAUSED", { 0.0f, -100.0f }, 32u);
+	pause_screen.AddLabel(this->font_, "Press P to resume...", { 0.0f, -50.0f }, 24u);
+	pause_screen.AddButton(this->font_, BUTTON_TYPE::CLOSE, "Resume The Game", { 0.0f, 100.0f }, 32u);
+	this->screens_.insert(std::make_pair(SCREEN_TYPE::PAUSE, pause_screen));
+}
+
+void Game::ScreenInput()
+{
+	static bool p_released = true;
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::P))
+	{
+		if (p_released)
+		{
+			p_released = false;
+			this->screens_.at(SCREEN_TYPE::PAUSE).SetActive(!this->screens_.at(SCREEN_TYPE::PAUSE).IsActive());
+		}
+	}
+	else
+	{
+		p_released = true;
+	}
 }
 
 void Game::UpdateCursor()
@@ -168,7 +212,7 @@ void Game::HandleWindowEvents()
 
 void Game::ClearWindow()
 {
-	this->window_.clear(sf::Color(GAME_CONST::BG_R, GAME_CONST::BG_G, GAME_CONST::BG_B));
+	this->window_.clear(GAME_CONST::BG_COLOR);
 }
 
 void Game::CheckObjectsCollision()
@@ -394,6 +438,11 @@ void Game::CheckObjectsCollision()
 
 void Game::UpdateGameObjects()
 {		
+	if (this->paused_) 
+	{
+		return;
+	}
+
 	for (auto& game_obj : this->terrain_)
 	{
 		game_obj->Update(this->delta_time_);
@@ -528,6 +577,11 @@ void Game::MouseInput()
 
 void Game::HandleInputEvents()
 {
+	this->ScreenInput();
+	if (this->paused_)
+	{
+		return;
+	}
 	this->KeyboardInput();
 	this->MouseInput();
 }
@@ -543,10 +597,33 @@ void Game::DrawCursor()
 	this->cursor_.Draw(this->window_);
 }
 
+void Game::DrawScreens()
+{
+	for (auto& [key, screen] : this->screens_)
+	{
+		if (screen.IsActive())
+		{
+			screen.Draw(this->window_);
+		}
+	}
+}
+
+void Game::UpdateScreens()
+{
+	for (auto& [key, screen] : this->screens_)
+	{
+		if (screen.IsActive())
+		{
+			screen.Update(this->cursor_.GetPosition());
+		}
+	}
+}
+
 void Game::Draw()
 {
 	this->ClearWindow();
 	this->DrawGameObjects();
+	this->DrawScreens();
 	this->DrawCursor();
 	this->DisplayWindow();
 }
@@ -559,4 +636,6 @@ void Game::Update()
 	this->UpdateGameObjects();
 	this->UpdateCamera();
 	this->UpdateCursor();
+	this->UpdateScreens();
+	this->CheckIfGamePaused();
 }

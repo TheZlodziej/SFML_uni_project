@@ -1,5 +1,5 @@
 #pragma once
-
+#include <SFML/Graphics.hpp>
 namespace GAME_CONST
 {
 	const unsigned int WINDOW_WIDTH = 1200;
@@ -8,7 +8,7 @@ namespace GAME_CONST
 	const float PI = 3.1415f;
 
 	const float CAMERA_HEIGHT = static_cast<float>(WINDOW_HEIGHT);
-	const float CAMERA_WIDTH = static_cast<float>(WINDOW_HEIGHT);
+	const float CAMERA_WIDTH = static_cast<float>(WINDOW_WIDTH);
 	const float CAMERA_ZOOM = 1.25f;
 
 	const float PLAYER_HP = 200.0f;
@@ -26,25 +26,17 @@ namespace GAME_CONST
 	const float HP_BAR_HEIGHT = 10.0f;
 	const float HP_BAR_WIDTH = 120.0f;
 	const float HP_BAR_OFFSET = 30.0f;
-	const unsigned int HP_BAR_R = 220;
-	const unsigned int HP_BAR_G = 0;
-	const unsigned int HP_BAR_B = 44;
+	const sf::Color HP_BAR_COLOR{ 220u, 0u, 44u };
+	const sf::Color HP_BAR_BG_COLOR{ 26u, 26u, 26u };
 
-	const float INVENTORY_OFFSET_X = -CAMERA_WIDTH * 0.75f;
+	const float INVENTORY_OFFSET_X = -CAMERA_WIDTH * 0.5f; // % of the screen
 	const float INVENTORY_OFFSET_Y = CAMERA_HEIGHT * 0.5f;
-	const float INVENTORY_ITEM_SIZE = 50.0f;			// it is a square so no need for 2 variables
+	const float INVENTORY_ITEM_SIZE = 50.0f;			   // it is a square so no need for 2 variables
 
-	const unsigned int ITEMS_BG_R = 74;
-	const unsigned int ITEMS_BG_G = 169;
-	const unsigned int ITEMS_BG_B = 108;
+	const sf::Color ITEMS_BG_COLOR{ 74u, 169u, 108u };
+	const sf::Color SELECTED_ITEM_COLOR{ 159u, 230u, 160u };
 
-	const unsigned int SELECTED_ITEM_R = 159;
-	const unsigned int SELECTED_ITEM_G = 230;
-	const unsigned int SELECTED_ITEM_B = 160;
-
-	const unsigned int BG_R = 19;
-	const unsigned int BG_G = 58;
-	const unsigned int BG_B = 43;
+	const sf::Color BG_COLOR{ 19u, 58u, 43u };
 
 	const float BULLET_SPEED = 1000.0f;
 
@@ -54,4 +46,11 @@ namespace GAME_CONST
 	
 	const float MAP_WIDTH = 5000.0f;
 	const float MAP_HEIGHT = MAP_WIDTH;
+
+	const sf::Color SCREEN_BG_COLOR{ 46u, 46u, 46u, 200u };
+	
+	const float BUTTON_TOP_MARGIN = 30.0f;
+	const float BUTTON_LEFT_MARGIN = 25.0f;
+	const sf::Color BUTTON_COLOR{ 32u, 32u, 32u };
+	const sf::Color BUTTON_HOVER_COLOR{ 16u, 16u, 16u };
 };

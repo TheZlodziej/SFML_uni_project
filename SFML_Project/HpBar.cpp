@@ -8,11 +8,11 @@ HpBar::HpBar(const float& max_hp) :
 
 	this->bar.setOrigin(static_cast<float>(HP_BAR_WIDTH) * 0.5f, static_cast<float>(HP_BAR_HEIGHT) * 0.5f);
 	this->bar.setSize(sf::Vector2f(HP_BAR_WIDTH, HP_BAR_HEIGHT));
-	this->bar.setFillColor(sf::Color(HP_BAR_R, HP_BAR_G, HP_BAR_B));
+	this->bar.setFillColor(HP_BAR_COLOR);
 
 	this->bar_bg.setOrigin(this->bar.getOrigin());
 	this->bar_bg.setSize(this->bar.getSize());
-	this->bar_bg.setFillColor(sf::Color(26,26,26));
+	this->bar_bg.setFillColor(HP_BAR_BG_COLOR);
 }
 
 void HpBar::UpdatePosition(GameObject* relative_to)

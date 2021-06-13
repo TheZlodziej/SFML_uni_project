@@ -15,6 +15,7 @@ public:
 	void Init(TextureManager* textures, const TEXTURE& texture);
 	void Draw(sf::RenderWindow& window);
 	void Update(const sf::RenderWindow& window, const Camera& camera); // window as an argument to get relative mouse position
+	sf::Vector2f GetPosition();
 };
 
 

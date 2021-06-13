@@ -21,6 +21,9 @@ void Camera::Attach(sf::RenderWindow& window)
 
 void Camera::Resize(const sf::RenderWindow& window)
 {
-	float ratio = static_cast<float>(window.getSize().x) / static_cast<float>(window.getSize().y);
-	this->setSize(sf::Vector2f(ratio * GAME_CONST::CAMERA_WIDTH, GAME_CONST::CAMERA_HEIGHT)*GAME_CONST::CAMERA_ZOOM);
+	using namespace GAME_CONST;
+	float x_ratio = static_cast<float>(window.getSize().x) / CAMERA_WIDTH;
+	float y_ratio = static_cast<float>(window.getSize().y) / CAMERA_HEIGHT;
+	
+	this->setSize(sf::Vector2f(x_ratio * CAMERA_WIDTH, y_ratio * CAMERA_HEIGHT) * CAMERA_ZOOM);
 }

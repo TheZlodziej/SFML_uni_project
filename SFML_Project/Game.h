@@ -8,6 +8,7 @@
 #include "Camera.h"
 #include "TextureManager.h"
 #include "Cursor.h"
+#include "Screen.h"
 
 //test
 #include "Entity.h"
@@ -28,6 +29,8 @@ private:
 	TextureManager textures_;
 	Cursor cursor_;
 	sf::Font* font_;
+	std::unordered_map<SCREEN_TYPE, Screen> screens_;
+	bool paused_;
 
 	Player* player_;
 	std::vector<Enemy*> enemies_;
@@ -42,7 +45,10 @@ public:
 	void LoadTextures();								// loads textures; call in constructor
 	void HandleWindowEvents();							// function for handling window events (close, resize, etc.)
 	void SetupCamera();									// sets default camera values
+	void CheckIfGamePaused();							// pauses the game if any window is open
 	void SetupCursor();									// initializes cursor
+	void SetupScreens();								// adds default screens to the screens_ vector
+	void ScreenInput();									// checks for input even if the game is in pause state
 	void UpdateCursor();								// updates cursor position
 	void SetupPlayer();									// sets default player values
 	void SetupTerrain();								// spawns default terrain on the map
@@ -53,6 +59,8 @@ public:
 	void Draw();										// main draw function
 	void CheckObjectsCollision();						// checks if objects are colliding and applying suitable behavior
 	void DrawCursor();									// draws cursor
+	void DrawScreens();									// calls draw for each screen that is active
+	void UpdateScreens();								// calls update for each screen that is active
 	void ClearWindow();									// clears window & sets its bg to certain color
 	void DisplayWindow();								// displays updated window
 	void UpdateGameObjects();							// calling update function for each game object

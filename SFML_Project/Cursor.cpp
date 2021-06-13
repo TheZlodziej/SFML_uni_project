@@ -30,3 +30,8 @@ void Cursor::Update(const sf::RenderWindow& window, const Camera& camera)
 
 	this->sprite_.setPosition(mouse_pos - win_size * 0.5f + camera.getCenter());
 }
+
+sf::Vector2f Cursor::GetPosition()
+{
+	return this->sprite_.getPosition();
+}

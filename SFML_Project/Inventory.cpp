@@ -7,11 +7,11 @@ Inventory::Inventory():
 {
 	using namespace GAME_CONST;
 
-	this->items_bg_.setFillColor(sf::Color(ITEMS_BG_R, ITEMS_BG_G, ITEMS_BG_B));
+	this->items_bg_.setFillColor(ITEMS_BG_COLOR);
 	this->items_bg_.setSize(sf::Vector2f(INVENTORY_ITEM_SIZE * this->capacity_, INVENTORY_ITEM_SIZE));
 	this->items_bg_.setOrigin(sf::Vector2f(INVENTORY_ITEM_SIZE, INVENTORY_ITEM_SIZE));
 
-	this->selected_item_bg_.setFillColor(sf::Color(SELECTED_ITEM_R, SELECTED_ITEM_G, SELECTED_ITEM_B));
+	this->selected_item_bg_.setFillColor(SELECTED_ITEM_COLOR);
 	this->selected_item_bg_.setSize(sf::Vector2f(INVENTORY_ITEM_SIZE, INVENTORY_ITEM_SIZE));
 	this->selected_item_bg_.setOrigin(sf::Vector2f(INVENTORY_ITEM_SIZE, INVENTORY_ITEM_SIZE));
 }
