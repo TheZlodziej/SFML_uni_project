@@ -11,6 +11,7 @@
 #include "Screen.h"
 
 //test
+#include "Hand.h"
 #include "Entity.h"
 #include "Player.h"
 #include "Gun.h"

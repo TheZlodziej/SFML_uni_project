@@ -49,8 +49,8 @@ namespace GAME_CONST
 
 	const sf::Color SCREEN_BG_COLOR{ 46u, 46u, 46u, 200u };
 	
-	const float BUTTON_TOP_MARGIN = 30.0f;
-	const float BUTTON_LEFT_MARGIN = 25.0f;
+	const float BUTTON_TOP_MARGIN = 25.0f;
+	const float BUTTON_LEFT_MARGIN = 20.0f;
 	const sf::Color BUTTON_COLOR{ 32u, 32u, 32u };
 	const sf::Color BUTTON_HOVER_COLOR{ 16u, 16u, 16u };
 };

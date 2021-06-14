@@ -11,7 +11,8 @@ Player::Player(const sf::Vector2f& position,
 				const sf::Vector2u& animation_frames,
 				const float& animation_time):
 	Entity(position, textures, texture, velocity, acceleration, hp, push_back_force, type, animation_frames, animation_time)
-{}
+{
+}
 
 Player::~Player()
 {}

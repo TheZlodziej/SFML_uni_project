@@ -57,6 +57,7 @@ void Game::LoadTextures()
 	this->textures_.Add(TEXTURE::CURSOR, "assets/cursor.png");
 	this->textures_.Add(TEXTURE::BOX, "assets/box.png");
 	this->textures_.Add(TEXTURE::SWORD, "assets/sword.png");
+	this->textures_.Add(TEXTURE::HAND, "assets/hand.png");
 }
 
 void Game::SetupCamera()
@@ -83,8 +84,8 @@ void Game::SetupCursor()
 void Game::SetupScreens()
 {
 	Screen start_screen(this->player_);
-	start_screen.AddLabel(this->font_, "TESTOWY EKRAN", { 0.0f, -100.0f }, 32u);
-	start_screen.AddButton(this->font_, BUTTON_TYPE::CLOSE, "TESTOWY PRZYCISK", { 0.0f, 200.0f });
+	start_screen.AddLabel(this->font_, "Welcome to {game_name}!", { 0.0f, -100.0f }, 32u);
+	start_screen.AddButton(this->font_, BUTTON_TYPE::CLOSE, "PLAY", { 0.0f, 200.0f });
 	start_screen.SetActive(true);
 	this->screens_.insert(std::make_pair(SCREEN_TYPE::START, start_screen));
 
@@ -120,6 +121,7 @@ void Game::UpdateCursor()
 void Game::SetupPlayer()
 {
 	Player* player = new Player({ 0.0f, 0.0f }, &this->textures_, TEXTURE::PLAYER);
+	player->GetInventory()->Add(new Hand(sf::Vector2f(0.0f, 0.0f), 1000, &this->textures_, player), this->font_);
 	player->GetInventory()->Add(new Gun(sf::Vector2f{ 0.0f, 0.0f }, 100, &this->textures_, player, 0.5f), this->font_);
 	player->GetInventory()->Add(new Sword(sf::Vector2f{ 0.0f, 0.0f }, 30, &this->textures_, player), this->font_);
 	this->player_ = player;
@@ -504,26 +506,12 @@ void Game::HandlePlayerMovement()
 	sf::Vector2f new_acceleration(0.0f, 0.0f);
 	float dir_force = GAME_CONST::ENTITY_MOVE_ACCELERATION;
 
-	//gun test
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Y))
-	{
-		Gun* gun = new Gun(sf::Vector2f(0.0f, 0.0f), 10, &this->textures_, this->player_);
-		this->player_->GetInventory()->Add(gun);
-	}
-	//
-
-	//test
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::T))
-	{
-		this->player_->LoseHp(0.01f);
-	}
-	//endtest
-
 	//test enemy
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::R))
 	{
 		Enemy* e = Enemy::MakeRandomEnemy({ float(rand() % 1000), float(rand() % 1000) }, &this->textures_);
 		e->SetObjectToFollow(this->player_);
+		e->GetInventory()->Add(new Hand(sf::Vector2f(0.0f, 0.0f), 1000, &this->textures_, e));
 		this->enemies_.emplace_back(e);
 	}
 	//end test
