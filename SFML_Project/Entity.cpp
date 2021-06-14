@@ -5,7 +5,9 @@ Entity::Entity(const sf::Vector2f& position, TextureManager* textures, const TEX
 	velocity_(velocity),
 	hp_bar_(hp),
 	acceleration_(acceleration)
-{}
+{
+	this->inventory_.Add(new Hand(sf::Vector2f(0.0f, 0.0f), 9999u, textures, this));
+}
 
 Entity::~Entity() {}
 

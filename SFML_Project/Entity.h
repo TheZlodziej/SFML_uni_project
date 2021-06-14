@@ -9,6 +9,7 @@
 #include "GameConstants.h"
 #include "HelperFunctions.h"
 #include "HpBar.h"
+#include "Hand.h"
 
 //debug
 #include <iostream>

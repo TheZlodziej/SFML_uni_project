@@ -19,7 +19,8 @@ Enemy::Enemy(
 	range_(range),
 	follow_speed_(follow_speed),
 	to_follow_(to_follow)
-{}
+{
+}
 
 Enemy::~Enemy()
 {}

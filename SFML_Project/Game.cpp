@@ -121,7 +121,6 @@ void Game::UpdateCursor()
 void Game::SetupPlayer()
 {
 	Player* player = new Player({ 0.0f, 0.0f }, &this->textures_, TEXTURE::PLAYER);
-	player->GetInventory()->Add(new Hand(sf::Vector2f(0.0f, 0.0f), 1000, &this->textures_, player), this->font_);
 	player->GetInventory()->Add(new Gun(sf::Vector2f{ 0.0f, 0.0f }, 100, &this->textures_, player, 0.5f), this->font_);
 	player->GetInventory()->Add(new Sword(sf::Vector2f{ 0.0f, 0.0f }, 30, &this->textures_, player), this->font_);
 	this->player_ = player;
@@ -511,7 +510,6 @@ void Game::HandlePlayerMovement()
 	{
 		Enemy* e = Enemy::MakeRandomEnemy({ float(rand() % 1000), float(rand() % 1000) }, &this->textures_);
 		e->SetObjectToFollow(this->player_);
-		e->GetInventory()->Add(new Hand(sf::Vector2f(0.0f, 0.0f), 1000, &this->textures_, e));
 		this->enemies_.emplace_back(e);
 	}
 	//end test
