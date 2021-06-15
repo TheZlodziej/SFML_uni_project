@@ -14,4 +14,4 @@ sf::Vector2f NormalizeVec2f(sf::Vector2f vec);											// returns vector with 
 float DegToRad(float deg);																// converts degrees to radians
 float RadToDeg(float rad);																// converts radians to degrees
 float Clamp(const float& num, const float& min, const float& max);						// works as standard clamp function
-sf::Vector2f GetRandomVec2fInRange(const int& a, const sf::Vector2f& origin);			// gets random coordinate in (x,y) -> [-a/2; a/2]
+sf::Vector2f GetRandomVec2fInRange(const int& a, const sf::Vector2f& origin);			// gets random coordinate in (x,y) -> [-a; a]
