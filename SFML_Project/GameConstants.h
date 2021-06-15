@@ -22,7 +22,9 @@ namespace GAME_CONST
 	const float ENEMY_FOLLOW_ACCELERATION[] = {ENTITY_MOVE_ACCELERATION/3.0f, ENTITY_MOVE_ACCELERATION/2.0f, ENTITY_MOVE_ACCELERATION/1.5f};
 	const float ENEMY_HP[] = { 50.0f, 150.0f, 300.0f };
 	const float ENEMY_PUSH_BACK_FORCE[] = { 0.5f, 0.6f, 0.7f };
-	
+	const float ENEMY_SPAWN_TIME = 3.0f;
+	const int ENEMY_SPAWN_RANGE = 500;
+
 	const float HP_BAR_HEIGHT = 10.0f;
 	const float HP_BAR_WIDTH = 120.0f;
 	const float HP_BAR_OFFSET = 30.0f;

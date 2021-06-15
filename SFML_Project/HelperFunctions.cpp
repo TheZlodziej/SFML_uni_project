@@ -5,6 +5,16 @@ float Clamp(const float& num, const float& min, const float& max)
 	return std::max(min, std::min(num, max));
 }
 
+sf::Vector2f GetRandomVec2fInRange(const int& a, const sf::Vector2f& origin)
+{
+	sf::Vector2f pos = origin;
+
+	pos.x += static_cast<float>(std::rand() % (2 * a + 1) - a);
+	pos.y += static_cast<float>(std::rand() % (2 * a + 1) - a);
+
+	return pos;
+}
+
 void ClampVec2f(sf::Vector2f& vec, const float& min, const float& max)
 {
 	vec.x = Clamp(vec.x, min, max);

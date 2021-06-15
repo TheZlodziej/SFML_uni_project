@@ -5,7 +5,8 @@ Game::Game() :
 	delta_time_(0.0f),
 	player_(nullptr),
 	font_(nullptr),
-	paused_(false)
+	paused_(false),
+	enemies_spawn_timer_(0.0f)
 {	
 	this->LoadTextures();
 	this->LoadFont();
@@ -63,6 +64,22 @@ void Game::LoadTextures()
 void Game::SetupCamera()
 {
 	this->camera_.Resize(this->window_);
+}
+
+void Game::SpawnEnemies()
+{
+	if (this->enemies_spawn_timer_ < GAME_CONST::ENEMY_SPAWN_TIME)
+	{
+		return;
+	}
+
+	this->enemies_spawn_timer_ = 0.0f;
+
+	sf::Vector2f enemy_pos = GetRandomVec2fInRange(GAME_CONST::ENEMY_SPAWN_RANGE, this->player_->GetPosition());
+	Enemy* enemy = Enemy::MakeRandomEnemy(enemy_pos, &this->textures_);
+	enemy->SetObjectToFollow(this->player_);
+	
+	this->enemies_.emplace_back(enemy);
 }
 
 void Game::CheckIfGamePaused()
@@ -207,6 +224,11 @@ void Game::HandleWindowEvents()
 		if (event.type == sf::Event::Resized)
 		{
 			this->camera_.Resize(this->window_);
+		}
+
+		if (event.type == sf::Event::LostFocus)
+		{
+			this->screens_[SCREEN_TYPE::PAUSE].SetActive(true);
 		}
 	}
 }
@@ -444,6 +466,8 @@ void Game::UpdateGameObjects()
 		return;
 	}
 
+	this->SpawnEnemies();
+
 	for (auto& game_obj : this->terrain_)
 	{
 		game_obj->Update(this->delta_time_);
@@ -492,6 +516,7 @@ void Game::DisplayWindow()
 void Game::SetDeltaTime()
 {
 	this->delta_time_ = this->clock_.restart().asSeconds();
+	this->enemies_spawn_timer_ += this->delta_time_;
 }
 
 void Game::KeyboardInput()
@@ -504,15 +529,6 @@ void Game::HandlePlayerMovement()
 {
 	sf::Vector2f new_acceleration(0.0f, 0.0f);
 	float dir_force = GAME_CONST::ENTITY_MOVE_ACCELERATION;
-
-	//test enemy
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::R))
-	{
-		Enemy* e = Enemy::MakeRandomEnemy({ float(rand() % 1000), float(rand() % 1000) }, &this->textures_);
-		e->SetObjectToFollow(this->player_);
-		this->enemies_.emplace_back(e);
-	}
-	//end test
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 	{
@@ -623,5 +639,6 @@ void Game::Update()
 	this->UpdateCamera();
 	this->UpdateCursor();
 	this->UpdateScreens();
+	this->SpawnEnemies();
 	this->CheckIfGamePaused();
 }

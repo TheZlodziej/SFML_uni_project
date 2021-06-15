@@ -32,6 +32,7 @@ private:
 	sf::Font* font_;
 	std::unordered_map<SCREEN_TYPE, Screen> screens_;
 	bool paused_;
+	float enemies_spawn_timer_;
 
 	Player* player_;
 	std::vector<Enemy*> enemies_;
@@ -46,6 +47,7 @@ public:
 	void LoadTextures();								// loads textures; call in constructor
 	void HandleWindowEvents();							// function for handling window events (close, resize, etc.)
 	void SetupCamera();									// sets default camera values
+	void SpawnEnemies();								// spawns enemies when needed
 	void CheckIfGamePaused();							// pauses the game if any window is open
 	void SetupCursor();									// initializes cursor
 	void SetupScreens();								// adds default screens to the screens_ vector
