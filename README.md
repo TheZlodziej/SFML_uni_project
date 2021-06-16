@@ -3,7 +3,7 @@
 # TODO
 - [x] ~~add boss type enemies (basically the same as the others but stronger)~~ <- normal enemies can be stronger
 - [x] ~~make sprites (textures for the game)~~ <- the ones that are already there look good (the look isn't the purpose of this project)
-- [ ] map generator
+- [x] map generator
 - [x] ~~add sounds~~ <- tried it, didn't like it
 - [x] add screen states (different screens for starting, pausing and ending the game)
 - [x] add different weapons (sword for sure, hand as default weapong for every entity)
