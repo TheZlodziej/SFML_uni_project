@@ -409,16 +409,20 @@ void Game::CheckObjectsCollision()
 			if (e1_pbf > e2_pbf)
 			{
 				collision = e1_coll.CheckCollision(e2_coll, e1_pbf);
+				if (collision)
+				{
+					// stop the weaker enemy
+					e2->SetAcceleration(sf::Vector2f(0.0f, 0.0f));
+				}
 			}
 			else
 			{
 				collision = e2_coll.CheckCollision(e1_coll, e2_pbf);
-			}
-
-			if (collision)
-			{
-				e1->SetAcceleration(sf::Vector2f(0.0f, 0.0f));
-				e2->SetAcceleration(sf::Vector2f(0.0f, 0.0f));
+				if (collision)
+				{
+					// stop the weaker enemy
+					e1->SetAcceleration(sf::Vector2f(0.0f, 0.0f));
+				}
 			}
 		}
 	}
