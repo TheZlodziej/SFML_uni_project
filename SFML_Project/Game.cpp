@@ -542,6 +542,7 @@ void Game::CheckObjectsCollision()
 			{
 				delete (*e_it);
 				e_it = this->enemies_.erase(e_it);
+				this->player_->LoseHp(-GAME_CONST::HP_RETURNED_AFTER_KILL);
 			}
 			else
 			{

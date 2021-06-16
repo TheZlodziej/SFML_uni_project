@@ -117,6 +117,7 @@ bool Entity::LoseHp(const float& amount)
 		return false;
 	}
 
+	ClampFloat(this->hp_bar_.hp, 0.0f, this->hp_bar_.max_hp);
 	return true;
 }
 
