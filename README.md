@@ -1,4 +1,18 @@
-## Keep in mind, this project is still in development stage (should be finished in about two weeks)
+# Laex1
+### 2D game made in C++/SFML
+
+## Installing
+- download the code and build it (you need to have sfml added to your project directory - [tutorial here](https://www.sfml-dev.org/tutorials/2.5/))
+- add the "assets" folder to your .exe directory
+- run the game
+
+## Gameplay
+
+## Screenshots
+![](img/screenshot1.png)
+![](img/screenshot2.png)
+![](img/screenshot3.png)
+![](img/screenshot4.png)
 
 # TODO
 - [x] ~~add boss type enemies (basically the same as the others but stronger)~~ <- normal enemies can be stronger
