@@ -68,6 +68,8 @@ void Game::SetupCamera()
 
 void Game::SpawnEnemies()
 {
+	this->enemies_spawn_timer_ += this->delta_time_;
+
 	if (this->enemies_spawn_timer_ < GAME_CONST::ENEMY_SPAWN_TIME)
 	{
 		return;
@@ -516,7 +518,6 @@ void Game::DisplayWindow()
 void Game::SetDeltaTime()
 {
 	this->delta_time_ = this->clock_.restart().asSeconds();
-	this->enemies_spawn_timer_ += this->delta_time_;
 }
 
 void Game::KeyboardInput()
@@ -639,6 +640,5 @@ void Game::Update()
 	this->UpdateCamera();
 	this->UpdateCursor();
 	this->UpdateScreens();
-	this->SpawnEnemies();
 	this->CheckIfGamePaused();
 }
