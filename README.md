@@ -7,6 +7,7 @@
 - run the game
 
 ## Gameplay
+![](https://youtu.be/gPPxdLDSbvs)
 
 ## Screenshots
 ![](img/screenshot1.png)
