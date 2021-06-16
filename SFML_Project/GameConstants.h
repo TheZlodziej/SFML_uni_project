@@ -26,7 +26,7 @@ namespace GAME_CONST
 	const float ENEMY_FOLLOW_ACCELERATION[] = {ENTITY_MOVE_ACCELERATION/3.0f, ENTITY_MOVE_ACCELERATION/2.0f, ENTITY_MOVE_ACCELERATION/1.5f};
 	const float ENEMY_HP[] = { 50.0f, 150.0f, 300.0f };
 	const float ENEMY_PUSH_BACK_FORCE[] = { 0.5f, 0.6f, 0.7f };
-	const float ENEMY_SPAWN_TIME = 3.0f;
+	const float ENEMY_SPAWN_TIME = 10.0f;
 	const int ENEMY_SPAWN_RANGE = 500;
 
 	const float HP_BAR_HEIGHT = 10.0f;
@@ -41,7 +41,7 @@ namespace GAME_CONST
 
 	const sf::Color ITEMS_BG_COLOR{ 74u, 169u, 108u };
 	const sf::Color SELECTED_ITEM_COLOR{ 159u, 230u, 160u };
-	const float ITEM_SPAWN_TIME = 10.0f;
+	const float ITEM_SPAWN_TIME = 15.0f;
 	const int ITEM_SPAWN_RANGE = 1000;
 
 	const sf::Color BG_COLOR{ 19u, 58u, 43u };
@@ -61,4 +61,9 @@ namespace GAME_CONST
 	const float BUTTON_LEFT_MARGIN = 20.0f;
 	const sf::Color BUTTON_COLOR{ 32u, 32u, 32u };
 	const sf::Color BUTTON_HOVER_COLOR{ 16u, 16u, 16u };
+
+	const int BOXES_NB = 20;
+	const int TREES_NB = 35;
+	const int START_ENEMY_NB = 10;
+	const int START_ITEM_NB = 2;
 };

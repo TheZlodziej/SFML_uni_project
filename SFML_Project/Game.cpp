@@ -152,25 +152,7 @@ void Game::SpawnItems()
 	{
 		this->items_spawn_timer_ = 0.0f;
 
-		int rand_nb = std::rand() % 2;
-		unsigned int rand_dur = 10 + std::rand() % 41;
-		float rand_cd = 0.1f + static_cast<float>(std::rand() % 21) / 10.0f;
-		sf::Vector2f item_pos = GetRandomVec2fInRange(GAME_CONST::ITEM_SPAWN_RANGE, this->player_->GetPosition());
-
-		Item* new_item = nullptr;
-
-		switch (rand_nb)
-		{
-		case 0:
-			new_item = new Gun(item_pos, rand_dur, &this->textures_, nullptr, rand_cd);
-			break;
-
-		case 1:
-			new_item = new Sword(item_pos, rand_dur, &this->textures_, nullptr, rand_cd);
-			break;
-		}
-
-		this->items_.emplace_back(new_item);
+		this->SpawnRandomItem();
 	}
 }
 
@@ -199,20 +181,28 @@ void Game::UpdateCursor()
 void Game::SetupPlayer()
 {
 	Player* player = new Player({ 0.0f, 0.0f }, &this->textures_, TEXTURE::PLAYER);
-	player->GetInventory()->Add(new Gun(sf::Vector2f{ 0.0f, 0.0f }, 100, &this->textures_, player, 0.5f), this->font_);
-	player->GetInventory()->Add(new Sword(sf::Vector2f{ 0.0f, 0.0f }, 30, &this->textures_, player), this->font_);
 	this->player_ = player;
 }
 
 void Game::SetupTerrain()
 {
-	// boxes
-	Terrain* b1 = Terrain::MakeTerrain(TERRAIN::BOX, &this->textures_, { 600.0f, 600.0f });
-	this->terrain_.emplace_back(b1);
+	// spawn boxes
+	for (int i = 0; i < GAME_CONST::BOXES_NB; i++)
+	{
+		float rand_scale = 1.0f + static_cast<float>(std::rand() % 11) / 10.0f;
+		sf::Vector2f rand_pos = GetRandomVec2fInRange(static_cast<int>(GAME_CONST::MAP_WIDTH * 0.5f), { 0.0f, 0.0f });
+		Terrain* box = Terrain::MakeTerrain(TERRAIN::BOX, &this->textures_, rand_pos, { rand_scale, rand_scale });
+		this->terrain_.emplace_back(box);
+	}
 
-	// trees
-	Terrain* t1 = Terrain::MakeTerrain(TERRAIN::TREE, &this->textures_, { 200.0f, 300.0f });
-	this->terrain_.emplace_back(t1);
+	// spawn trees
+	for (int i = 0; i < GAME_CONST::TREES_NB; i++)
+	{
+		float rand_scale = 1.0f + static_cast<float>(std::rand() % 11) / 10.0f;
+		sf::Vector2f rand_pos = GetRandomVec2fInRange(static_cast<int>(GAME_CONST::MAP_WIDTH * 0.5f), { 0.0f, 0.0f });
+		Terrain* box = Terrain::MakeTerrain(TERRAIN::TREE, &this->textures_, rand_pos, { rand_scale, rand_scale });
+		this->terrain_.emplace_back(box);
+	}
 
 	// bounding walls
 	float map_w = GAME_CONST::MAP_WIDTH;
@@ -233,26 +223,46 @@ void Game::SetupTerrain()
 
 void Game::SetupEnemies()
 {
-	Enemy* e1 = Enemy::MakeRandomEnemy({ 550.0f, 0.0f }, &this->textures_);
-	e1->SetObjectToFollow(this->player_);
-	this->enemies_.emplace_back(e1);
-
-	Enemy* e2 = Enemy::MakeRandomEnemy({ 300.0f, 200.0f }, &this->textures_);
-	e2->SetObjectToFollow(this->player_);
-	this->enemies_.emplace_back(e2);
-	
+	for (int i = 0; i < GAME_CONST::START_ENEMY_NB; i++)
+	{
+		float rand_scale = 0.75f + static_cast<float>(std::rand() % 11) / 20.0f;
+		sf::Vector2f rand_pos = GetRandomVec2fInRange(static_cast<int>(GAME_CONST::MAP_WIDTH * 0.5f), { 0.0f, 0.0f });
+		Enemy* enemy = Enemy::MakeRandomEnemy(rand_pos, &this->textures_);
+		enemy->GetSprite().setScale(rand_scale, rand_scale);
+		enemy->SetObjectToFollow(this->player_);
+		this->enemies_.emplace_back(enemy);
+	}
 }
 
 void Game::SetupItems()
 {
-	Gun* gun = new Gun({ 100.0f, 100.0f }, 10, &this->textures_);
-	this->items_.push_back(gun);
+	for (int i = 0; i < GAME_CONST::START_ITEM_NB; i++)
+	{
+		this->SpawnRandomItem();
+	}
+}
 
-	Gun* gun1 = new Gun({ -500.0f, 100.0f }, 100, &this->textures_, nullptr, 0.1f, 1000.0f, 100.0f);
-	this->items_.push_back(gun1);
+void Game::SpawnRandomItem()
+{
+	int rand_nb = std::rand() % 2;
+	unsigned int rand_dur = 10 + std::rand() % 41;
+	float rand_cd = 0.3f + static_cast<float>(std::rand() % 21) / 20.0f;
+	sf::Vector2f item_pos = GetRandomVec2fInRange(GAME_CONST::ITEM_SPAWN_RANGE, this->player_->GetPosition());
 
-	Sword* sword = new Sword({ 300.0f, -100.0f }, 100, &this->textures_, nullptr);
-	this->items_.push_back(sword);
+	Item* new_item = nullptr;
+
+	switch (rand_nb)
+	{
+	case 0:
+		new_item = new Gun(item_pos, rand_dur, &this->textures_, nullptr, rand_cd);
+		break;
+
+	case 1:
+		new_item = new Sword(item_pos, rand_dur, &this->textures_, nullptr, rand_cd);
+		break;
+	}
+
+	this->items_.emplace_back(new_item);
 }
 
 bool Game::IsRunning()

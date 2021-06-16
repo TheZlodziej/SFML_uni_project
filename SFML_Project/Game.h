@@ -62,6 +62,7 @@ public:
 	void SetupTerrain();								// spawns default terrain on the map
 	void SetupEnemies();								// spawns deafult enemies on the map
 	void SetupItems();									// spawns default items on the map
+	void SpawnRandomItem();								// spawns random item around player
 	void MouseInput();									// handles mouse inputs (click, movement, etc.)
 	void Update();										// main update function
 	void Draw();										// main draw function
