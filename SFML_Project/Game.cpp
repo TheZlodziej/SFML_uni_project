@@ -1,7 +1,7 @@
 #include "Game.h"
 
 Game::Game() :
-	window_(sf::VideoMode(GAME_CONST::WINDOW_WIDTH, GAME_CONST::WINDOW_HEIGHT), "MyGameTitle"),
+	window_(sf::VideoMode(GAME_CONST::WINDOW_WIDTH, GAME_CONST::WINDOW_HEIGHT), GAME_CONST::GAME_TITLE),
 	delta_time_(0.0f),
 	player_(nullptr),
 	font_(nullptr),
@@ -84,14 +84,22 @@ void Game::SpawnEnemies()
 	this->enemies_.emplace_back(enemy);
 }
 
-void Game::CheckIfGamePaused()
+bool Game::AnyScreenActive()
 {
-	paused_ = std::any_of(this->screens_.begin(), this->screens_.end(), 
-		[](const std::pair<SCREEN_TYPE, Screen>& screen) 
+	return std::any_of(this->screens_.begin(), this->screens_.end(),
+		[](const std::pair<SCREEN_TYPE, Screen>& screen)
 		{
 			return screen.second.IsActive();
 		}
 	);
+}
+
+void Game::PauseIfScreenOpened()
+{
+	if (this->AnyScreenActive())
+	{
+		this->paused_ = true;
+	}
 }
 
 void Game::SetupCursor()
@@ -103,16 +111,30 @@ void Game::SetupCursor()
 void Game::SetupScreens()
 {
 	Screen start_screen(this->player_);
-	start_screen.AddLabel(this->font_, "Welcome to {game_name}!", { 0.0f, -100.0f }, 32u);
-	start_screen.AddButton(this->font_, BUTTON_TYPE::CLOSE, "PLAY", { 0.0f, 200.0f });
+	start_screen.AddLabel(this->font_, GAME_CONST::GAME_TITLE, { 0.0f, -200.0f }, 52u);
+	start_screen.AddLabel(this->font_, "Press the button below to play!", { 0.0f, -50.0f }, 32u);
+	start_screen.AddButton(this->font_, BUTTON_TYPE::CLOSE, "    PLAY    ", { 0.0f, 200.0f });
 	start_screen.SetActive(true);
 	this->screens_.insert(std::make_pair(SCREEN_TYPE::START, start_screen));
 
 	Screen pause_screen(this->player_);
 	pause_screen.AddLabel(this->font_, "GAME PAUSED", { 0.0f, -100.0f }, 32u);
-	pause_screen.AddLabel(this->font_, "Press P to resume...", { 0.0f, -50.0f }, 24u);
+	pause_screen.AddLabel(this->font_, "The Game will be paused until you press the button below...", { 0.0f, -25.0f }, 24u);
 	pause_screen.AddButton(this->font_, BUTTON_TYPE::CLOSE, "Resume The Game", { 0.0f, 100.0f }, 32u);
 	this->screens_.insert(std::make_pair(SCREEN_TYPE::PAUSE, pause_screen));
+
+	Screen end_screen(this->player_);
+	end_screen.AddLabel(this->font_, "YOU DIED!", { 0.0f, -100.0f });
+	end_screen.AddButton(this->font_, BUTTON_TYPE::CLOSE_WINDOW, "Exit The Game", { 0.0f, 100.0f }, 32u);
+	this->screens_.insert(std::make_pair(SCREEN_TYPE::END, end_screen));
+}
+
+void Game::Pause()
+{
+	if (!this->AnyScreenActive())
+	{
+		this->screens_.at(SCREEN_TYPE::PAUSE).SetActive(!this->screens_.at(SCREEN_TYPE::PAUSE).IsActive());
+	}
 }
 
 void Game::ScreenInput()
@@ -123,7 +145,7 @@ void Game::ScreenInput()
 		if (p_released)
 		{
 			p_released = false;
-			this->screens_.at(SCREEN_TYPE::PAUSE).SetActive(!this->screens_.at(SCREEN_TYPE::PAUSE).IsActive());
+			this->Pause();
 		}
 	}
 	else
@@ -230,7 +252,7 @@ void Game::HandleWindowEvents()
 
 		if (event.type == sf::Event::LostFocus)
 		{
-			this->screens_[SCREEN_TYPE::PAUSE].SetActive(true);
+			this->Pause();
 		}
 	}
 }
@@ -261,14 +283,20 @@ void Game::CheckObjectsCollision()
 	{
 		Collider e_coll = e->GetCollider();
 		float e_pbf = e->GetPushBackForce();
+		bool collision = false;
 
 		if (pl_pbf > e_pbf)
 		{
-			pl_coll.CheckCollision(e_coll, pl_pbf);
+			collision = pl_coll.CheckCollision(e_coll, pl_pbf);
 		}
 		else
 		{
-			e_coll.CheckCollision(pl_coll, e_pbf);
+			collision = e_coll.CheckCollision(pl_coll, e_pbf);
+		}
+
+		if (collision)
+		{
+			e->SetAcceleration(sf::Vector2f(0.0f, 0.0f));
 		}
 	}
 
@@ -287,14 +315,21 @@ void Game::CheckObjectsCollision()
 
 			Collider e2_coll = e2->GetCollider();
 			float e2_pbf = e2->GetPushBackForce();
+			bool collision = false;
 
 			if (e1_pbf > e2_pbf)
 			{
-				e1_coll.CheckCollision(e2_coll, e1_pbf);
+				collision = e1_coll.CheckCollision(e2_coll, e1_pbf);
 			}
 			else
 			{
-				e2_coll.CheckCollision(e1_coll, e2_pbf);
+				collision = e2_coll.CheckCollision(e1_coll, e2_pbf);
+			}
+
+			if (collision)
+			{
+				e1->SetAcceleration(sf::Vector2f(0.0f, 0.0f));
+				e2->SetAcceleration(sf::Vector2f(0.0f, 0.0f));
 			}
 		}
 	}
@@ -455,7 +490,7 @@ void Game::CheckObjectsCollision()
 			if (died)
 			{
 				// game over !
-				this->window_.close();
+				this->screens_[SCREEN_TYPE::END].SetActive(true);
 			}
 		}
 	}
@@ -613,11 +648,16 @@ void Game::DrawScreens()
 
 void Game::UpdateScreens()
 {
+	if (!this->screens_[SCREEN_TYPE::PAUSE].IsActive())
+	{
+		this->paused_ = false;
+	}
+
 	for (auto& [key, screen] : this->screens_)
 	{
 		if (screen.IsActive())
 		{
-			screen.Update(this->cursor_.GetPosition());
+			screen.Update(this->cursor_.GetPosition(), this->window_);
 		}
 	}
 }
@@ -640,5 +680,5 @@ void Game::Update()
 	this->UpdateCamera();
 	this->UpdateCursor();
 	this->UpdateScreens();
-	this->CheckIfGamePaused();
+	this->PauseIfScreenOpened();
 }

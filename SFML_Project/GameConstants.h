@@ -1,11 +1,15 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include <string>
+
 namespace GAME_CONST
 {
 	const unsigned int WINDOW_WIDTH = 1200;
 	const unsigned int WINDOW_HEIGHT = 800;
 	
 	const float PI = 3.1415f;
+
+	const std::string GAME_TITLE = "Laex1";
 
 	const float CAMERA_HEIGHT = static_cast<float>(WINDOW_HEIGHT);
 	const float CAMERA_WIDTH = static_cast<float>(WINDOW_WIDTH);

@@ -14,8 +14,11 @@ Screen::~Screen()
 {
 }
 
-void Screen::Update(const sf::Vector2f& mouse_pos)
+void Screen::Update(const sf::Vector2f& mouse_pos, sf::RenderWindow& window)
 {
+    // update view size
+    this->view_size_ = window.getView().getSize();
+
     // update screen origin
     if (this->relative_to_ != nullptr)
     {
@@ -41,15 +44,13 @@ void Screen::Update(const sf::Vector2f& mouse_pos)
         button.Update(this->origin_, mouse_pos);
         if (button.Clicked(mouse_pos))
         {
-            this->HandleButtonEvent(button.type);
+            this->HandleButtonEvent(button.type, window);
         }
     }
 }
 
 void Screen::Draw(sf::RenderWindow& window)
 {
-    this->view_size_ = window.getView().getSize(); // for correct bg size
-
     window.draw(this->background_);
     for (auto& text_struct : this->labels_)
     {
@@ -67,14 +68,19 @@ bool Screen::IsActive() const
     return this->is_active_;
 }
 
-void Screen::HandleButtonEvent(const BUTTON_TYPE& btn_type)
+void Screen::HandleButtonEvent(const BUTTON_TYPE& btn_type, sf::RenderWindow& window)
 {
     switch (btn_type)
     {
     case BUTTON_TYPE::CLOSE:
         this->SetActive(false);
         break;
+    
+    case BUTTON_TYPE::CLOSE_WINDOW:
+        window.close();
+        break;
     }
+    
 }
 
 void Screen::SetActive(const bool& state)

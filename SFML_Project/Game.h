@@ -44,11 +44,13 @@ public:
 	virtual ~Game();
 	bool IsRunning();									// returns the state of the game window
 	void LoadFont();									// load font for the game
+	void Pause();										// pauses the game
+	bool AnyScreenActive();								// returns true if any of the screen is set to active
+	void PauseIfScreenOpened();							// pauses the screen if AnyScreenActive() returns true
 	void LoadTextures();								// loads textures; call in constructor
 	void HandleWindowEvents();							// function for handling window events (close, resize, etc.)
 	void SetupCamera();									// sets default camera values
 	void SpawnEnemies();								// spawns enemies when needed
-	void CheckIfGamePaused();							// pauses the game if any window is open
 	void SetupCursor();									// initializes cursor
 	void SetupScreens();								// adds default screens to the screens_ vector
 	void ScreenInput();									// checks for input even if the game is in pause state

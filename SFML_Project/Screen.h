@@ -12,7 +12,7 @@ struct Label
 	void Update(const sf::Vector2f& origin);
 };
 
-enum class BUTTON_TYPE { CLOSE };
+enum class BUTTON_TYPE { CLOSE, CLOSE_WINDOW };
 
 struct Button
 {
@@ -27,7 +27,7 @@ struct Button
 	bool Clicked(const sf::Vector2f mouse_pos);
 };
 
-enum class SCREEN_TYPE { START, PAUSE };
+enum class SCREEN_TYPE { START, PAUSE, END };
 
 class Screen
 {
@@ -43,10 +43,10 @@ private:
 public:
 	Screen(GameObject* relative_to = nullptr);
 	virtual ~Screen();
-	void Update(const sf::Vector2f& mouse_pos);
+	void Update(const sf::Vector2f& mouse_pos, sf::RenderWindow& window);
 	void Draw(sf::RenderWindow& window);
 	bool IsActive() const;
-	void HandleButtonEvent(const BUTTON_TYPE& btn_type);
+	void HandleButtonEvent(const BUTTON_TYPE& btn_type, sf::RenderWindow& window);
 	void SetActive(const bool& state);
 	void AddLabel(sf::Font* font, const std::string& string, const sf::Vector2f& position, const unsigned int& size = 32u);
 	void AddButton(sf::Font* font, const BUTTON_TYPE& type, const std::string& string, const sf::Vector2f& position, const unsigned int& font_size = 32u);

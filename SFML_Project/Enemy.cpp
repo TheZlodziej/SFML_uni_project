@@ -36,15 +36,11 @@ void Enemy::Follow()
 
 	float distance = DistanceVec2f(this->to_follow_->GetPosition(), this->GetPosition());
 	
-	if (distance <= this->range_ && distance > this->to_follow_->GetRadius() + this->GetRadius())
+	if (distance <= this->range_ /*&& distance > this->to_follow_->GetRadius() + this->GetRadius()*/)
 	{
 		sf::Vector2f acc = this->GetDirection(this->to_follow_) * this->follow_speed_;
 		this->SetAcceleration(acc);
 		this->LookAt(this->to_follow_);
-	}
-	else
-	{
-		this->SetAcceleration(sf::Vector2f(0.0f, 0.0f));
 	}
 }
 
