@@ -1,7 +1,7 @@
 ## Keep in mind, this project is still in development stage (should be finished in about two weeks)
 
 # TODO
-- [ ] add boss type enemies (basically the same as the others but stronger)
+- [ ] -add boss type enemies (basically the same as the others but stronger)-
 - [ ] make sprites (textures for the game)
 - [ ] map generator
 - [ ] add sounds
