@@ -33,6 +33,7 @@ private:
 	std::unordered_map<SCREEN_TYPE, Screen> screens_;
 	bool paused_;
 	float enemies_spawn_timer_;
+	float items_spawn_timer_;
 
 	Player* player_;
 	std::vector<Enemy*> enemies_;
@@ -45,6 +46,7 @@ public:
 	bool IsRunning();									// returns the state of the game window
 	void LoadFont();									// load font for the game
 	void Pause();										// pauses the game
+	void SpawnItems();									// spawns a new item on the map when needed
 	bool AnyScreenActive();								// returns true if any of the screen is set to active
 	void PauseIfScreenOpened();							// pauses the screen if AnyScreenActive() returns true
 	void LoadTextures();								// loads textures; call in constructor

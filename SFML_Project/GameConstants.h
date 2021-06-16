@@ -41,6 +41,7 @@ namespace GAME_CONST
 
 	const sf::Color ITEMS_BG_COLOR{ 74u, 169u, 108u };
 	const sf::Color SELECTED_ITEM_COLOR{ 159u, 230u, 160u };
+	const float ITEM_SPAWN_TIME = 10.0f;
 
 	const sf::Color BG_COLOR{ 19u, 58u, 43u };
 

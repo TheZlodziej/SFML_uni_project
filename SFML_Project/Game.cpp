@@ -6,7 +6,8 @@ Game::Game() :
 	player_(nullptr),
 	font_(nullptr),
 	paused_(false),
-	enemies_spawn_timer_(0.0f)
+	enemies_spawn_timer_(0.0f),
+	items_spawn_timer_(0.0f)
 {	
 	this->LoadTextures();
 	this->LoadFont();
@@ -134,6 +135,36 @@ void Game::Pause()
 	if (!this->AnyScreenActive())
 	{
 		this->screens_.at(SCREEN_TYPE::PAUSE).SetActive(!this->screens_.at(SCREEN_TYPE::PAUSE).IsActive());
+	}
+}
+
+void Game::SpawnItems()
+{
+	this->items_spawn_timer_ += this->delta_time_;
+
+	if (this->items_spawn_timer_ >= GAME_CONST::ITEM_SPAWN_TIME)
+	{
+		this->items_spawn_timer_ = 0.0f;
+
+		int rand_nb = std::rand() % 2;
+		unsigned int rand_dur = 10 + std::rand() % 40;
+		float rand_cd = 0.1f + static_cast<float>(std::rand() % 20) / 10.0f;
+		sf::Vector2f item_pos = GetRandomVec2fInRange(static_cast<float>(GAME_CONST::MAP_WIDTH)*0.5f, { 0.0f, 0.0f });
+
+		Item* new_item = nullptr;
+
+		switch (rand_nb)
+		{
+		case 0:
+			new_item = new Gun(item_pos, rand_dur, &this->textures_, nullptr, rand_cd);
+			break;
+
+		case 1:
+			new_item = new Sword(item_pos, rand_dur, &this->textures_, nullptr, rand_cd);
+			break;
+		}
+
+		this->items_.emplace_back(new_item);
 	}
 }
 
@@ -503,6 +534,7 @@ void Game::UpdateGameObjects()
 		return;
 	}
 
+	this->SpawnItems();
 	this->SpawnEnemies();
 
 	for (auto& game_obj : this->terrain_)
