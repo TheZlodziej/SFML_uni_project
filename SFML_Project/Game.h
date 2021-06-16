@@ -54,6 +54,7 @@ public:
 	void SetupCamera();									// sets default camera values
 	void SpawnEnemies();								// spawns enemies when needed
 	void SetupCursor();									// initializes cursor
+	void RemoveOutOfMapObjects();						// removes objects that are out of map range
 	void SetupScreens();								// adds default screens to the screens_ vector
 	void ScreenInput();									// checks for input even if the game is in pause state
 	void UpdateCursor();								// updates cursor position

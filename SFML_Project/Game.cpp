@@ -113,7 +113,13 @@ void Game::SetupScreens()
 {
 	Screen start_screen(this->player_);
 	start_screen.AddLabel(this->font_, GAME_CONST::GAME_TITLE, { 0.0f, -200.0f }, 52u);
-	start_screen.AddLabel(this->font_, "Press the button below to play!", { 0.0f, -50.0f }, 32u);
+	start_screen.AddLabel(this->font_, "Controls:", { 0.0f, -110.0f }, 32u);
+	start_screen.AddLabel(this->font_, "movement: AWSD", { 0.0f, -70.0f }, 28u);
+	start_screen.AddLabel(this->font_, "fire: Space", { 0.0f, -40.0f }, 28u);
+	start_screen.AddLabel(this->font_, "switch inventory item: 1~9", { 0.0f, -10.0f }, 28u);
+	start_screen.AddLabel(this->font_, "remove item from inventory: Q", { 0.0f, 20.0f }, 28u);
+	start_screen.AddLabel(this->font_, "pause: P", { 0.0f, 50.0f }, 28u);
+	start_screen.AddLabel(this->font_, "Press the button below to play!", { 0.0f, 100.0f }, 22u);
 	start_screen.AddButton(this->font_, BUTTON_TYPE::CLOSE, "    PLAY    ", { 0.0f, 200.0f });
 	start_screen.SetActive(true);
 	this->screens_.insert(std::make_pair(SCREEN_TYPE::START, start_screen));
@@ -147,9 +153,9 @@ void Game::SpawnItems()
 		this->items_spawn_timer_ = 0.0f;
 
 		int rand_nb = std::rand() % 2;
-		unsigned int rand_dur = 10 + std::rand() % 40;
-		float rand_cd = 0.1f + static_cast<float>(std::rand() % 20) / 10.0f;
-		sf::Vector2f item_pos = GetRandomVec2fInRange(static_cast<float>(GAME_CONST::MAP_WIDTH)*0.5f, { 0.0f, 0.0f });
+		unsigned int rand_dur = 10 + std::rand() % 41;
+		float rand_cd = 0.1f + static_cast<float>(std::rand() % 21) / 10.0f;
+		sf::Vector2f item_pos = GetRandomVec2fInRange(GAME_CONST::ITEM_SPAWN_RANGE, this->player_->GetPosition());
 
 		Item* new_item = nullptr;
 
@@ -291,6 +297,58 @@ void Game::HandleWindowEvents()
 void Game::ClearWindow()
 {
 	this->window_.clear(GAME_CONST::BG_COLOR);
+}
+
+void Game::RemoveOutOfMapObjects()
+{
+	auto out_of_map = [](GameObject* obj)
+	{
+		sf::Vector2f o_pos = obj->GetPosition();
+		sf::Vector2f map_size(static_cast<float>(GAME_CONST::MAP_WIDTH), static_cast<float>(GAME_CONST::MAP_HEIGHT));
+
+		return o_pos.x < -map_size.x * 0.5f || o_pos.x > map_size.x * 0.5f || o_pos.y < -map_size.y * 0.5f || o_pos.y > map_size.y * 0.5f;
+	};
+
+	for (auto it = this->enemies_.begin(); it != this->enemies_.end(); )
+	{
+		if (out_of_map(*it))
+		{
+			delete* it;
+			it = this->enemies_.erase(it);
+			this->enemies_spawn_timer_ = GAME_CONST::ENEMY_SPAWN_TIME;
+		}
+		else
+		{
+			++it;
+		}
+	}
+
+	for (auto it = this->items_.begin(); it != this->items_.end(); )
+	{
+		if (out_of_map(*it))
+		{
+			delete* it;
+			it = this->items_.erase(it);
+			this->items_spawn_timer_ = GAME_CONST::ITEM_SPAWN_TIME;
+		}
+		else
+		{
+			++it;
+		}
+	}
+
+	for (auto it = this->terrain_.begin(); it != this->terrain_.end(); )
+	{
+		if (out_of_map(*it))
+		{
+			delete* it;
+			it = this->terrain_.erase(it);
+		}
+		else
+		{
+			++it;
+		}
+	}
 }
 
 void Game::CheckObjectsCollision()
@@ -555,6 +613,7 @@ void Game::UpdateGameObjects()
 	this->player_->Update(this->delta_time_);
 
 	this->CheckObjectsCollision();
+	this->RemoveOutOfMapObjects();
 }
 
 void Game::DrawGameObjects()
@@ -631,6 +690,21 @@ void Game::HandlePlayerInventory()
 		{
 			inv->SetCurrentItemIdx(i - sf::Keyboard::Num0 - 1);
 		}
+	}
+	
+	static bool q_released = true;
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
+	{
+		if (q_released)
+		{
+			q_released = false;
+			inv->Remove(inv->GetCurrentItemIndex());
+		}
+	}
+	else
+	{
+		q_released = true;
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))

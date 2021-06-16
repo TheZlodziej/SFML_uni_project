@@ -54,6 +54,7 @@ void Inventory::Remove(const unsigned int& item_idx)
 	if (item_idx < this->items_.size())
 	{
 		auto item_it = this->items_.begin() + item_idx;
+		delete* item_it;
 		item_it = this->items_.erase(item_it);
 
 		auto text_it = this->texts_.begin() + item_idx;
