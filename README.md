@@ -2,6 +2,8 @@
 ### 2D game made in C++/SFML
 
 ## Installing
+### Download executable (static or dynamicly linked libs) [here](https://mega.nz/folder/N5oBGSpB#BRag7X-_5s4KZG1dmb43uA)
+### ...or build it yourself:
 - download the code and build it (you need to have sfml added to your project directory - [tutorial here](https://www.sfml-dev.org/tutorials/2.5/))
 - add the "assets" folder to your .exe directory
 - run the game
